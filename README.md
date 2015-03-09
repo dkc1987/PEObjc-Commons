@@ -15,5 +15,5 @@ library.
 ### Installation with CocoaPods
 
 ```ruby
-pod "PEObjc-Commons"
+pod 'PEObjc-Commons', '~> 1.0.1'
 ```
