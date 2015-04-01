@@ -23,7 +23,7 @@ PEObjc-Commons is part of the
 
 [API docs](http://cocoadocs.org/docsets/PEObjc-Commons)
 
-Also, a DemoApp exists to illustrate some of the UI-building functionality of the PEUIUtils class. 
+Also, a DemoApp exists to illustrate some of the UI-building functionality of the [PEUIUtils](https://github.com/evanspa/PEObjc-Commons/blob/master/PEObjc-Commons/PEUIUtils.h) class. 
 
 ## Installation with CocoaPods
 
