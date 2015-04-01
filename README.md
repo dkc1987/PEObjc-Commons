@@ -13,15 +13,17 @@ PEObjc-Commons is part of the
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
-- [Documentation](#documentation)
+- [Documentation](#documentation-and-demo)
 - [Installation](#installation)
 - [pe-* Clojure Library Suite](#pe--clojure-library-suite)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Documentation
+## Documentation and Demo
 
 [API docs](http://cocoadocs.org/docsets/PEObjc-Commons)
+
+Also, a DemoApp exists to illustrate some of the UI-building functionality of the PEUIUtils class. 
 
 ## Installation with CocoaPods
 
