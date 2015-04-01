@@ -22,7 +22,7 @@ PEObjc-Commons is part of the
 
 ### Documentation
 
-[API docs](http://cocoadocs.org/docsets/PEObjc-Commons).
+[API docs](http://cocoadocs.org/docsets/PEObjc-Commons)
 
 ### Installation with CocoaPods
 
