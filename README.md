@@ -19,11 +19,11 @@ PEObjc-Commons is part of the
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-### Documentation
+## Documentation
 
 [API docs](http://cocoadocs.org/docsets/PEObjc-Commons)
 
-### Installation with CocoaPods
+## Installation with CocoaPods
 
 ```ruby
 pod 'PEObjc-Commons', '~> 1.0.1'
