@@ -2,9 +2,8 @@
 
 [![Build Status](https://travis-ci.org/evanspa/PEObjc-Commons.svg)](https://travis-ci.org/evanspa/PEObjc-Commons)
 
-PEObj-Commons is an iOS static library that provides a set of helper and utility
-functionality that is not particular to any specific domain.  The intent of this
-library is the same as that of
+PEObj-Commons is an iOS static library that provides a set of everyday helper and utility
+functionality.  The intent of this library is similar to that of the
 [Apache's Commons-Lang](http://commons.apache.org/proper/commons-lang/) Java
 library.
 
