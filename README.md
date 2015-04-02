@@ -15,7 +15,7 @@ PEObjc-Commons is part of the
 **Table of Contents**
 - [Documentation and Demo](#documentation-and-demo)
 - [Installation](#installation-with-cocoapods)
-- [pe-* Clojure Library Suite](#pe--clojure-library-suite)
+- [PE* iOS Library Suite](#pe-ios-library-suite)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
