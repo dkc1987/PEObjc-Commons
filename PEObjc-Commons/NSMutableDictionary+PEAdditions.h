@@ -33,4 +33,14 @@
  */
 - (void)setObjectIfNotNull:(id)object forKey:(id<NSCopying>)key;
 
+/**
+ *  Adds an NSNumber representing the number of seconds since 1970 that date represents,
+ *  into the dictionary keyed under key, only if date is non-nil.  If date is nil,
+ *  nothing is done.
+ *  @param date The date object whose seconds-since-1970 representation to add to the
+ *  dictionary.
+ *  @param key The key for the object.
+ */
+- (void)setSecondsSince1970FromDate:(NSDate *)date forKey:(id<NSCopying>)key;
+
 @end

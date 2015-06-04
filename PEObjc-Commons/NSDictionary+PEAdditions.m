@@ -10,22 +10,13 @@
 
 @implementation NSDictionary (PEAdditions)
 
-- (NSDate *)dateSince1970FromKey:(NSString *)key {
+- (NSDate *)dateSince1970ForKey:(NSString *)key {
   NSDate *date = nil;
   NSNumber *dateNum = [self objectForKey:key];
   if (dateNum) {
     date = [NSDate dateWithTimeIntervalSince1970:([dateNum doubleValue] / 1000)];
   }
   return date;
-}
-
-- (NSNumber *)dateAsNumberSince1970FromKey:(NSString *)key {
-  NSNumber *num = nil;
-  NSDate *date = [self objectForKey:key];
-  if (date) {
-    num = [NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)];
-  }
-  return num;
 }
 
 @end
