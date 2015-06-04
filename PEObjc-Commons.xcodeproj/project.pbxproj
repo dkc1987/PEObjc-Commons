@@ -24,6 +24,7 @@
 		1869DCF51A7B370E000FFA81 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869DCF41A7B370E000FFA81 /* AppDelegate.m */; };
 		1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
+		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
 		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,8 @@
 		1869DCF41A7B370E000FFA81 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		373F2C92E48483A64179521D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9544E149096AC415210CC2D4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CAA3BDB41B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PEAdditions.h"; sourceTree = "<group>"; };
+		CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PEAdditions.m"; sourceTree = "<group>"; };
 		EEB4277907649C35CBE5D8D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -216,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				186348C91A7AB7810090E88D /* NSString */,
+				CAA3BDB31B1FE1C500DC0AF8 /* NSDictionary */,
 				186348C81A7AB7780090E88D /* NSMutableDictionary */,
 			);
 			name = Categories;
@@ -319,6 +323,15 @@
 				14A3617BC01BCB92B6EAF426 /* libPods-PEObjc-CommonsTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CAA3BDB31B1FE1C500DC0AF8 /* NSDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				CAA3BDB41B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.h */,
+				CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */,
+			);
+			name = NSDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -494,6 +507,7 @@
 				186348F01A7AB8E50090E88D /* PEDatePickerController.m in Sources */,
 				186348D71A7AB8810090E88D /* PEUtils.m in Sources */,
 				186348E01A7AB89D0090E88D /* NSMutableDictionary+PEAdditions.m in Sources */,
+				CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */,
 				186348E31A7AB8A40090E88D /* NSString+PEAdditions.m in Sources */,
 				186348D41A7AB8770090E88D /* PEUIToolkit.m in Sources */,
 				186348DD1A7AB8940090E88D /* PEHttpUtils.m in Sources */,
