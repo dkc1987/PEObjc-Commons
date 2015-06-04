@@ -31,4 +31,24 @@
   }
 }
 
+- (NSDate *)dateSince1970FromDictionary:(NSDictionary *)dictionary
+                                    key:(NSString *)key {
+  NSDate *date = nil;
+  NSNumber *dateNum = dictionary[key];
+  if (dateNum) {
+    date = [NSDate dateWithTimeIntervalSince1970:([dateNum doubleValue] / 1000)];
+  }
+  return date;
+}
+
+- (NSNumber *)dateAsNumberSince1970FromDictionary:(NSDictionary *)dictionary
+                                              key:(NSString *)key {
+  NSNumber *num = nil;
+  NSDate *date = dictionary[key];
+  if (date) {
+    num = [NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)];
+  }
+  return num;
+}
+
 @end
