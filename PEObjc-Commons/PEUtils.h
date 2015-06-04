@@ -100,6 +100,8 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
 #pragma mark - Conversions
 
++ (NSNumber *)millisecondsFromDate:(NSDate *)date;
+
 /**
  Returns an NSDecimalNumber instance from the given double scalar value.
  @param doubleVal 

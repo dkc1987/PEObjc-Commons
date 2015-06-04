@@ -176,6 +176,13 @@
 
 #pragma mark - Conversions
 
++ (NSNumber *)millisecondsFromDate:(NSDate *)date { 
+  if (date) {
+    return @([date timeIntervalSince1970] * 1000);
+  }
+  return nil;
+}
+
 + (NSDecimalNumber *)decimalNumberFromDouble:(double)doubleVal {
   return [NSDecimalNumber decimalNumberWithDecimal:[[NSNumber numberWithDouble:doubleVal] decimalValue]];
 }
