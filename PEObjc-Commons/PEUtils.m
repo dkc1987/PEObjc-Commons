@@ -222,32 +222,44 @@
 }
 
 + (BOOL)isString:(NSString *)str1 equalTo:(NSString *)str2 {
-  if (!str1 && !str2) {
-    return YES;
+  if (str1 == nil) {
+    return str2 == nil;
+  } else if (str2 == nil) {
+    return false;
+  } else {
+    return [str1 isEqualToString:str2];
   }
-  return [str1 isEqualToString:str2];
 }
 
 + (BOOL)isNumber:(NSNumber *)num1 equalTo:(NSNumber *)num2 {
-  if (!num1 && !num2) {
-    return YES;
+  if (num1 == nil) {
+    return num2 == nil;
+  } else if (num2 == nil) {
+    return false;
+  } else {
+    return [num1 isEqualToNumber:num2];
   }
-  return [num1 isEqualToNumber:num2];
 }
 
 + (BOOL)isDate:(NSDate *)dt1 equalTo:(NSDate *)dt2 {
-  if (!dt1 && !dt2) {
-    return YES;
+  if (dt1 == nil) {
+    return dt2 == nil;
+  } else if (dt2 == nil) {
+    return false;
+  } else {
+    return [dt1 isEqualToDate:dt2];
   }
-  return [dt1 isEqualToDate:dt2];
 }
 
 + (BOOL)isDate:(NSDate *)dt1 msprecisionEqualTo:(NSDate *)dt2 {
-  if (!dt1 && !dt2) {
-    return YES;
+  if (dt1 == nil) {
+    return dt2 == nil;
+  } else if (dt2 == nil) {
+    return false;
+  } else {
+    return llround([dt1 timeIntervalSince1970] * 1000.0) ==
+      llround([dt2 timeIntervalSince1970] * 1000.0);
   }
-  return llround([dt1 timeIntervalSince1970] * 1000.0) ==
-    llround([dt2 timeIntervalSince1970] * 1000.0);
 }
 
 + (BOOL)isNumProperty:(SEL)numProp equalFor:(id)object1 and:(id)object2 {
