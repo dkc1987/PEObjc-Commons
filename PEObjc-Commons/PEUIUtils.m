@@ -617,14 +617,17 @@ fromTextfieldWithTag:(NSInteger)tfTag
                       fromEntity:(id)entity
                       withGetter:(SEL)getter {
   UIView *textView = [view viewWithTag:tfTag];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
   NSObject *val = [entity performSelector:getter];
+  NSString *valStr;
   if (val) {
-    [textView performSelector:@selector(setText:)
-                   withObject:[val description]];
+    valStr = [val description];
+  } else {
+    valStr = @"";
   }
-#pragma clang diagnostic pop
+  [textView performSelector:@selector(setText:) withObject:valStr];
+  #pragma clang diagnostic pop
 }
 
 + (void)enableControlWithTag:(NSInteger)tag
