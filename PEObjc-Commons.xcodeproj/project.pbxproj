@@ -24,6 +24,8 @@
 		1869DCF51A7B370E000FFA81 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869DCF41A7B370E000FFA81 /* AppDelegate.m */; };
 		1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
+		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
+		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
 		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 /* End PBXBuildFile section */
@@ -90,6 +92,12 @@
 		1869DCF41A7B370E000FFA81 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		373F2C92E48483A64179521D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9544E149096AC415210CC2D4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "PEObjc-Commons.bundle"; sourceTree = "<group>"; };
+		CA7BA2691B4CC85000CCB7FB /* PEObjcCommonsConstantsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PEObjcCommonsConstantsInternal.h; sourceTree = "<group>"; };
+		CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		CA90F4281B45CACE005FAB35 /* DemoApp.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.debug.xcconfig; sourceTree = "<group>"; };
+		CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.release.xcconfig; sourceTree = "<group>"; };
+		CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CAA3BDB41B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PEAdditions.h"; sourceTree = "<group>"; };
 		CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PEAdditions.m"; sourceTree = "<group>"; };
 		EEB4277907649C35CBE5D8D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				183D8A851A7AB47C0022AC28 /* PEObjc-Commons */,
+				CA7BA2661B4CB8A200CCB7FB /* Resources */,
 				183D8A921A7AB47C0022AC28 /* PEObjc-CommonsTests */,
 				1869DCCE1A7B36AA000FFA81 /* DemoApp */,
 				183D8A841A7AB47C0022AC28 /* Products */,
@@ -150,6 +159,7 @@
 		183D8A851A7AB47C0022AC28 /* PEObjc-Commons */ = {
 			isa = PBXGroup;
 			children = (
+				CA7BA2681B4CC83400CCB7FB /* Constants */,
 				186348C71A7AB7620090E88D /* Date Picker Screen */,
 				186348C51A7AB7440090E88D /* Categories */,
 				186348C41A7AB73C0090E88D /* HTTP Utils */,
@@ -288,10 +298,12 @@
 		1869DCCE1A7B36AA000FFA81 /* DemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */,
 				1869DCF31A7B370E000FFA81 /* AppDelegate.h */,
 				1869DCF41A7B370E000FFA81 /* AppDelegate.m */,
 				1869DCDC1A7B36AA000FFA81 /* Images.xcassets */,
 				1869DCCF1A7B36AA000FFA81 /* Supporting Files */,
+				CA90F4271B45CAB4005FAB35 /* Target Support Files */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -317,12 +329,39 @@
 		B1C0A59BBC8FEE1B450C69AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */,
 				186348FA1A7AB94D0090E88D /* Foundation.framework */,
 				186348F81A7AB92B0090E88D /* UIKit.framework */,
 				EEB4277907649C35CBE5D8D5 /* libPods.a */,
 				14A3617BC01BCB92B6EAF426 /* libPods-PEObjc-CommonsTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA7BA2661B4CB8A200CCB7FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */,
+			);
+			name = Resources;
+			path = "PEObjc-Commons/Resources";
+			sourceTree = "<group>";
+		};
+		CA7BA2681B4CC83400CCB7FB /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				CA7BA2691B4CC85000CCB7FB /* PEObjcCommonsConstantsInternal.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		CA90F4271B45CAB4005FAB35 /* Target Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CA90F4281B45CACE005FAB35 /* DemoApp.debug.xcconfig */,
+				CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */,
+			);
+			name = "Target Support Files";
 			sourceTree = "<group>";
 		};
 		CAA3BDB31B1FE1C500DC0AF8 /* NSDictionary */ = {
@@ -399,7 +438,7 @@
 		183D8A7B1A7AB47C0022AC28 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Paul Evans";
 				TargetAttributes = {
 					183D8A821A7AB47C0022AC28 = {
@@ -445,7 +484,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */,
 				1869DCDD1A7B36AA000FFA81 /* Images.xcassets in Resources */,
+				CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,28 +723,38 @@
 		};
 		1869DCED1A7B36AB000FFA81 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 373F2C92E48483A64179521D /* Pods.debug.xcconfig */;
+			baseConfigurationReference = CA90F4281B45CACE005FAB35 /* DemoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = DemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		1869DCEE1A7B36AB000FFA81 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9544E149096AC415210CC2D4 /* Pods.release.xcconfig */;
+			baseConfigurationReference = CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				INFOPLIST_FILE = DemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

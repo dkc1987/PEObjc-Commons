@@ -151,14 +151,56 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
          horizontalPaddingBetweenColumns:8];
 }
 
+- (void)thirdButtonAction {
+  [PEUIUtils showWarningAlertWithMsgs:@[@"message 1", @"Hello, I am message 2."]
+                                title:@"This is a warning dialog."
+                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are as follows:"
+                          buttonTitle:@"Okey Dokey"
+                       relativeToView:self.window.rootViewController.view];
+}
+
+- (void)fourthButtonAction {
+  [PEUIUtils showErrorAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"error sub-msg 3"]
+                              title:@"This is an error dialog."
+                   alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are as follows:"
+                        buttonTitle:@"Okay."
+                     relativeToView:self.window.rootViewController.view];
+}
+
+- (void)secondButtonAction {
+  [PEUIUtils showSuccessAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"success sub-msg 3"]
+                                title:@"This is a success dialog."
+                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are as follows:"
+                          buttonTitle:@"Okay."
+                       relativeToView:self.window.rootViewController.view];
+}
+
+- (void)firstButtonAction {
+  [PEUIUtils showSuccessAlertWithMsgs:@[@"Message 1"]
+                                title:@"This is a success dialog."
+                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are as follows:"
+                          buttonTitle:@"Okay."
+                       relativeToView:self.window.rootViewController.view];
+}
+
 - (UIView *)topPanel {
   UIView *p1 = [PEUIUtils panelWithFixedWidth:275 fixedHeight:110];
   [PEUIUtils setFrameOrigin:CGPointMake(25, 25) ofView:p1];
   [PEUIUtils applyBorderToView:p1 withColor:[UIColor redColor]];
   UIButton *b1 = [self btnWithKey:@"First Btn"];
+  [b1 addTarget:self action:@selector(firstButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils setFrameOrigin:CGPointMake(5, 5) ofView:b1];
   [p1 addSubview:b1];
   UIButton *b2 = [self btnWithKey:@"2nd Btn"];
+  [b2 addTarget:self action:@selector(secondButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils placeView:b2
                  below:b1
                   onto:p1
@@ -178,6 +220,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
          withAlignment:PEUIVerticalAlignmentTypeCenter
               hpadding:8];
   UIButton *b3 = [self btnWithKey:@"3rd Btn"];
+  [b3 addTarget:self action:@selector(thirdButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils placeView:b3
                  below:tf1
                   onto:p1
@@ -185,6 +228,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
               vpadding:8
               hpadding:0];
   UIButton *b4 = [self btnWithKey:@"4th Btn"];
+  [b4 addTarget:self action:@selector(fourthButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils placeView:b4
                  below:b2
                   onto:p1

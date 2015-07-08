@@ -23,6 +23,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PEUIToolkit.h"
+#import <JGActionSheet/JGActionSheet.h>
 
 /** Horizontal alignment types. */
 typedef NS_ENUM(NSInteger, PEUIHorizontalAlignmentType) {
@@ -864,19 +865,67 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   vpadding:(CGFloat)vpadding
                   hpadding:(CGFloat)hpadding;
 
-#pragma mark - Alerts
+#pragma mark - Alerts and Alert Helpers
+
++ (JGActionSheetSection *)warningAlertContentWithMsgs:(NSArray *)msgs
+                                                title:(NSString *)title
+                                     alertDescription:(NSString *)alertDescription
+                                       relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)successAlertContentWithMsgs:(NSArray *)msgs
+                                                title:(NSString *)title
+                                     alertDescription:(NSString *)alertDescription
+                                       relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)errorAlertContentWithMsgs:(NSArray *)msgs
+                                              title:(NSString *)title
+                                   alertDescription:(NSString *)alertDescription
+                                     relativeToView:(UIView *)relativeToView;
 
 /**
- Displays an alert dialog with the provided collection of messages to display.
+ Displays a warning alert dialog with the provided collection of messages to display.
  @param msgs A collection of strings to make up the body of the message
  displayed in the alert.
- @param localizedTitle The localized title for the alert dialog.
- @param localizedCancelBtnTitle The localized title for the cancel button of the
- alert dialog.
-*/
-+ (void)showAlertWithMsgs:(NSArray *)msgs
-                    title:(NSString *)localizedTitle
-              buttonTitle:(NSString *)localizedButtonTitle;
+ @param title The title for the alert dialog.
+ @param description The description / message text for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showWarningAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSString *)alertDescription
+                     buttonTitle:(NSString *)buttonTitle
+                  relativeToView:(UIView *)relativeToView;
+
+/**
+ Displays a success alert dialog with the provided collection of messages to display.
+ @param msgs A collection of strings to make up the body of the message
+ displayed in the alert.
+ @param title The title for the alert dialog.
+ @param description The description / message text for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
+                          title:(NSString *)title
+                alertDescription:(NSString *)alertDescription
+                     buttonTitle:(NSString *)buttonTitle
+                  relativeToView:(UIView *)relativeToView;
+
+/**
+ Displays an error alert dialog with the provided collection of messages to display.
+ @param msgs A collection of strings to make up the body of the message
+ displayed in the alert.
+ @param title The title for the alert dialog.
+ @param description The description / message text for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showErrorAlertWithMsgs:(NSArray *)msgs
+                         title:(NSString *)title
+              alertDescription:(NSString *)alertDescription
+                   buttonTitle:(NSString *)buttonTitle
+                relativeToView:(UIView *)relativeToView;
 
 /**
  Displays an alert dialog appropriate for the given error code associated with
@@ -889,12 +938,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  + nsurlerr.inetconnlost
  + nsurlerr.unknownerr
  @param errorCode The error code associated with an NSError instance.
- @param localizedTitle The localized title for the alert dialog.
- @param localizedCancelBtnTitle The localized title for the cancel button of the
- alert dialog.
+ @param title The title for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
  */
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
-                             title:(NSString *)localizedTitle
-                 cancelButtonTitle:(NSString *)localizedCancelBtnTitle;
+                             title:(NSString *)title
+                       buttonTitle:(NSString *)buttonTitle
+                    relativeToView:(UIView *)relativeToView;
 
 @end

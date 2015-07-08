@@ -24,6 +24,8 @@
 #import "PEUtils.h"
 #import "PEUIUtils.h"
 #import "NSString+PEAdditions.h"
+#import "PEObjcCommonsConstantsInternal.h"
+#import <JGActionSheet/JGActionSheet.h>
 
 @implementation PEUIUtils
 
@@ -136,10 +138,10 @@
 }
 
 + (CGSize)sizeOfText:(NSString *)text withFont:(UIFont *)font {
-  CGSize textSize =
-    [text sizeWithAttributes:
-            [NSDictionary dictionaryWithObject:font
-                                        forKey:NSFontAttributeName]];
+  NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+  [paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
+  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName : font,
+                                               NSParagraphStyleAttributeName : paragraphStyle}];
   return CGSizeMake(textSize.width, textSize.height);
 }
 
@@ -813,23 +815,224 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   return outerPnl;
 }
 
-#pragma mark - Alerts
+#pragma mark - Private Alert Helpers
 
-+ (void)showAlertWithMsgs:(NSArray *)msgs
-                    title:(NSString *)localizedTitle
-              buttonTitle:(NSString *)localizedButtonTitle {
-  UIAlertView *alert =
-    [[UIAlertView alloc] initWithTitle:LS(localizedTitle)
-                               message:[PEUtils concat:msgs]
-                              delegate:self
-                     cancelButtonTitle:LS(localizedButtonTitle)
-                     otherButtonTitles:nil];
-  [alert show];
++ (UIView *)alertSubPanelWithTitle:(NSString *)title
+                    forContentView:(UIView *)contentView
+                            height:(CGFloat)height
+                       leftImgIcon:(UIImage *)leftImgIcon {
+  UIView *errorPanel = [PEUIUtils panelWithWidthOf:0.9 relativeToView:contentView fixedHeight:height];
+  UIImageView *errImgView = [[UIImageView alloc] initWithImage:leftImgIcon];
+  UILabel *errorMsgLbl = [PEUIUtils labelWithKey:title
+                                            font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                 backgroundColor:[UIColor clearColor]
+                                       textColor:[UIColor blackColor]
+                           horizontalTextPadding:3.0
+                             verticalTextPadding:0.0];
+  [PEUIUtils placeView:errImgView
+            inMiddleOf:errorPanel
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:0.0];
+  [PEUIUtils placeView:errorMsgLbl
+          toTheRightOf:errImgView
+                  onto:errorPanel
+         withAlignment:PEUIVerticalAlignmentTypeCenter
+              hpadding:5.0];
+  return errorPanel;
+}
+
++ (NSArray *)alertPanelsForMessages:(NSArray *)messages
+                     forContentView:(UIView *)contentView
+                        leftImgIcon:(UIImage *)leftImgIcon {
+  NSMutableArray *alertPanels = [NSMutableArray arrayWithCapacity:[messages count]];
+  for (NSString *message in messages) {
+    UIView *errorPanel = [PEUIUtils alertSubPanelWithTitle:message
+                                            forContentView:contentView
+                                                    height:25.0
+                                               leftImgIcon:leftImgIcon];
+    [alertPanels addObject:errorPanel];
+  }
+  return alertPanels;
+}
+
++ (JGActionSheetSection *)alertContentWithMsgs:(NSArray *)msgs
+                                         title:(NSString *)title
+                                    titleImage:(UIImage *)titleImage
+                              alertDescription:(NSString *)alertDescription
+                                   messageIcon:(UIImage *)messageIcon
+                                relativeToView:(UIView *)relativeToView {
+  UIImageView *titleImageView = [[UIImageView alloc] initWithImage:titleImage];
+  CGFloat contentViewHeight = 130.0;
+  if ([msgs count] > 1) {
+    contentViewHeight += ([msgs count] * 17);
+  }
+  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
+                                     relativeToView:relativeToView
+                                        fixedHeight:contentViewHeight];
+  UILabel *titleLbl = [PEUIUtils labelWithKey:title
+                                         font:[UIFont boldSystemFontOfSize:18]
+                              backgroundColor:[UIColor clearColor]
+                                    textColor:[UIColor blackColor]
+                        horizontalTextPadding:3.0
+                          verticalTextPadding:0.0];
+  [titleLbl setLineBreakMode:NSLineBreakByWordWrapping];
+  UILabel *descriptionLbl = [PEUIUtils labelWithKey:alertDescription
+                                               font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                    backgroundColor:[UIColor clearColor]
+                                          textColor:[UIColor blackColor]
+                              horizontalTextPadding:3.0
+                                verticalTextPadding:0.0];
+  [descriptionLbl setLineBreakMode:NSLineBreakByWordWrapping];
+  UIView *alertPanelsColumn = [PEUIUtils panelWithColumnOfViews:[PEUIUtils alertPanelsForMessages:msgs
+                                                                                   forContentView:contentView
+                                                                                      leftImgIcon:messageIcon]
+                                    verticalPaddingBetweenViews:1.0
+                                                 viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
+  [PEUIUtils placeView:titleImageView
+               atTopOf:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:3.0
+              hpadding:5.0];
+  [PEUIUtils placeView:titleLbl
+          toTheRightOf:titleImageView
+                  onto:contentView
+         withAlignment:PEUIVerticalAlignmentTypeCenter
+              hpadding:5.0];
+  [PEUIUtils placeView:descriptionLbl
+                 below:titleImageView
+                  onto:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:7.0
+              hpadding:0.0];
+  [PEUIUtils placeView:alertPanelsColumn
+                 below:descriptionLbl
+                  onto:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:5.0
+              hpadding:0.0];
+  return [JGActionSheetSection sectionWithTitle:nil message:nil contentView:contentView];
+}
+
++ (UIImage *)bundleImageWithName:(NSString *)imageName {
+  UIImage *image;
+  if (PE_IS_IOS8_OR_GREATER) {
+    NSBundle *mainBundle = [NSBundle bundleForClass:[PEUIUtils class]];
+    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"PEObjc-Commons" ofType:@"bundle"]];
+    if (resourcesBundle == nil) {
+      resourcesBundle = mainBundle;
+    }
+    image = [UIImage imageNamed:imageName inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+  } else {
+    image = [UIImage imageNamed:[NSString stringWithFormat:@"PEObjc-Commons.bundle/%@", imageName]];
+  }
+  return image;
+}
+
+#pragma mark - Alerts and Alert Helpers
+
++ (JGActionSheetSection *)warningAlertContentWithMsgs:(NSArray *)msgs
+                                                title:(NSString *)title
+                                     alertDescription:(NSString *)alertDescription
+                                       relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils alertContentWithMsgs:msgs
+                                   title:title
+                              titleImage:[PEUIUtils bundleImageWithName:@"warning"]
+                        alertDescription:alertDescription
+                             messageIcon:[PEUIUtils bundleImageWithName:@"black-dot"]
+                          relativeToView:relativeToView];
+}
+
++ (JGActionSheetSection *)successAlertContentWithMsgs:(NSArray *)msgs
+                                                title:(NSString *)title
+                                     alertDescription:(NSString *)alertDescription
+                                       relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils alertContentWithMsgs:msgs
+                                   title:title
+                              titleImage:[PEUIUtils bundleImageWithName:@"success"]
+                        alertDescription:alertDescription
+                             messageIcon:[PEUIUtils bundleImageWithName:@"success-icon"]
+                          relativeToView:relativeToView];
+}
+
++ (JGActionSheetSection *)errorAlertContentWithMsgs:(NSArray *)msgs
+                                              title:(NSString *)title
+                                   alertDescription:(NSString *)alertDescription
+                                     relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils alertContentWithMsgs:msgs
+                                   title:title
+                              titleImage:[PEUIUtils bundleImageWithName:@"error"]
+                        alertDescription:alertDescription
+                             messageIcon:[PEUIUtils bundleImageWithName:@"error-icon"]
+                          relativeToView:relativeToView];
+}
+
++ (void)showWarningAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSString *)alertDescription
+                     buttonTitle:(NSString *)buttonTitle
+                  relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils warningAlertContentWithMsgs:msgs
+                                                                          title:title
+                                                               alertDescription:alertDescription
+                                                                 relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[buttonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
++ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSString *)alertDescription
+                     buttonTitle:(NSString *)buttonTitle
+                  relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils successAlertContentWithMsgs:msgs
+                                                                          title:title
+                                                               alertDescription:alertDescription
+                                                                 relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[buttonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
++ (void)showErrorAlertWithMsgs:(NSArray *)msgs
+                         title:(NSString *)title
+              alertDescription:(NSString *)alertDescription
+                   buttonTitle:(NSString *)buttonTitle
+                relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils errorAlertContentWithMsgs:msgs
+                                                                        title:title
+                                                             alertDescription:alertDescription
+                                                               relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[buttonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
 }
 
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
-                             title:(NSString *)localizedTitle
-                 cancelButtonTitle:(NSString *)localizedCancelBtnTitle {
+                             title:(NSString *)title
+                       buttonTitle:(NSString *)buttonTitle
+                    relativeToView:(UIView *)relativeToView {
   NSMutableArray *errMsgs = [NSMutableArray arrayWithCapacity:1];
   switch (errorCode) {
   case NSURLErrorTimedOut:
@@ -851,9 +1054,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     [errMsgs addObject:LS(@"nsurlerr.unknownerr")];
     break;
   }
-  [PEUIUtils showAlertWithMsgs:errMsgs
-                         title:localizedTitle
-                   buttonTitle:localizedCancelBtnTitle];
+  [PEUIUtils showWarningAlertWithMsgs:errMsgs
+                                title:title
+                     alertDescription:@"There was a problem communicating with\n\
+the server.  The error is as follows:"
+                          buttonTitle:buttonTitle
+                       relativeToView:relativeToView];
 }
 
 @end
