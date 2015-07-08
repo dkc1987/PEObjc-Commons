@@ -134,17 +134,50 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   return pnl;
 }
 
+- (void)bluftoniButtonAction {
+  [PEUIUtils showWarningAlertWithMsgs:nil //@[]
+                                title:@"This is a warning dialog."
+                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are very important!"
+                          buttonTitle:@"Okay."
+                       relativeToView:self.window.rootViewController.view];
+}
+
+- (void)oneButtonAction {
+  [PEUIUtils showErrorAlertWithMsgs:nil //@[]
+                              title:@"This is an error dialog."
+                   alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are very important!"
+                        buttonTitle:@"Okay."
+                     relativeToView:self.window.rootViewController.view];
+}
+
+- (void)twoButtonAction {
+  [PEUIUtils showSuccessAlertWithMsgs:nil //@[]
+                                title:@"This is a success dialog."
+                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+some things I need to tell you, and they\n\
+are very important!"
+                          buttonTitle:@"Okay."
+                       relativeToView:self.window.rootViewController.view];
+}
+
 - (UIView *)clusterPanel {
   NSArray *leftBtns = @[[self btnWithKey:@"A Btn"],
                            [self btnWithKey:@"Bluftoni Button"],
                            [self btnWithKey:@"C Button"],
                            [self btnWithKey:@"Deterministic Button"]];
+  [leftBtns[1] addTarget:self action:@selector(bluftoniButtonAction) forControlEvents:UIControlEventTouchUpInside];
   NSArray *rtBtns = @[[self btnWithKey:@"1 Btn"],
                          [self btnWithKey:@"Two Button"],
                          [self btnWithKey:@"thrice Button"],
                          [self btnWithKey:@"quince Button"],
                          [self btnWithKey:@"6 Button"],
                          [self btnWithKey:@"7 btn"]];
+  [rtBtns[0] addTarget:self action:@selector(oneButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [rtBtns[1] addTarget:self action:@selector(twoButtonAction) forControlEvents:UIControlEventTouchUpInside];
   return [PEUIUtils twoColumnViewCluster:leftBtns
                          withRightColumn:rtBtns
              verticalPaddingBetweenViews:5

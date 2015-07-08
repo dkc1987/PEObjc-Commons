@@ -866,6 +866,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   if ([msgs count] > 1) {
     contentViewHeight += ([msgs count] * 17);
   }
+  if ([msgs count] == 0) {
+    contentViewHeight = 112.0;
+  }
   UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
                                      relativeToView:relativeToView
                                         fixedHeight:contentViewHeight];
@@ -883,11 +886,14 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                               horizontalTextPadding:3.0
                                 verticalTextPadding:0.0];
   [descriptionLbl setLineBreakMode:NSLineBreakByWordWrapping];
-  UIView *alertPanelsColumn = [PEUIUtils panelWithColumnOfViews:[PEUIUtils alertPanelsForMessages:msgs
-                                                                                   forContentView:contentView
-                                                                                      leftImgIcon:messageIcon]
-                                    verticalPaddingBetweenViews:1.0
-                                                 viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
+  UIView *alertPanelsColumn = nil;
+  if ([msgs count] > 0) {
+    alertPanelsColumn = [PEUIUtils panelWithColumnOfViews:[PEUIUtils alertPanelsForMessages:msgs
+                                                                             forContentView:contentView
+                                                                                leftImgIcon:messageIcon]
+                              verticalPaddingBetweenViews:1.0
+                                           viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
+  }
   [PEUIUtils placeView:titleImageView
                atTopOf:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
@@ -902,14 +908,16 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                  below:titleImageView
                   onto:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:7.0
+              vpadding:[msgs count] == 0 ? 13.0 : 7.0
               hpadding:0.0];
-  [PEUIUtils placeView:alertPanelsColumn
-                 below:descriptionLbl
-                  onto:contentView
-         withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:5.0
-              hpadding:0.0];
+  if (alertPanelsColumn) {
+    [PEUIUtils placeView:alertPanelsColumn
+                   below:descriptionLbl
+                    onto:contentView
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:5.0
+                hpadding:0.0];
+  }
   return [JGActionSheetSection sectionWithTitle:nil message:nil contentView:contentView];
 }
 
