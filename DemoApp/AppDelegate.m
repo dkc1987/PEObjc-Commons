@@ -167,7 +167,7 @@ are very important!"
 - (void)aButtonAction {
   [PEUIUtils showWaitAlertWithMsgs:nil //@[]
                              title:@"Server Busy."
-                  alertDescription:@"We apologize, but the server is currently \n\
+                  alertDescription:@"We apologize, but the server is currently\n\
 busy.  Please retry your request shortly."
                        buttonTitle:@"Okay."
                     relativeToView:self.window.rootViewController.view];
@@ -188,10 +188,19 @@ busy.  Please retry your request shortly."
                          [self btnWithKey:@"7 btn"]];
   [rtBtns[0] addTarget:self action:@selector(oneButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[1] addTarget:self action:@selector(twoButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [rtBtns[2] addTarget:self action:@selector(thriceButtonAction) forControlEvents:UIControlEventTouchUpInside];
   return [PEUIUtils twoColumnViewCluster:leftBtns
                          withRightColumn:rtBtns
              verticalPaddingBetweenViews:5
          horizontalPaddingBetweenColumns:8];
+}
+
+- (void)thriceButtonAction {
+  [PEUIUtils showWarningAlertWithMsgs:@[@"message 1"]
+                                title:@"This is a warning dialog."
+                     alertDescription:@"There are some validation errors:"
+                          buttonTitle:@"Okey Dokey"
+                       relativeToView:self.window.rootViewController.view];
 }
 
 - (void)thirdButtonAction {

@@ -465,7 +465,7 @@
 
 + (void)applyBorderToView:(UIView *)view withColor:(UIColor *)color {
   view.layer.borderColor = color.CGColor;
-  view.layer.borderWidth = 3.0f;
+  view.layer.borderWidth = 1.0f;
 }
 
 #pragma mark - Labels
@@ -861,17 +861,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                               alertDescription:(NSString *)alertDescription
                                    messageIcon:(UIImage *)messageIcon
                                 relativeToView:(UIView *)relativeToView {
-  UIImageView *titleImageView = [[UIImageView alloc] initWithImage:titleImage];
-  CGFloat contentViewHeight = 130.0;
-  if ([msgs count] > 1) {
-    contentViewHeight += ([msgs count] * 17);
-  }
-  if ([msgs count] == 0) {
-    contentViewHeight = 112.0;
-  }
   UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
                                      relativeToView:relativeToView
-                                        fixedHeight:contentViewHeight];
+                                        fixedHeight:0]; //contentViewHeight];
+  UIImageView *titleImageView = [[UIImageView alloc] initWithImage:titleImage];
   UILabel *titleLbl = [PEUIUtils labelWithKey:title
                                          font:[UIFont boldSystemFontOfSize:18]
                               backgroundColor:[UIColor clearColor]
@@ -894,10 +887,25 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                               verticalPaddingBetweenViews:1.0
                                            viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
   }
+  CGFloat titleImageVpadding = 3.0;
+  CGFloat descriptionVpadding = 13.0;
+  CGFloat panelsVpadding = alertPanelsColumn != nil ? 13.0 : 0.0;
+  // sum the heights of all the sub views.
+  CGFloat contentViewHeight = titleImageView.frame.size.height + descriptionLbl.frame.size.height + alertPanelsColumn.frame.size.height;
+  // now include the padding you're going to use when placing them
+  contentViewHeight += titleImageVpadding + descriptionVpadding + panelsVpadding;
+  // now add a little bit more height so there's some nice bottom-padding; we'll have more
+  // padding for when we have no messages panel-column.
+  if ([msgs count] > 0) {
+    contentViewHeight += 3.0;
+  } else {
+    contentViewHeight += 10.0;
+  }
+  [PEUIUtils setFrameHeight:contentViewHeight ofView:contentView];
   [PEUIUtils placeView:titleImageView
                atTopOf:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:3.0
+              vpadding:titleImageVpadding
               hpadding:5.0];
   [PEUIUtils placeView:titleLbl
           toTheRightOf:titleImageView
@@ -908,14 +916,14 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                  below:titleImageView
                   onto:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:[msgs count] == 0 ? 13.0 : 7.0
+              vpadding:descriptionVpadding
               hpadding:0.0];
   if (alertPanelsColumn) {
     [PEUIUtils placeView:alertPanelsColumn
                    below:descriptionLbl
                     onto:contentView
            withAlignment:PEUIHorizontalAlignmentTypeLeft
-                vpadding:5.0
+                vpadding:panelsVpadding
                 hpadding:0.0];
   }
   return [JGActionSheetSection sectionWithTitle:nil message:nil contentView:contentView];
