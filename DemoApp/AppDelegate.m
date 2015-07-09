@@ -164,11 +164,21 @@ are very important!"
                        relativeToView:self.window.rootViewController.view];
 }
 
+- (void)aButtonAction {
+  [PEUIUtils showWaitAlertWithMsgs:nil //@[]
+                             title:@"Server Busy."
+                  alertDescription:@"We apologize, but the server is currently \n\
+busy.  Please retry your request shortly."
+                       buttonTitle:@"Okay."
+                    relativeToView:self.window.rootViewController.view];
+}
+
 - (UIView *)clusterPanel {
   NSArray *leftBtns = @[[self btnWithKey:@"A Btn"],
                            [self btnWithKey:@"Bluftoni Button"],
                            [self btnWithKey:@"C Button"],
                            [self btnWithKey:@"Deterministic Button"]];
+  [leftBtns[0] addTarget:self action:@selector(aButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[1] addTarget:self action:@selector(bluftoniButtonAction) forControlEvents:UIControlEventTouchUpInside];
   NSArray *rtBtns = @[[self btnWithKey:@"1 Btn"],
                          [self btnWithKey:@"Two Button"],

@@ -877,6 +877,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                      alertDescription:(NSString *)alertDescription
                                        relativeToView:(UIView *)relativeToView;
 
++ (JGActionSheetSection *)waitAlertContentWithMsgs:(NSArray *)msgs
+                                             title:(NSString *)title
+                                  alertDescription:(NSString *)alertDescription
+                                    relativeToView:(UIView *)relativeToView;
+
 + (JGActionSheetSection *)errorAlertContentWithMsgs:(NSArray *)msgs
                                               title:(NSString *)title
                                    alertDescription:(NSString *)alertDescription
@@ -911,6 +916,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                 alertDescription:(NSString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView;
+
+/**
+ Displays a 'please wait' alert dialog with the provided collection of messages to display.
+ @param msgs A collection of strings to make up the body of the message
+ displayed in the alert.
+ @param title The title for the alert dialog.
+ @param description The description / message text for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showWaitAlertWithMsgs:(NSArray *)msgs
+                        title:(NSString *)title
+             alertDescription:(NSString *)alertDescription
+                  buttonTitle:(NSString *)buttonTitle
+               relativeToView:(UIView *)relativeToView;
 
 /**
  Displays an error alert dialog with the provided collection of messages to display.

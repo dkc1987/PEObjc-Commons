@@ -936,6 +936,25 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   return image;
 }
 
++ (void)showAlertWithMsgs:(NSArray *)msgs
+                    title:(NSString *)title
+         alertDescription:(NSString *)alertDescription
+              buttonTitle:(NSString *)buttonTitle
+           relativeToView:(UIView *)relativeToView
+      contentSectionMaker:(JGActionSheetSection *(^)(void))contentSectionMaker {
+  JGActionSheetSection *contentSection = contentSectionMaker();
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[buttonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
 #pragma mark - Alerts and Alert Helpers
 
 + (JGActionSheetSection *)warningAlertContentWithMsgs:(NSArray *)msgs
@@ -962,6 +981,18 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                           relativeToView:relativeToView];
 }
 
++ (JGActionSheetSection *)waitAlertContentWithMsgs:(NSArray *)msgs
+                                             title:(NSString *)title
+                                  alertDescription:(NSString *)alertDescription
+                                    relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils alertContentWithMsgs:msgs
+                                   title:title
+                              titleImage:[PEUIUtils bundleImageWithName:@"wait"]
+                        alertDescription:alertDescription
+                             messageIcon:[PEUIUtils bundleImageWithName:@"black-dot"]
+                          relativeToView:relativeToView];
+}
+
 + (JGActionSheetSection *)errorAlertContentWithMsgs:(NSArray *)msgs
                                               title:(NSString *)title
                                    alertDescription:(NSString *)alertDescription
@@ -979,20 +1010,15 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                 alertDescription:(NSString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView {
-  JGActionSheetSection *contentSection = [PEUIUtils warningAlertContentWithMsgs:msgs
+  [PEUIUtils showAlertWithMsgs:msgs
+                         title:title
+              alertDescription:alertDescription
+                   buttonTitle:buttonTitle
+                relativeToView:relativeToView
+           contentSectionMaker:^{ return [PEUIUtils warningAlertContentWithMsgs:msgs
                                                                           title:title
                                                                alertDescription:alertDescription
-                                                                 relativeToView:relativeToView];
-  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
-                                                                        message:nil
-                                                                   buttonTitles:@[buttonTitle]
-                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
-  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-    [sheet dismissAnimated:YES];
-  }];
-  [alertSheet showInView:relativeToView animated:YES];
+                                                                 relativeToView:relativeToView]; }];
 }
 
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
@@ -1000,20 +1026,31 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                 alertDescription:(NSString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView {
-  JGActionSheetSection *contentSection = [PEUIUtils successAlertContentWithMsgs:msgs
+  [PEUIUtils showAlertWithMsgs:msgs
+                         title:title
+              alertDescription:alertDescription
+                   buttonTitle:buttonTitle
+                relativeToView:relativeToView
+           contentSectionMaker:^{ return [PEUIUtils successAlertContentWithMsgs:msgs
                                                                           title:title
                                                                alertDescription:alertDescription
-                                                                 relativeToView:relativeToView];
-  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
-                                                                        message:nil
-                                                                   buttonTitles:@[buttonTitle]
-                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
-  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-    [sheet dismissAnimated:YES];
-  }];
-  [alertSheet showInView:relativeToView animated:YES];
+                                                                 relativeToView:relativeToView]; }];
+}
+
++ (void)showWaitAlertWithMsgs:(NSArray *)msgs
+                        title:(NSString *)title
+             alertDescription:(NSString *)alertDescription
+                  buttonTitle:(NSString *)buttonTitle
+               relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showAlertWithMsgs:msgs
+                         title:title
+              alertDescription:alertDescription
+                   buttonTitle:buttonTitle
+                relativeToView:relativeToView
+           contentSectionMaker:^{ return [PEUIUtils waitAlertContentWithMsgs:msgs
+                                                                       title:title
+                                                            alertDescription:alertDescription
+                                                              relativeToView:relativeToView]; }];
 }
 
 + (void)showErrorAlertWithMsgs:(NSArray *)msgs
@@ -1021,20 +1058,15 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
               alertDescription:(NSString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
                 relativeToView:(UIView *)relativeToView {
-  JGActionSheetSection *contentSection = [PEUIUtils errorAlertContentWithMsgs:msgs
+  [PEUIUtils showAlertWithMsgs:msgs
+                         title:title
+              alertDescription:alertDescription
+                   buttonTitle:buttonTitle
+                relativeToView:relativeToView
+           contentSectionMaker:^{ return [PEUIUtils errorAlertContentWithMsgs:msgs
                                                                         title:title
                                                              alertDescription:alertDescription
-                                                               relativeToView:relativeToView];
-  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
-                                                                        message:nil
-                                                                   buttonTitles:@[buttonTitle]
-                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
-  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-    [sheet dismissAnimated:YES];
-  }];
-  [alertSheet showInView:relativeToView animated:YES];
+                                                               relativeToView:relativeToView]; }];
 }
 
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
