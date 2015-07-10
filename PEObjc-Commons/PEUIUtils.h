@@ -869,33 +869,33 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
-                                     alertDescription:(NSString *)alertDescription
+                                     alertDescription:(NSAttributedString *)alertDescription
                                        relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
-                                     alertDescription:(NSString *)alertDescription
+                                     alertDescription:(NSAttributedString *)alertDescription
                                        relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)waitAlertSectionWithMsgs:(NSArray *)msgs
                                              title:(NSString *)title
-                                  alertDescription:(NSString *)alertDescription
+                                  alertDescription:(NSAttributedString *)alertDescription
                                     relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)errorAlertSectionWithMsgs:(NSArray *)msgs
                                               title:(NSString *)title
-                                   alertDescription:(NSString *)alertDescription
+                                   alertDescription:(NSAttributedString *)alertDescription
                                      relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)multiErrorAlertSectionWithFailures:(NSArray *)failures
                                                        title:(NSString *)title
-                                            alertDescription:(NSString *)alertDescription
+                                            alertDescription:(NSAttributedString *)alertDescription
                                               relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)mixedResultsAlertSectionWithSuccessMsgs:(NSArray *)successMsgs
                                                             title:(NSString *)title
-                                                 alertDescription:(NSString *)alertDescription
-                                              failuresDescription:(NSString *)failuresDescription
+                                                 alertDescription:(NSAttributedString *)alertDescription
+                                              failuresDescription:(NSAttributedString *)failuresDescription
                                                          failures:(NSArray *)failures
                                                    relativeToView:(UIView *)relativeToView;
 
@@ -912,7 +912,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
-                alertDescription:(NSString *)alertDescription
+                alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView;
 
@@ -927,7 +927,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
                           title:(NSString *)title
-                alertDescription:(NSString *)alertDescription
+                alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView;
 
@@ -942,7 +942,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showWaitAlertWithMsgs:(NSArray *)msgs
                         title:(NSString *)title
-             alertDescription:(NSString *)alertDescription
+             alertDescription:(NSAttributedString *)alertDescription
                   buttonTitle:(NSString *)buttonTitle
                relativeToView:(UIView *)relativeToView;
 
@@ -957,7 +957,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showErrorAlertWithMsgs:(NSArray *)msgs
                          title:(NSString *)title
-              alertDescription:(NSString *)alertDescription
+              alertDescription:(NSAttributedString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
                 relativeToView:(UIView *)relativeToView;
 
@@ -972,7 +972,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showMultiErrorAlertWithFailures:(NSArray *)failures
                                   title:(NSString *)title
-                       alertDescription:(NSString *)alertDescription
+                       alertDescription:(NSAttributedString *)alertDescription
                             buttonTitle:(NSString *)buttonTitle
                          relativeToView:(UIView *)relativeToView;
 
@@ -990,8 +990,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showMixedResultsAlertSectionWithSuccessMsgs:(NSArray *)successMsgs
                                               title:(NSString *)title
-                                   alertDescription:(NSString *)alertDescription
-                                failuresDescription:(NSString *)failuresDescription
+                                   alertDescription:(NSAttributedString *)alertDescription
+                                failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
                                         buttonTitle:(NSString *)buttonTitle
                                      relativeToView:(UIView *)relativeToView;

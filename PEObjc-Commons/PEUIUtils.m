@@ -491,6 +491,26 @@
   return label;
 }
 
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+              horizontalTextPadding:(CGFloat)horizontalTextPadding
+                verticalTextPadding:(CGFloat)verticalTextPadding {
+  CGSize textSize = [PEUIUtils sizeOfText:[attributedText string] withFont:font];
+  textSize = CGSizeMake(textSize.width + horizontalTextPadding,
+                        textSize.height + verticalTextPadding);
+  UILabel *label =
+  [[UILabel alloc]
+   initWithFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
+  [label setNumberOfLines:0];
+  [label setBackgroundColor:backgroundColor];
+  [label setTextColor:textColor];
+  [label setFont:font];
+  [label setAttributedText:attributedText];
+  return label;
+}
+
 + (void)setTextAndResize:(NSString *)text forLabel:(UILabel *)label {
   CGSize textSize = [PEUIUtils sizeOfText:text withFont:[label font]];
   [label setText:text];
@@ -873,7 +893,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIView *)contentWithMsgs:(NSArray *)msgs
                       title:(NSString *)title
                  titleImage:(UIImage *)titleImage
-                description:(NSString *)description
+                description:(NSAttributedString *)description
                 messageIcon:(UIImage *)messageIcon
              relativeToView:(UIView *)relativeToView {
   return [PEUIUtils contentWithMsgs:msgs
@@ -888,7 +908,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIView *)contentWithMsgs:(NSArray *)msgs
                       title:(NSString *)title
                  titleImage:(UIImage *)titleImage
-                description:(NSString *)description
+                description:(NSAttributedString *)description
             descriptionFont:(UIFont *)descriptionFont
                 messageIcon:(UIImage *)messageIcon
              relativeToView:(UIView *)relativeToView {
@@ -932,12 +952,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     topViewHeight = 0.0;
     topPanel = [PEUIUtils panelWithFixedWidth:0.0 fixedHeight:topViewHeight];
   }
-  UILabel *descriptionLbl = [PEUIUtils labelWithKey:description
-                                               font:descriptionFont
-                                    backgroundColor:[UIColor clearColor]
-                                          textColor:[UIColor blackColor]
-                              horizontalTextPadding:3.0
-                                verticalTextPadding:0.0];
+  UILabel *descriptionLbl = [PEUIUtils labelWithAttributeText:description
+                                                         font:descriptionFont
+                                              backgroundColor:[UIColor clearColor]
+                                                    textColor:[UIColor blackColor]
+                                        horizontalTextPadding:3.0
+                                          verticalTextPadding:0.0];
   [descriptionLbl setLineBreakMode:NSLineBreakByWordWrapping];
   UIView *alertPanelsColumn = nil;
   if ([msgs count] > 0) {
@@ -1014,7 +1034,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 }
 
 + (UIView *)failuresContentWithFailures:(NSArray *)failures
-                            description:(NSString *)description
+                            description:(NSAttributedString *)description
                         descriptionFont:(UIFont *)descriptionFont
                          relativeToView:(UIView *)relativeToView {
   return [PEUIUtils failuresContentWithFailures:failures
@@ -1026,7 +1046,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (UIView *)failuresContentWithFailures:(NSArray *)failures
                                   title:(NSString *)title
-                            description:(NSString *)description
+                            description:(NSAttributedString *)description
                         descriptionFont:(UIFont *)descriptionFont
                          relativeToView:(UIView *)relativeToView {
   UIView *contentView = [PEUIUtils contentWithMsgs:nil
@@ -1044,8 +1064,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (UIView *)mixedResultsContentWithSuccessMsgs:(NSArray *)successMsgs
                                          title:(NSString *)title
-                                   description:(NSString *)description
-                           failuresDescription:(NSString *)failuresDescription
+                                   description:(NSAttributedString *)description
+                           failuresDescription:(NSAttributedString *)failuresDescription
                                       failures:(NSArray *)failures
                                 relativeToView:(UIView *)relativeToView {
   UIView *successesContent = [PEUIUtils contentWithMsgs:successMsgs
@@ -1067,7 +1087,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
-                                     alertDescription:(NSString *)alertDescription
+                                     alertDescription:(NSAttributedString *)alertDescription
                                        relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
                                         message:nil
@@ -1081,7 +1101,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
-                                     alertDescription:(NSString *)alertDescription
+                                     alertDescription:(NSAttributedString *)alertDescription
                                        relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
                                         message:nil
@@ -1095,7 +1115,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)waitAlertSectionWithMsgs:(NSArray *)msgs
                                              title:(NSString *)title
-                                  alertDescription:(NSString *)alertDescription
+                                  alertDescription:(NSAttributedString *)alertDescription
                                     relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
                                         message:nil
@@ -1109,7 +1129,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)errorAlertSectionWithMsgs:(NSArray *)msgs
                                               title:(NSString *)title
-                                   alertDescription:(NSString *)alertDescription
+                                   alertDescription:(NSAttributedString *)alertDescription
                                      relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
                                         message:nil
@@ -1123,7 +1143,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)multiErrorAlertSectionWithFailures:(NSArray *)failures
                                                        title:(NSString *)title
-                                            alertDescription:(NSString *)alertDescription
+                                            alertDescription:(NSAttributedString *)alertDescription
                                               relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
                                         message:nil
@@ -1136,8 +1156,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)mixedResultsAlertSectionWithSuccessMsgs:(NSArray *)successMsgs
                                                             title:(NSString *)title
-                                                 alertDescription:(NSString *)alertDescription
-                                              failuresDescription:(NSString *)failuresDescription
+                                                 alertDescription:(NSAttributedString *)alertDescription
+                                              failuresDescription:(NSAttributedString *)failuresDescription
                                                          failures:(NSArray *)failures
                                                    relativeToView:(UIView *)relativeToView {
   return [JGActionSheetSection sectionWithTitle:nil
@@ -1172,7 +1192,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
-                alertDescription:(NSString *)alertDescription
+                alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
@@ -1185,7 +1205,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
-                alertDescription:(NSString *)alertDescription
+                alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
@@ -1198,7 +1218,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showWaitAlertWithMsgs:(NSArray *)msgs
                         title:(NSString *)title
-             alertDescription:(NSString *)alertDescription
+             alertDescription:(NSAttributedString *)alertDescription
                   buttonTitle:(NSString *)buttonTitle
                relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
@@ -1211,7 +1231,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showErrorAlertWithMsgs:(NSArray *)msgs
                          title:(NSString *)title
-              alertDescription:(NSString *)alertDescription
+              alertDescription:(NSAttributedString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
                 relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
@@ -1224,7 +1244,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showMultiErrorAlertWithFailures:(NSArray *)failures
                                   title:(NSString *)title
-                       alertDescription:(NSString *)alertDescription
+                       alertDescription:(NSAttributedString *)alertDescription
                             buttonTitle:(NSString *)buttonTitle
                          relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
@@ -1237,8 +1257,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showMixedResultsAlertSectionWithSuccessMsgs:(NSArray *)successMsgs
                                               title:(NSString *)title
-                                   alertDescription:(NSString *)alertDescription
-                                failuresDescription:(NSString *)failuresDescription
+                                   alertDescription:(NSAttributedString *)alertDescription
+                                failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
                                         buttonTitle:(NSString *)buttonTitle
                                      relativeToView:(UIView *)relativeToView {
@@ -1279,8 +1299,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   [PEUIUtils showWarningAlertWithMsgs:errMsgs
                                 title:title
-                     alertDescription:@"There was a problem communicating with\n\
-the server.  The error is as follows:"
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"There was a problem communicating with\n\
+the server.  The error is as follows:"]
                           buttonTitle:buttonTitle
                        relativeToView:relativeToView];
 }

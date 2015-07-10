@@ -137,9 +137,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (void)bluftoniButtonAction {
   [PEUIUtils showWarningAlertWithMsgs:nil //@[]
                                 title:@"This is a warning dialog."
-                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are very important!"
+are very important!"]
                           buttonTitle:@"Okay."
                        relativeToView:self.window.rootViewController.view];
 }
@@ -147,9 +147,9 @@ are very important!"
 - (void)oneButtonAction {
   [PEUIUtils showErrorAlertWithMsgs:nil //@[]
                               title:@"This is an error dialog."
-                   alertDescription:@"Hi!  I am the alert description.  There are\n\
+                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are very important!"
+are very important!"]
                         buttonTitle:@"Okay."
                      relativeToView:self.window.rootViewController.view];
 }
@@ -157,9 +157,9 @@ are very important!"
 - (void)twoButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:nil //@[]
                                 title:@"This is a success dialog."
-                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are very important!"
+are very important!"]
                           buttonTitle:@"Okay."
                        relativeToView:self.window.rootViewController.view];
 }
@@ -167,8 +167,8 @@ are very important!"
 - (void)aButtonAction {
   [PEUIUtils showWaitAlertWithMsgs:nil //@[]
                              title:@"Server Busy."
-                  alertDescription:@"We apologize, but the server is currently\n\
-busy.  Please retry your request shortly."
+                  alertDescription:[[NSAttributedString alloc] initWithString:@"We apologize, but the server is currently\n\
+busy.  Please retry your request shortly."]
                        buttonTitle:@"Okay."
                     relativeToView:self.window.rootViewController.view];
 }
@@ -202,19 +202,24 @@ busy.  Please retry your request shortly."
                                                @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
                                                @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
                                        title:@"Multiple Errors."
-                            alertDescription:@"None of your entities could be saved."
+                            alertDescription:[[NSAttributedString alloc] initWithString:@"None of your entities could be saved."]
                                  buttonTitle:@"Okay."
                               relativeToView:self.window.rootViewController.view];
 }
 
 - (void)sixButtonAction {
-  [PEUIUtils showMixedResultsAlertSectionWithSuccessMsgs:@[@"Fuel purchase log saved.", @"Fuel station saved."]
-                                                   title:@"Mixed results saving fuel\npurchase and environment logs."
-                                        alertDescription:@"\
+  
+  NSMutableAttributedString *description = [[NSMutableAttributedString alloc] initWithString:@"\
 Because the results are mixed, you need to\n\
 fix the errors on the individual affected\n\
-records.  The successful syncs are:"
-                                     failuresDescription:@"The failures are:"
+records.  The successful syncs are:"];
+  NSDictionary *messageAttrs = @{ NSFontAttributeName:[UIFont boldSystemFontOfSize:16] };
+  NSRange messageAttrsRange = NSMakeRange(2, 9);
+  [description setAttributes:messageAttrs range:messageAttrsRange];  
+  [PEUIUtils showMixedResultsAlertSectionWithSuccessMsgs:@[@"Fuel purchase log saved.", @"Fuel station saved."]
+                                                   title:@"Mixed results saving fuel\npurchase and environment logs."
+                                        alertDescription:description
+                                     failuresDescription:[[NSAttributedString alloc] initWithString:@"The failures are:"]
                                                 failures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
                                                            @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
                                                            @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
@@ -225,7 +230,7 @@ records.  The successful syncs are:"
 - (void)thriceButtonAction {
   [PEUIUtils showWarningAlertWithMsgs:@[@"message 1"]
                                 title:@"This is a warning dialog."
-                     alertDescription:@"There are some validation errors:"
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"There are some validation errors:"]
                           buttonTitle:@"Okey Dokey"
                        relativeToView:self.window.rootViewController.view];
 }
@@ -233,9 +238,9 @@ records.  The successful syncs are:"
 - (void)thirdButtonAction {
   [PEUIUtils showWarningAlertWithMsgs:@[@"message 1", @"Hello, I am message 2."]
                                 title:@"This is a warning dialog."
-                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are as follows:"
+are as follows:"]
                           buttonTitle:@"Okey Dokey"
                        relativeToView:self.window.rootViewController.view];
 }
@@ -243,9 +248,9 @@ are as follows:"
 - (void)fourthButtonAction {
   [PEUIUtils showErrorAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"error sub-msg 3"]
                               title:@"This is an error dialog."
-                   alertDescription:@"Hi!  I am the alert description.  There are\n\
+                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are as follows:"
+are as follows:"]
                         buttonTitle:@"Okay."
                      relativeToView:self.window.rootViewController.view];
 }
@@ -253,9 +258,9 @@ are as follows:"
 - (void)secondButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"success sub-msg 3"]
                                 title:@"This is a success dialog."
-                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are as follows:"
+are as follows:"]
                           buttonTitle:@"Okay."
                        relativeToView:self.window.rootViewController.view];
 }
@@ -263,9 +268,9 @@ are as follows:"
 - (void)firstButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:@[@"Message 1"]
                                 title:@"This is a success dialog."
-                     alertDescription:@"Hi!  I am the alert description.  There are\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
-are as follows:"
+are as follows:"]
                           buttonTitle:@"Okay."
                        relativeToView:self.window.rootViewController.view];
 }
