@@ -189,10 +189,21 @@ busy.  Please retry your request shortly."
   [rtBtns[0] addTarget:self action:@selector(oneButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[1] addTarget:self action:@selector(twoButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[2] addTarget:self action:@selector(thriceButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [rtBtns[3] addTarget:self action:@selector(quinceButtonAction) forControlEvents:UIControlEventTouchUpInside];
   return [PEUIUtils twoColumnViewCluster:leftBtns
                          withRightColumn:rtBtns
              verticalPaddingBetweenViews:5
          horizontalPaddingBetweenColumns:8];
+}
+
+- (void)quinceButtonAction {
+  [PEUIUtils showMixedAlertWithTitle:@"There are mixed results!"
+                      topDescription:@"Some were good, some were bad\nHere are the good:"
+                     successMessages:@[@"success 1", @"success 2"]
+                 failuresDescription:@"Here are the bad:"
+                     failureMessages:@[@"failure 1", @"failure 2", @"failure 3"]
+                         buttonTitle:@"Okay."
+                      relativeToView:self.window.rootViewController.view];
 }
 
 - (void)thriceButtonAction {

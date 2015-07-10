@@ -865,7 +865,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   vpadding:(CGFloat)vpadding
                   hpadding:(CGFloat)hpadding;
 
-#pragma mark - Alerts and Alert Helpers
+#pragma mark - Alert Content Sections
 
 + (JGActionSheetSection *)warningAlertContentWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
@@ -886,6 +886,15 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                               title:(NSString *)title
                                    alertDescription:(NSString *)alertDescription
                                      relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)mixedAlertContentWithTitle:(NSString *)title
+                                      topDescription:(NSString *)topDescription
+                                     successMessages:(NSArray *)successMessages
+                                 failuresDescription:(NSString *)failuresDescription
+                                     failureMessages:(NSArray *)failureMessages
+                                      relativeToView:(UIView *)relativeToView;
+
+#pragma mark - Showing Alerts
 
 /**
  Displays a warning alert dialog with the provided collection of messages to display.
@@ -946,6 +955,27 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
               alertDescription:(NSString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
                 relativeToView:(UIView *)relativeToView;
+
+/**
+ Displays a mixed-results alert dialog with the provided collection of messages
+ to display.
+ @param title The title for the alert dialog.
+ @param topDescription The top description / message text for the alert dialog.
+ @param successMessages A collection of strings that constitute the success
+ messages.
+ @param failuresDescription The description for the failures.
+ @param failureMessages A collection of strings that constitute the failure
+ messages.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showMixedAlertWithTitle:(NSString *)title
+                 topDescription:(NSString *)topDescription
+                successMessages:(NSArray *)successMessages
+            failuresDescription:(NSString *)failuresDescription
+                failureMessages:(NSArray *)failureMessages
+                    buttonTitle:(NSString *)buttonTitle
+                 relativeToView:(UIView *)relativeToView;
 
 /**
  Displays an alert dialog appropriate for the given error code associated with
