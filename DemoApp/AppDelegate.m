@@ -190,6 +190,7 @@ busy.  Please retry your request shortly."
   [rtBtns[1] addTarget:self action:@selector(twoButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[2] addTarget:self action:@selector(thriceButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[3] addTarget:self action:@selector(quinceButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [rtBtns[4] addTarget:self action:@selector(sixButtonAction) forControlEvents:UIControlEventTouchUpInside];
   return [PEUIUtils twoColumnViewCluster:leftBtns
                          withRightColumn:rtBtns
              verticalPaddingBetweenViews:5
@@ -197,13 +198,28 @@ busy.  Please retry your request shortly."
 }
 
 - (void)quinceButtonAction {
-  [PEUIUtils showMixedAlertWithTitle:@"There are mixed results!"
-                      topDescription:@"Some were good, some were bad\nHere are the good:"
-                     successMessages:@[@"success 1", @"success 2"]
-                 failuresDescription:@"Here are the bad:"
-                     failureMessages:@[@"failure 1", @"failure 2", @"failure 3"]
-                         buttonTitle:@"Okay."
-                      relativeToView:self.window.rootViewController.view];
+  [PEUIUtils showMultiErrorAlertWithFailures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
+                                               @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
+                                               @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
+                                       title:@"Multiple Errors."
+                            alertDescription:@"None of your entities could be saved."
+                                 buttonTitle:@"Okay."
+                              relativeToView:self.window.rootViewController.view];
+}
+
+- (void)sixButtonAction {
+  [PEUIUtils showMixedResultsAlertSectionWithSuccessMsgs:@[@"Fuel purchase log saved.", @"Fuel station saved."]
+                                                   title:@"Mixed results saving fuel\npurchase and environment logs."
+                                        alertDescription:@"\
+Because the results are mixed, you need to\n\
+fix the errors on the individual affected\n\
+records.  The successful syncs are:"
+                                     failuresDescription:@"The failures are:"
+                                                failures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
+                                                           @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
+                                                           @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
+                                             buttonTitle:@"Okay."
+                                          relativeToView:self.window.rootViewController.view];
 }
 
 - (void)thriceButtonAction {
