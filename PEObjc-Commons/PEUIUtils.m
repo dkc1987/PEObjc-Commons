@@ -863,15 +863,27 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                 relativeToView:(UIView *)relativeToView {
   UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
                                      relativeToView:relativeToView
-                                        fixedHeight:0]; //contentViewHeight];
+                                        fixedHeight:0];
   UIImageView *titleImageView = [[UIImageView alloc] initWithImage:titleImage];
   UILabel *titleLbl = [PEUIUtils labelWithKey:title
-                                         font:[UIFont boldSystemFontOfSize:18]
+                                         font:[UIFont boldSystemFontOfSize:16]
                               backgroundColor:[UIColor clearColor]
                                     textColor:[UIColor blackColor]
                         horizontalTextPadding:3.0
                           verticalTextPadding:0.0];
   [titleLbl setLineBreakMode:NSLineBreakByWordWrapping];
+  CGFloat topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
+                           ? titleImageView.frame.size.height : titleLbl.frame.size.height);
+  UIView *topPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:contentView fixedHeight:topViewHeight];
+  [PEUIUtils placeView:titleImageView
+            inMiddleOf:topPanel
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:2.0];
+  [PEUIUtils placeView:titleLbl
+          toTheRightOf:titleImageView
+                  onto:topPanel
+         withAlignment:PEUIVerticalAlignmentTypeCenter
+              hpadding:8.0];
   UILabel *descriptionLbl = [PEUIUtils labelWithKey:alertDescription
                                                font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
                                     backgroundColor:[UIColor clearColor]
@@ -887,13 +899,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                               verticalPaddingBetweenViews:1.0
                                            viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
   }
-  CGFloat titleImageVpadding = 3.0;
+  CGFloat topPanelVpadding = 3.0;
   CGFloat descriptionVpadding = 13.0;
   CGFloat panelsVpadding = alertPanelsColumn != nil ? 13.0 : 0.0;
   // sum the heights of all the sub views.
-  CGFloat contentViewHeight = titleImageView.frame.size.height + descriptionLbl.frame.size.height + alertPanelsColumn.frame.size.height;
+  CGFloat contentViewHeight = topViewHeight + descriptionLbl.frame.size.height + alertPanelsColumn.frame.size.height;
   // now include the padding you're going to use when placing them
-  contentViewHeight += titleImageVpadding + descriptionVpadding + panelsVpadding;
+  contentViewHeight += topPanelVpadding + descriptionVpadding + panelsVpadding;
   // now add a little bit more height so there's some nice bottom-padding; we'll have more
   // padding for when we have no messages panel-column.
   if ([msgs count] > 0) {
@@ -902,22 +914,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     contentViewHeight += 10.0;
   }
   [PEUIUtils setFrameHeight:contentViewHeight ofView:contentView];
-  [PEUIUtils placeView:titleImageView
+  [PEUIUtils placeView:topPanel
                atTopOf:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:titleImageVpadding
-              hpadding:5.0];
-  [PEUIUtils placeView:titleLbl
-          toTheRightOf:titleImageView
-                  onto:contentView
-         withAlignment:PEUIVerticalAlignmentTypeCenter
-              hpadding:5.0];
+              vpadding:topPanelVpadding
+              hpadding:0.0];
   [PEUIUtils placeView:descriptionLbl
-                 below:titleImageView
+                 below:topPanel
                   onto:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:descriptionVpadding
-              hpadding:0.0];
+              hpadding:3.0];
   if (alertPanelsColumn) {
     [PEUIUtils placeView:alertPanelsColumn
                    below:descriptionLbl
