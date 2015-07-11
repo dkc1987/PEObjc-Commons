@@ -1186,6 +1186,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 #pragma mark - Showing Alert Helper
 
 + (void)showAlertWithButtonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView
              contentSectionMaker:(JGActionSheetSection *(^)(void))contentSectionMaker {
   JGActionSheetSection *contentSection = contentSectionMaker();
@@ -1197,6 +1198,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     [sheet dismissAnimated:YES];
+    if (buttonAction) {
+      buttonAction();
+    }
   }];
   [alertSheet showInView:relativeToView animated:YES];
 }
@@ -1207,8 +1211,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils warningAlertSectionWithMsgs:msgs
                                                                                  title:title
@@ -1220,8 +1226,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithMsgs:msgs
                                                                                  title:title
@@ -1233,8 +1241,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                         title:(NSString *)title
              alertDescription:(NSAttributedString *)alertDescription
                   buttonTitle:(NSString *)buttonTitle
+                 buttonAction:(void(^)(void))buttonAction
                relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils waitAlertSectionWithMsgs:msgs
                                                                               title:title
@@ -1246,8 +1256,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                          title:(NSString *)title
               alertDescription:(NSAttributedString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
+                  buttonAction:(void(^)(void))buttonAction
                 relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils errorAlertSectionWithMsgs:msgs
                                                                                title:title
@@ -1259,8 +1271,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
                             buttonTitle:(NSString *)buttonTitle
+                           buttonAction:(void(^)(void))buttonAction
                          relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils multiErrorAlertSectionWithFailures:failures
                                                                                         title:title
@@ -1274,8 +1288,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                 failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
                                         buttonTitle:(NSString *)buttonTitle
+                                       buttonAction:(void(^)(void))buttonAction
                                      relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils mixedResultsAlertSectionWithSuccessMsgs:successMsgs
                                                                                              title:title
@@ -1288,6 +1304,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
                              title:(NSString *)title
                        buttonTitle:(NSString *)buttonTitle
+                      buttonAction:(void(^)(void))buttonAction
                     relativeToView:(UIView *)relativeToView {
   NSMutableArray *errMsgs = [NSMutableArray arrayWithCapacity:1];
   switch (errorCode) {
@@ -1315,6 +1332,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      alertDescription:[[NSAttributedString alloc] initWithString:@"There was a problem communicating with\n\
 the server.  The error is as follows:"]
                           buttonTitle:buttonTitle
+                         buttonAction:buttonAction
                        relativeToView:relativeToView];
 }
 

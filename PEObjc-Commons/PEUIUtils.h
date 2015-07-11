@@ -918,6 +918,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView;
 
 /**
@@ -933,6 +934,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                           title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView;
 
 /**
@@ -948,6 +950,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                         title:(NSString *)title
              alertDescription:(NSAttributedString *)alertDescription
                   buttonTitle:(NSString *)buttonTitle
+                 buttonAction:(void(^)(void))buttonAction
                relativeToView:(UIView *)relativeToView;
 
 /**
@@ -963,6 +966,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                          title:(NSString *)title
               alertDescription:(NSAttributedString *)alertDescription
                    buttonTitle:(NSString *)buttonTitle
+                  buttonAction:(void(^)(void))buttonAction
                 relativeToView:(UIView *)relativeToView;
 
 /**
@@ -978,6 +982,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
                             buttonTitle:(NSString *)buttonTitle
+                           buttonAction:(void(^)(void))buttonAction
                          relativeToView:(UIView *)relativeToView;
 
 /**
@@ -998,6 +1003,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                 failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
                                         buttonTitle:(NSString *)buttonTitle
+                                       buttonAction:(void(^)(void))buttonAction
                                      relativeToView:(UIView *)relativeToView;
 
 /**
@@ -1017,6 +1023,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
                              title:(NSString *)title
                        buttonTitle:(NSString *)buttonTitle
+                      buttonAction:(void(^)(void))buttonAction
                     relativeToView:(UIView *)relativeToView;
 
 @end

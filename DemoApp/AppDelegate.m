@@ -141,6 +141,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 some things I need to tell you, and they\n\
 are very important!"]
                           buttonTitle:@"Okay."
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
@@ -151,6 +152,7 @@ are very important!"]
 some things I need to tell you, and they\n\
 are very important!"]
                         buttonTitle:@"Okay."
+                       buttonAction:^{ NSLog(@"alert button tapped."); }
                      relativeToView:self.window.rootViewController.view];
 }
 
@@ -161,6 +163,7 @@ are very important!"]
 some things I need to tell you, and they\n\
 are very important!"]
                           buttonTitle:@"Okay."
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
@@ -170,6 +173,7 @@ are very important!"]
                   alertDescription:[[NSAttributedString alloc] initWithString:@"We apologize, but the server is currently\n\
 busy.  Please retry your request shortly."]
                        buttonTitle:@"Okay."
+                      buttonAction:^{ NSLog(@"alert button tapped."); }
                     relativeToView:self.window.rootViewController.view];
 }
 
@@ -204,6 +208,7 @@ busy.  Please retry your request shortly."]
                                        title:@"Multiple Errors."
                             alertDescription:[[NSAttributedString alloc] initWithString:@"None of your entities could be saved."]
                                  buttonTitle:@"Okay."
+                                buttonAction:^{ NSLog(@"alert button tapped."); }
                               relativeToView:self.window.rootViewController.view];
 }
 
@@ -224,6 +229,7 @@ records.  The successful syncs are:"];
                                                            @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
                                                            @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
                                              buttonTitle:@"Okay."
+                                            buttonAction:^{ NSLog(@"alert button tapped."); }
                                           relativeToView:self.window.rootViewController.view];
 }
 
@@ -232,6 +238,7 @@ records.  The successful syncs are:"];
                                 title:@"This is a warning dialog."
                      alertDescription:[[NSAttributedString alloc] initWithString:@"There are some validation errors:"]
                           buttonTitle:@"Okey Dokey"
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
@@ -242,6 +249,7 @@ records.  The successful syncs are:"];
 some things I need to tell you, and they\n\
 are as follows:"]
                           buttonTitle:@"Okey Dokey"
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
@@ -252,6 +260,7 @@ are as follows:"]
 some things I need to tell you, and they\n\
 are as follows:"]
                         buttonTitle:@"Okay."
+                       buttonAction:^{ NSLog(@"alert button tapped."); }
                      relativeToView:self.window.rootViewController.view];
 }
 
@@ -262,6 +271,7 @@ are as follows:"]
 some things I need to tell you, and they\n\
 are as follows:"]
                           buttonTitle:@"Okay."
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
@@ -272,6 +282,7 @@ are as follows:"]
 some things I need to tell you, and they\n\
 are as follows:"]
                           buttonTitle:@"Okay."
+                         buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.window.rootViewController.view];
 }
 
