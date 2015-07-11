@@ -887,6 +887,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                    alertDescription:(NSAttributedString *)alertDescription
                                      relativeToView:(UIView *)relativeToView;
 
++ (JGActionSheetSection *)questionAlertSectionWithTitle:(NSString *)title
+                                       alertDescription:(NSAttributedString *)alertDescription
+                                         relativeToView:(UIView *)relativeToView;
+
 + (JGActionSheetSection *)multiErrorAlertSectionWithFailures:(NSArray *)failures
                                                        title:(NSString *)title
                                             alertDescription:(NSAttributedString *)alertDescription

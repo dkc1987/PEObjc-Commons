@@ -1141,6 +1141,19 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                             relativeToView:relativeToView]];
 }
 
++ (JGActionSheetSection *)questionAlertSectionWithTitle:(NSString *)title
+                                       alertDescription:(NSAttributedString *)alertDescription
+                                         relativeToView:(UIView *)relativeToView {
+  return [JGActionSheetSection sectionWithTitle:nil
+                                        message:nil
+                                    contentView:[PEUIUtils contentWithMsgs:nil
+                                                                     title:title
+                                                                titleImage:[PEUIUtils bundleImageWithName:@"question"]
+                                                               description:alertDescription
+                                                               messageIcon:nil
+                                                            relativeToView:relativeToView]];
+}
+
 + (JGActionSheetSection *)multiErrorAlertSectionWithFailures:(NSArray *)failures
                                                        title:(NSString *)title
                                             alertDescription:(NSAttributedString *)alertDescription
