@@ -673,7 +673,7 @@ fromTextfieldWithTag:(NSInteger)tfTag
   #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
   NSObject *val = [entity performSelector:getter];
   NSString *valStr;
-  if (val) {
+  if (val && ![val isEqual:[NSNull null]]) {
     valStr = [val description];
   } else {
     valStr = @"";

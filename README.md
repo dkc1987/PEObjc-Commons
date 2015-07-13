@@ -28,7 +28,7 @@ Also, a DemoApp exists to illustrate some of the UI-building functionality of th
 ## Installation with CocoaPods
 
 ```ruby
-pod 'PEObjc-Commons', '~> 1.0.20'
+pod 'PEObjc-Commons', '~> 1.0.21'
 ```
 
 ## PE* iOS Library Suite
