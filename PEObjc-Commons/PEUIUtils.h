@@ -532,12 +532,12 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  frame-height.
  @return The newly constructed label.
  */
-+ (UILabel *)labelWithKey:(NSString *)key
-                     font:(UIFont *)font
-          backgroundColor:(UIColor *)backgroundColor
-                textColor:(UIColor *)textColor
-    horizontalTextPadding:(CGFloat)horizontalTextPadding
-      verticalTextPadding:(CGFloat)verticalTextPadding;
++ (UIView *)labelWithKey:(NSString *)key
+                    font:(UIFont *)font
+         backgroundColor:(UIColor *)backgroundColor
+               textColor:(UIColor *)textColor
+   horizontalTextPadding:(CGFloat)horizontalTextPadding
+     verticalTextPadding:(CGFloat)verticalTextPadding;
 
 /**
  *  Sets the text and resizes the given label.
