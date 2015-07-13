@@ -230,7 +230,7 @@
                         relativeToView:ontoView
                               hpadding:hpadding],
                   [PEUIUtils YForHeight:[view frame].size.height
-                          withAlignment:PEUIVerticalAlignmentTypeCenter
+                          withAlignment:PEUIVerticalAlignmentTypeMiddle
                          relativeToView:ontoView
                                vpadding:0])
             ofView:view];
@@ -468,15 +468,13 @@
   view.layer.borderWidth = 1.0f;
 }
 
-#pragma mark - Labels
+#pragma mark - Label maker helper
 
-+ (UIView *)labelWithKey:(NSString *)key
-                   font:(UIFont *)font
-        backgroundColor:(UIColor *)backgroundColor
-              textColor:(UIColor *)textColor
-  horizontalTextPadding:(CGFloat)horizontalTextPadding
-    verticalTextPadding:(CGFloat)verticalTextPadding {
-  NSString *text = LS(key);
++ (UILabel *)labelWithText:(NSString *)text
+                      font:(UIFont *)font
+           backgroundColor:(UIColor *)backgroundColor
+                 textColor:(UIColor *)textColor
+       verticalTextPadding:(CGFloat)verticalTextPadding {
   CGSize textSize = [PEUIUtils sizeOfText:text withFont:font];
   textSize = CGSizeMake(textSize.width, textSize.height + verticalTextPadding);
   UILabel *label =
@@ -486,38 +484,61 @@
   [label setBackgroundColor:backgroundColor];
   [label setLineBreakMode:NSLineBreakByWordWrapping];
   [label setTextColor:textColor];
-  [label setText:text];
   [label setFont:font];
-  if (horizontalTextPadding > 0.0) {
-    UIView *panel = [PEUIUtils panelWithFixedWidth:horizontalTextPadding + label.frame.size.width
-                                       fixedHeight:label.frame.size.height];
-    UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:horizontalTextPadding fixedHeight:label.frame.size.height];
-    [PEUIUtils placeView:paddingPanel inMiddleOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:0.0];
-    [PEUIUtils placeView:label toTheRightOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeCenter hpadding:0.0];
-    return panel;
-  } else {
-    return label;
-  }
+  return label;
+}
+
+#pragma mark - Labels
+
++ (UILabel *)labelWithKey:(NSString *)key
+                     font:(UIFont *)font
+          backgroundColor:(UIColor *)backgroundColor
+                textColor:(UIColor *)textColor
+      verticalTextPadding:(CGFloat)verticalTextPadding {
+  NSString *text = LS(key);
+  UILabel *label = [PEUIUtils labelWithText:text
+                                       font:font
+                            backgroundColor:backgroundColor
+                                  textColor:textColor
+                        verticalTextPadding:verticalTextPadding];
+  [label setText:text];
+  return label;
 }
 
 + (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
                                font:(UIFont *)font
                     backgroundColor:(UIColor *)backgroundColor
                           textColor:(UIColor *)textColor
-              horizontalTextPadding:(CGFloat)horizontalTextPadding
                 verticalTextPadding:(CGFloat)verticalTextPadding {
-  CGSize textSize = [PEUIUtils sizeOfText:[attributedText string] withFont:font];
-  textSize = CGSizeMake(textSize.width + horizontalTextPadding,
-                        textSize.height + verticalTextPadding);
-  UILabel *label =
-  [[UILabel alloc]
-   initWithFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
-  [label setNumberOfLines:0];
-  [label setBackgroundColor:backgroundColor];
-  [label setTextColor:textColor];
-  [label setFont:font];
+  UILabel *label = [PEUIUtils labelWithText:[attributedText string]
+                                       font:font
+                            backgroundColor:backgroundColor
+                                  textColor:textColor
+                        verticalTextPadding:verticalTextPadding];
   [label setAttributedText:attributedText];
   return label;
+}
+
++ (UIView *)leftPadLabel:(UILabel *)label
+                 padding:(CGFloat)padding {
+  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + label.frame.size.width
+                                     fixedHeight:label.frame.size.height];
+  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:label.frame.size.height];
+  [paddingPanel setBackgroundColor:[UIColor clearColor]];
+  [PEUIUtils placeView:paddingPanel inMiddleOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:0.0];
+  [PEUIUtils placeView:label toTheRightOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
+  return panel;
+}
+
++ (UIView *)rightPadLabel:(UILabel *)label
+                  padding:(CGFloat)padding {
+  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + label.frame.size.width
+                                     fixedHeight:label.frame.size.height];
+  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:label.frame.size.height];
+  [paddingPanel setBackgroundColor:[UIColor clearColor]];
+  [PEUIUtils placeView:paddingPanel inMiddleOf:panel withAlignment:PEUIHorizontalAlignmentTypeRight hpadding:0.0];
+  [PEUIUtils placeView:label toTheLeftOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
+  return panel;
 }
 
 + (void)setTextAndResize:(NSString *)text forLabel:(UILabel *)label {
@@ -791,13 +812,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [mainPanel addSubview:ltColContainerPnl];
   [PEUIUtils adjustYOfView:ltColContainerPnl
                  withValue:[PEUIUtils YForHeight:[ltColContainerPnl frame].size.height
-                                   withAlignment:PEUIVerticalAlignmentTypeCenter
+                                   withAlignment:PEUIVerticalAlignmentTypeMiddle
                                   relativeToView:mainPanel
                                         vpadding:0]];
   [PEUIUtils placeView:rtColContainerPnl
           toTheRightOf:ltColContainerPnl
                   onto:mainPanel
-         withAlignment:PEUIVerticalAlignmentTypeCenter
+         withAlignment:PEUIVerticalAlignmentTypeMiddle
               hpadding:hpadding];
   return mainPanel;
 }
@@ -851,12 +872,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                             width:(CGFloat)width {
   UIView *errorPanel = [PEUIUtils panelWithFixedWidth:width fixedHeight:25.0];
   UIImageView *errImgView = [[UIImageView alloc] initWithImage:leftImgIcon];
-  UIView *errorMsgLbl = [PEUIUtils labelWithKey:title
-                                           font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
-                                backgroundColor:[UIColor clearColor]
-                                      textColor:[UIColor blackColor]
-                          horizontalTextPadding:3.0
-                            verticalTextPadding:0.0];
+  UILabel *errorMsgLbl = [PEUIUtils labelWithKey:title
+                                            font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                 backgroundColor:[UIColor clearColor]
+                                       textColor:[UIColor blackColor]
+                             verticalTextPadding:0.0];
+  // TODO pad label with 3.0?
   [PEUIUtils placeView:errImgView
             inMiddleOf:errorPanel
          withAlignment:PEUIHorizontalAlignmentTypeLeft
@@ -864,7 +885,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [PEUIUtils placeView:errorMsgLbl
           toTheRightOf:errImgView
                   onto:errorPanel
-         withAlignment:PEUIVerticalAlignmentTypeCenter
+         withAlignment:PEUIVerticalAlignmentTypeMiddle
               hpadding:5.0];
   return errorPanel;
 }
@@ -928,12 +949,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   CGFloat topViewHeight;
   if (title) {
     UIImageView *titleImageView = nil;
-    UIView *titleLbl = [PEUIUtils labelWithKey:title
-                                          font:[UIFont boldSystemFontOfSize:16]
-                               backgroundColor:[UIColor clearColor]
-                                     textColor:[UIColor blackColor]
-                         horizontalTextPadding:3.0
-                           verticalTextPadding:0.0];
+    UILabel *titleLbl = [PEUIUtils labelWithKey:title
+                                           font:[UIFont boldSystemFontOfSize:16]
+                                backgroundColor:[UIColor clearColor]
+                                      textColor:[UIColor blackColor]
+                            verticalTextPadding:0.0];
+    // TODO - pad title with 3.0?
     if (titleImage) {
       titleImageView = [[UIImageView alloc] initWithImage:titleImage];
       topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
@@ -946,7 +967,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
       [PEUIUtils placeView:titleLbl
               toTheRightOf:titleImageView
                       onto:topPanel
-             withAlignment:PEUIVerticalAlignmentTypeCenter
+             withAlignment:PEUIVerticalAlignmentTypeMiddle
                   hpadding:8.0];
     } else {
       topViewHeight = titleLbl.frame.size.height;
@@ -964,8 +985,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                          font:descriptionFont
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
-                                        horizontalTextPadding:3.0
                                           verticalTextPadding:0.0];
+  // TODO pad desc with 3.0?
   [descriptionLbl setLineBreakMode:NSLineBreakByWordWrapping];
   UIView *alertPanelsColumn = nil;
   if ([msgs count] > 0) {

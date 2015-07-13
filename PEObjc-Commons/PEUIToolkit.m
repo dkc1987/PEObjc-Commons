@@ -214,7 +214,6 @@
                               font:[self fontForHeader1Labels]
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForHeader1Labels]
-             horizontalTextPadding:0
                verticalTextPadding:0];
   };
 }
@@ -225,29 +224,26 @@
                               font:[self fontForHeader2Labels]
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForHeader2Labels]
-             horizontalTextPadding:0
                verticalTextPadding:0];
   };
 }
 
-- (LabelMaker) tableCellTitleMaker {
+- (LabelMaker)tableCellTitleMaker {
   return ^(NSString *key) {
     return [PEUIUtils labelWithKey:key
                               font:[self fontForTableCellTitles]
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellTitles]
-             horizontalTextPadding:0
                verticalTextPadding:0];
   };
 }
 
-- (LabelMaker) tableCellSubtitleMaker {
+- (LabelMaker)tableCellSubtitleMaker {
   return ^(NSString *key) {
     return [PEUIUtils labelWithKey:key
                               font:[self fontForTableCellSubtitles]
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellSubtitles]
-             horizontalTextPadding:0
                verticalTextPadding:5];
   };
 }

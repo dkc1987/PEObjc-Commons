@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, PEUIHorizontalAlignmentType) {
 typedef NS_ENUM(NSInteger, PEUIVerticalAlignmentType) {
   PEUIVerticalAlignmentTypeTop,
   PEUIVerticalAlignmentTypeBottom,
-  PEUIVerticalAlignmentTypeCenter
+  PEUIVerticalAlignmentTypeMiddle
 };
 
 /**
@@ -526,18 +526,53 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  @param font The font to use for the label text.
  @param backgroundColor The background color to use for the label.
  @param textColor The text color to use for the label.
- @param horizontalTextPadding Horizontal padding to apply to the label's
- frame-width.
  @param verticalTextPadding Vertical padding to apply to the label's
  frame-height.
  @return The newly constructed label.
  */
-+ (UIView *)labelWithKey:(NSString *)key
-                    font:(UIFont *)font
-         backgroundColor:(UIColor *)backgroundColor
-               textColor:(UIColor *)textColor
-   horizontalTextPadding:(CGFloat)horizontalTextPadding
-     verticalTextPadding:(CGFloat)verticalTextPadding;
++ (UILabel *)labelWithKey:(NSString *)key
+                     font:(UIFont *)font
+          backgroundColor:(UIColor *)backgroundColor
+                textColor:(UIColor *)textColor
+      verticalTextPadding:(CGFloat)verticalTextPadding;
+
+/**
+ Constructs and returns a UILabel with the given attributes.
+ @param attributedText The attributed string to use for the text of the label.
+ @param font The font to use for the label text.
+ @param backgroundColor The background color to use for the label.
+ @param textColor The text color to use for the label.
+ @param verticalTextPadding Vertical padding to apply to the label's
+ frame-height.
+ @return The newly constructed label.
+ */
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding;
+
+/**
+ Left pads label by returning a panel containing a blank view of width padding,
+ and label sitting next to it.
+ @param label The label to left-pad.
+ @param padding The padding amount.
+ @return a panel containing a blank view of width padding,
+ and label sitting next to it.
+ */
++ (UIView *)leftPadLabel:(UILabel *)label
+                 padding:(CGFloat)padding;
+
+/**
+ Right pads label by returning a panel containing a blank view of width padding,
+ and label sitting next to it.
+ @param label The label to right-pad.
+ @param padding The padding amount.
+ @return a panel containing a blank view of width padding,
+ and label sitting next to it.
+ */
++ (UIView *)rightPadLabel:(UILabel *)label
+                  padding:(CGFloat)padding;
 
 /**
  *  Sets the text and resizes the given label.

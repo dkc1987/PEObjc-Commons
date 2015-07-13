@@ -64,68 +64,63 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (UIView *)bottomPanel {
   UIView *pnl = [PEUIUtils panelWithFixedWidth:300 fixedHeight:200];
   [PEUIUtils applyBorderToView:pnl withColor:[UIColor blackColor]];
-  UIView *lbl1 = [PEUIUtils labelWithKey:@"I am a label!"
-                                   font:[UIFont boldSystemFontOfSize:18]
-                        backgroundColor:[UIColor yellowColor]
-                              textColor:[UIColor blueColor]
-                  horizontalTextPadding:20
-                    verticalTextPadding:4];
-  [PEUIUtils placeView:lbl1
+  UILabel *lbl1 = [PEUIUtils labelWithKey:@"I am a label!"
+                                    font:[UIFont boldSystemFontOfSize:18]
+                         backgroundColor:[UIColor yellowColor]
+                               textColor:[UIColor blueColor]
+                     verticalTextPadding:4];
+  UIView *lbl1Panel = [PEUIUtils leftPadLabel:lbl1 padding:20.0];
+  [PEUIUtils placeView:lbl1Panel
             inMiddleOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeCenter
               hpadding:0];
-  UIView *lbl2 = [PEUIUtils labelWithKey:@"I am a longer label, and I'm happy."
+  UILabel *lbl2 = [PEUIUtils labelWithKey:@"I am a longer label, and I'm happy."
                                      font:[UIFont systemFontOfSize:14]
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
-                    horizontalTextPadding:5
                       verticalTextPadding:10];
-  [PEUIUtils placeView:lbl2
+  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl2 padding:5.0]
                atTopOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:0
               hpadding:0];
-  UIView *lbl2_1 = [PEUIUtils labelWithKey:@"ABC"
-                                     font:[UIFont boldSystemFontOfSize:12]
-                          backgroundColor:[UIColor yellowColor]
-                                textColor:[UIColor blueColor]
-                    horizontalTextPadding:5
-                      verticalTextPadding:10];
-  [PEUIUtils placeView:lbl2_1
+  UILabel *lbl2_1 = [PEUIUtils labelWithKey:@"ABC"
+                                       font:[UIFont boldSystemFontOfSize:12]
+                            backgroundColor:[UIColor yellowColor]
+                                  textColor:[UIColor blueColor]
+                        verticalTextPadding:10];
+  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl2_1 padding:5.0]
                atTopOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:5
               hpadding:5];
-  UIView *lbl3 = [PEUIUtils labelWithKey:@"Another!"
+  UILabel *lbl3 = [PEUIUtils labelWithKey:@"Another!"
                                      font:[UIFont systemFontOfSize:24]
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
-                    horizontalTextPadding:15
                       verticalTextPadding:20];
-  [PEUIUtils placeView:lbl3
+  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl3 padding:15.0]
             atBottomOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:0
               hpadding:0];
-  UIView *lbl3_1 = [PEUIUtils labelWithKey:@"Another at right!"
+  UILabel *lbl3_1 = [PEUIUtils labelWithKey:@"Another at right!"
                                      font:[UIFont systemFontOfSize:16]
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
-                    horizontalTextPadding:10
-                      verticalTextPadding:10];
-  [PEUIUtils placeView:lbl3_1
+                               verticalTextPadding:10];
+  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl3_1 padding:10.0]
             atBottomOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:10
               hpadding:10];
-  UIView *lbl4 = [PEUIUtils labelWithKey:@"More!"
+  UILabel *lbl4 = [PEUIUtils labelWithKey:@"More!"
                                      font:[UIFont systemFontOfSize:18]
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
-                    horizontalTextPadding:15
                       verticalTextPadding:20];
-  [PEUIUtils placeView:lbl4
-                 above:lbl1
+  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl4 padding:15.0]
+                 above:lbl1Panel
                   onto:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:5
@@ -312,7 +307,7 @@ are as follows:"]
   [PEUIUtils placeView:tf1
           toTheRightOf:b1
                   onto:p1
-         withAlignment:PEUIVerticalAlignmentTypeCenter
+         withAlignment:PEUIVerticalAlignmentTypeMiddle
               hpadding:8];
   UIButton *b3 = [self btnWithKey:@"3rd Btn"];
   [b3 addTarget:self action:@selector(thirdButtonAction) forControlEvents:UIControlEventTouchUpInside];
