@@ -14,29 +14,29 @@
 #pragma mark - Syncable Images
 
 + (UIImage *)syncable {
-  return [PEUIUtils bundleImageWithName:@"sychronization"];
+  return [PEUIUtils bundleImageWithName:@"synchronization"];
 }
 
 + (UIImage *)syncableIcon {
-  return [PEUIUtils bundleImageWithName:@"sychronization-icon"];
+  return [PEUIUtils bundleImageWithName:@"synchronization-icon"];
 }
 
 + (UIImage *)syncableMedIcon {
-  return [PEUIUtils bundleImageWithName:@"sychronization-med-icon"];
+  return [PEUIUtils bundleImageWithName:@"synchronization-med-icon"];
 }
 
 #pragma mark - Unsyncable Images
 
 + (UIImage *)unsyncable {
-  return [PEUIUtils bundleImageWithName:@"unsychronization"];
+  return [PEUIUtils bundleImageWithName:@"unsynchronization"];
 }
 
 + (UIImage *)unsyncableIcon {
-  return [PEUIUtils bundleImageWithName:@"unsychronization-icon"];
+  return [PEUIUtils bundleImageWithName:@"unsynchronization-icon"];
 }
 
 + (UIImage *)unsyncableMedIcon {
-  return [PEUIUtils bundleImageWithName:@"unsychronization-med-icon"];
+  return [PEUIUtils bundleImageWithName:@"unsynchronization-med-icon"];
 }
 
 @end

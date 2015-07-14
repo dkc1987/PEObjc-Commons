@@ -24,6 +24,7 @@
 #import "PEUtils.h"
 #import "PEUIUtils.h"
 #import "NSString+PEAdditions.h"
+#import "UIImage+PEAdditions.h"
 #import "PEObjcCommonsConstantsInternal.h"
 #import <JGActionSheet/JGActionSheet.h>
 
@@ -1413,13 +1414,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                     description:alertDescription
                                                 descriptionFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]
                                                 syncIconMessage:syncIconMessage
-                                                  syncImageIcon:[PEUIUtils bundleImageWithName:@"synchronization-med-icon"]
+                                                  syncImageIcon:[UIImage syncableMedIcon]
                                                  relativeToView:relativeToView];
     return [JGActionSheetSection sectionWithTitle:nil
                                           message:nil
                                       contentView:contentView];
-  };
-  
+  };  
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
                          buttonAction:buttonAction
                        relativeToView:relativeToView
