@@ -554,25 +554,25 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
 
 /**
  Left pads label by returning a panel containing a blank view of width padding,
- and label sitting next to it.
- @param label The label to left-pad.
+ and view sitting next to it.
+ @param view The view to left-pad.
  @param padding The padding amount.
  @return a panel containing a blank view of width padding,
- and label sitting next to it.
+ and view sitting next to it.
  */
-+ (UIView *)leftPadLabel:(UILabel *)label
-                 padding:(CGFloat)padding;
++ (UIView *)leftPadView:(UIView *)view
+                padding:(CGFloat)padding;
 
 /**
- Right pads label by returning a panel containing a blank view of width padding,
- and label sitting next to it.
- @param label The label to right-pad.
+ Right pads view by returning a panel containing a blank view of width padding,
+ and view sitting next to it.
+ @param view The view to right-pad.
  @param padding The padding amount.
  @return a panel containing a blank view of width padding,
- and label sitting next to it.
+ and view sitting next to it.
  */
-+ (UIView *)rightPadLabel:(UILabel *)label
-                  padding:(CGFloat)padding;
++ (UIView *)rightPadView:(UIView *)view
+                 padding:(CGFloat)padding;
 
 /**
  *  Sets the text and resizes the given label.
@@ -795,6 +795,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)addDisclosureIndicatorToButton:(UIButton *)button;
 
+#pragma mark - Bundle Image Fetch
+
++ (UIImage *)bundleImageWithName:(NSString *)imageName;
+
 #pragma mark - Panels
 
 /**
@@ -948,6 +952,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                      alertDescription:(NSAttributedString *)alertDescription
                                        relativeToView:(UIView *)relativeToView;
 
++ (JGActionSheetSection *)successAlertSectionWithTitle:(NSString *)title
+                                      alertDescription:(NSAttributedString *)alertDescription
+                                        relativeToView:(UIView *)relativeToView;
+
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -1002,6 +1010,28 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   relativeToView:(UIView *)relativeToView;
 
 /**
+ Displays a success alert dialog with the provided title and message to display.
+ @param msgs A collection of strings to make up the body of the message
+ displayed in the alert.
+ @param title The title for the alert dialog.
+ @param description The description / message text for the alert dialog.
+ @param buttonTitle The title for the button (which dismisses the dialog).
+ @param relativeToView The view the alert dialog is relative to.
+ */
++ (void)showSuccessAlertWithTitle:(NSString *)title
+                 alertDescription:(NSAttributedString *)alertDescription
+                      buttonTitle:(NSString *)buttonTitle
+                     buttonAction:(void(^)(void))buttonAction
+                   relativeToView:(UIView *)relativeToView;
+
++ (void)showLoginSuccessAlertWithTitle:(NSString *)title
+                      alertDescription:(NSAttributedString *)alertDescription
+                       syncIconMessage:(NSAttributedString *)syncIconMessage
+                           buttonTitle:(NSString *)buttonTitle
+                          buttonAction:(void(^)(void))buttonAction
+                        relativeToView:(UIView *)relativeToView;
+
+/**
  Displays a success alert dialog with the provided collection of messages to display.
  @param msgs A collection of strings to make up the body of the message
  displayed in the alert.
@@ -1011,7 +1041,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  @param relativeToView The view the alert dialog is relative to.
  */
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
-                          title:(NSString *)title
+                           title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction

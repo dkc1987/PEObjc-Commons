@@ -69,7 +69,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                          backgroundColor:[UIColor yellowColor]
                                textColor:[UIColor blueColor]
                      verticalTextPadding:4];
-  UIView *lbl1Panel = [PEUIUtils leftPadLabel:lbl1 padding:20.0];
+  UIView *lbl1Panel = [PEUIUtils leftPadView:lbl1 padding:20.0];
   [PEUIUtils placeView:lbl1Panel
             inMiddleOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeCenter
@@ -79,7 +79,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
                       verticalTextPadding:10];
-  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl2 padding:5.0]
+  [PEUIUtils placeView:[PEUIUtils leftPadView:lbl2 padding:5.0]
                atTopOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:0
@@ -89,7 +89,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                             backgroundColor:[UIColor yellowColor]
                                   textColor:[UIColor blueColor]
                         verticalTextPadding:10];
-  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl2_1 padding:5.0]
+  [PEUIUtils placeView:[PEUIUtils leftPadView:lbl2_1 padding:5.0]
                atTopOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:5
@@ -99,7 +99,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
                       verticalTextPadding:20];
-  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl3 padding:15.0]
+  [PEUIUtils placeView:[PEUIUtils leftPadView:lbl3 padding:15.0]
             atBottomOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:0
@@ -109,7 +109,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
                                verticalTextPadding:10];
-  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl3_1 padding:10.0]
+  [PEUIUtils placeView:[PEUIUtils leftPadView:lbl3_1 padding:10.0]
             atBottomOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:10
@@ -119,7 +119,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                           backgroundColor:[UIColor yellowColor]
                                 textColor:[UIColor blueColor]
                       verticalTextPadding:20];
-  [PEUIUtils placeView:[PEUIUtils leftPadLabel:lbl4 padding:15.0]
+  [PEUIUtils placeView:[PEUIUtils leftPadView:lbl4 padding:15.0]
                  above:lbl1Panel
                   onto:pnl
          withAlignment:PEUIHorizontalAlignmentTypeRight
@@ -172,11 +172,29 @@ busy.  Please retry your request shortly."]
                     relativeToView:self.window.rootViewController.view];
 }
 
+- (void)deterministicButtonAction {
+  [PEUIUtils showLoginSuccessAlertWithTitle:@"Login success."
+                           alertDescription:[[NSAttributedString alloc] initWithString:@"\
+You have been successfully logged in.\n\n\
+Your remote account is now connected to\n\
+this device.  Any fuel purchase data that\n\
+you create and save will be synced to your\n\
+remote account."]
+                            syncIconMessage:[[NSAttributedString alloc] initWithString:@"\
+The following icon will appear in the app\n\
+indicating that your are currently logged\n\
+into your remote account:"]
+                                buttonTitle:@"Okay."
+                               buttonAction:nil
+                             relativeToView:self.window.rootViewController.view];
+}
+
 - (UIView *)clusterPanel {
   NSArray *leftBtns = @[[self btnWithKey:@"A Btn"],
                            [self btnWithKey:@"Bluftoni Button"],
                            [self btnWithKey:@"C Button"],
                            [self btnWithKey:@"Deterministic Button"]];
+  [leftBtns[3] addTarget:self action:@selector(deterministicButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[0] addTarget:self action:@selector(aButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[1] addTarget:self action:@selector(bluftoniButtonAction) forControlEvents:UIControlEventTouchUpInside];
   NSArray *rtBtns = @[[self btnWithKey:@"1 Btn"],

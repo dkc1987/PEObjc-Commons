@@ -27,6 +27,8 @@
 #import "PEObjcCommonsConstantsInternal.h"
 #import <JGActionSheet/JGActionSheet.h>
 
+typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
+
 @implementation PEUIUtils
 
 #pragma mark - Validation Utils
@@ -519,25 +521,25 @@
   return label;
 }
 
-+ (UIView *)leftPadLabel:(UILabel *)label
-                 padding:(CGFloat)padding {
-  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + label.frame.size.width
-                                     fixedHeight:label.frame.size.height];
-  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:label.frame.size.height];
++ (UIView *)leftPadView:(UIView *)view
+                padding:(CGFloat)padding {
+  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + view.frame.size.width
+                                     fixedHeight:view.frame.size.height];
+  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:view.frame.size.height];
   [paddingPanel setBackgroundColor:[UIColor clearColor]];
   [PEUIUtils placeView:paddingPanel inMiddleOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:0.0];
-  [PEUIUtils placeView:label toTheRightOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
+  [PEUIUtils placeView:view toTheRightOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
   return panel;
 }
 
-+ (UIView *)rightPadLabel:(UILabel *)label
-                  padding:(CGFloat)padding {
-  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + label.frame.size.width
-                                     fixedHeight:label.frame.size.height];
-  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:label.frame.size.height];
++ (UIView *)rightPadView:(UIView *)view
+                 padding:(CGFloat)padding {
+  UIView *panel = [PEUIUtils panelWithFixedWidth:padding + view.frame.size.width
+                                     fixedHeight:view.frame.size.height];
+  UIView *paddingPanel = [PEUIUtils panelWithFixedWidth:padding fixedHeight:view.frame.size.height];
   [paddingPanel setBackgroundColor:[UIColor clearColor]];
   [PEUIUtils placeView:paddingPanel inMiddleOf:panel withAlignment:PEUIHorizontalAlignmentTypeRight hpadding:0.0];
-  [PEUIUtils placeView:label toTheLeftOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
+  [PEUIUtils placeView:view toTheLeftOf:paddingPanel onto:panel withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:0.0];
   return panel;
 }
 
@@ -899,6 +901,24 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
           descriptionFont:(UIFont *)descriptionFont
               messageIcon:(UIImage *)messageIcon
            relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils panelWithMsgs:msgs
+                            title:title
+                       titleImage:titleImage
+                    topRightImage:nil
+                      description:description
+                  descriptionFont:descriptionFont
+                      messageIcon:messageIcon
+                   relativeToView:relativeToView];
+}
+
++ (UIView *)panelWithMsgs:(NSArray *)msgs
+                    title:(NSString *)title
+               titleImage:(UIImage *)titleImage
+            topRightImage:(UIImage *)topRightImage
+              description:(NSAttributedString *)description
+          descriptionFont:(UIFont *)descriptionFont
+              messageIcon:(UIImage *)messageIcon
+           relativeToView:(UIView *)relativeToView {
   UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
                                      relativeToView:relativeToView
                                         fixedHeight:0];
@@ -911,7 +931,6 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                 backgroundColor:[UIColor clearColor]
                                       textColor:[UIColor blackColor]
                             verticalTextPadding:0.0];
-    // TODO - pad title with 3.0?
     if (titleImage) {
       titleImageView = [[UIImageView alloc] initWithImage:titleImage];
       topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
@@ -943,8 +962,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
                                           verticalTextPadding:0.0];
-  // TODO pad desc with 3.0?
-  [descriptionLbl setLineBreakMode:NSLineBreakByWordWrapping];
+  UIImageView *topRightImageView = nil;
+  if (topRightImage) {
+    topRightImageView = [[UIImageView alloc] initWithImage:topRightImage];
+  }
   UIView *alertPanelsColumn = nil;
   if ([msgs count] > 0) {
     alertPanelsColumn = [PEUIUtils panelWithColumnOfViews:[PEUIUtils alertPanelsForMessages:msgs
@@ -954,11 +975,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                            viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
   }
   CGFloat topPanelVpadding = 3.0;
-  CGFloat descriptionVpadding = 13.0;
   CGFloat panelsVpadding = alertPanelsColumn != nil ? 13.0 : 0.0;
-  // sum the heights of all the sub views.
   CGFloat contentViewHeight = topViewHeight + descriptionLbl.frame.size.height + alertPanelsColumn.frame.size.height;
-  // now include the padding you're going to use when placing them
+  CGFloat descriptionVpadding = 13.0;
   contentViewHeight += topPanelVpadding + descriptionVpadding + panelsVpadding;
   // now add a little bit more height so there's some nice bottom-padding; we'll have more
   // padding for when we have no messages panel-column.
@@ -968,6 +987,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     contentViewHeight += 10.0;
   }
   [PEUIUtils setFrameHeight:contentViewHeight ofView:contentView];
+  if (topRightImageView) {
+    [PEUIUtils placeView:topRightImageView atTopOf:contentView withAlignment:PEUIHorizontalAlignmentTypeRight vpadding:3.0 hpadding:3.0];
+  }
   [PEUIUtils placeView:topPanel
                atTopOf:contentView
          withAlignment:PEUIHorizontalAlignmentTypeLeft
@@ -1070,6 +1092,83 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                             viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
 }
 
++ (UIView *)loginSuccessPanelWithTitle:(NSString *)title
+                           description:(NSAttributedString *)description
+                       descriptionFont:(UIFont *)descriptionFont
+                       syncIconMessage:(NSAttributedString *)syncIconMessage
+                         syncImageIcon:(UIImage *)syncImageIcon
+                        relativeToView:(UIView *)relativeToView {
+  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
+                                     relativeToView:relativeToView
+                                        fixedHeight:0];
+  UIView *topPanel;
+  CGFloat topViewHeight;
+  UIImageView *titleImageView = nil;
+  UILabel *titleLbl = [PEUIUtils labelWithKey:title
+                                         font:[UIFont boldSystemFontOfSize:16]
+                              backgroundColor:[UIColor clearColor]
+                                    textColor:[UIColor blackColor]
+                          verticalTextPadding:0.0];
+  titleImageView = [[UIImageView alloc] initWithImage:[PEUIUtils bundleImageWithName:@"success"]];
+  topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
+                   ? titleImageView.frame.size.height : titleLbl.frame.size.height);
+  topPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:contentView fixedHeight:topViewHeight];
+  [PEUIUtils placeView:titleImageView
+            inMiddleOf:topPanel
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:2.0];
+  [PEUIUtils placeView:titleLbl
+          toTheRightOf:titleImageView
+                  onto:topPanel
+         withAlignment:PEUIVerticalAlignmentTypeMiddle
+              hpadding:8.0];
+  UILabel *descriptionLbl = [PEUIUtils labelWithAttributeText:description
+                                                         font:descriptionFont
+                                              backgroundColor:[UIColor clearColor]
+                                                    textColor:[UIColor blackColor]
+                                          verticalTextPadding:0.0];
+  UILabel *syncIconMessageLbl = [PEUIUtils labelWithAttributeText:syncIconMessage
+                                                             font:descriptionFont
+                                                  backgroundColor:[UIColor clearColor]
+                                                        textColor:[UIColor blackColor]
+                                              verticalTextPadding:0.0];
+  UIImageView *syncMsgIconImageView = [[UIImageView alloc] initWithImage:syncImageIcon];
+  CGFloat topPanelVpadding = 3.0;
+  CGFloat contentViewHeight = topViewHeight + descriptionLbl.frame.size.height + syncIconMessageLbl.frame.size.height + syncMsgIconImageView.frame.size.height;
+  CGFloat descriptionVpadding = 13.0;
+  CGFloat syncIconMessageVpadding = 7.0;
+  CGFloat syncMsgIconImageVpadding = 7.0;
+  contentViewHeight += topPanelVpadding + descriptionVpadding + syncIconMessageVpadding + syncMsgIconImageVpadding;
+  // now add a little bit more height so there's some nice bottom-padding; we'll have more
+  // padding for when we have no messages panel-column.
+  contentViewHeight += 5.0;
+  [PEUIUtils setFrameHeight:contentViewHeight ofView:contentView];
+  [PEUIUtils placeView:topPanel
+               atTopOf:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:topPanelVpadding
+              hpadding:0.0];
+  [PEUIUtils placeView:descriptionLbl
+                 below:topPanel
+                  onto:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:descriptionVpadding
+              hpadding:3.0];
+  [PEUIUtils placeView:syncIconMessageLbl
+                 below:descriptionLbl
+                  onto:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:syncIconMessageVpadding
+              hpadding:0.0];
+  [PEUIUtils placeView:syncMsgIconImageView
+                 below:syncIconMessageLbl
+                  onto:contentView
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:syncMsgIconImageVpadding
+              hpadding:7.0];
+  return contentView;
+}
+
 #pragma mark - Private Alert Helpers
 
 + (UIView *)messagePanelWithTitle:(NSString *)title
@@ -1107,6 +1206,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   return alertPanels;
 }
+
+#pragma mark - Bundle Image Fetch
 
 + (UIImage *)bundleImageWithName:(NSString *)imageName {
   UIImage *image;
@@ -1149,6 +1250,15 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                              description:alertDescription
                                                              messageIcon:[PEUIUtils bundleImageWithName:@"black-dot"]
                                                           relativeToView:relativeToView]];
+}
+
++ (JGActionSheetSection *)successAlertSectionWithTitle:(NSString *)title
+                                      alertDescription:(NSAttributedString *)alertDescription
+                                        relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils successAlertSectionWithMsgs:nil
+                                          title:title
+                               alertDescription:alertDescription
+                                 relativeToView:relativeToView];
 }
 
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
@@ -1245,7 +1355,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showAlertWithButtonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView
-             contentSectionMaker:(JGActionSheetSection *(^)(void))contentSectionMaker {
+             contentSectionMaker:(PEAlertSectionMaker)contentSectionMaker {
   JGActionSheetSection *contentSection = contentSectionMaker();
   JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
                                                                         message:nil
@@ -1277,6 +1387,43 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                                  title:title
                                                                       alertDescription:alertDescription
                                                                         relativeToView:relativeToView]; }];
+}
+
++ (void)showSuccessAlertWithTitle:(NSString *)title
+                 alertDescription:(NSAttributedString *)alertDescription
+                      buttonTitle:(NSString *)buttonTitle
+                     buttonAction:(void(^)(void))buttonAction
+                   relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithTitle:title
+                                                                       alertDescription:alertDescription
+                                                                         relativeToView:relativeToView]; }];
+}
+
++ (void)showLoginSuccessAlertWithTitle:(NSString *)title
+                      alertDescription:(NSAttributedString *)alertDescription
+                       syncIconMessage:(NSAttributedString *)syncIconMessage
+                           buttonTitle:(NSString *)buttonTitle
+                          buttonAction:(void(^)(void))buttonAction
+                        relativeToView:(UIView *)relativeToView {
+  PEAlertSectionMaker alertSectionMaker = ^ JGActionSheetSection * {
+    UIView *contentView = [PEUIUtils loginSuccessPanelWithTitle:title
+                                                    description:alertDescription
+                                                descriptionFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                                syncIconMessage:syncIconMessage
+                                                  syncImageIcon:[PEUIUtils bundleImageWithName:@"synchronization-med-icon"]
+                                                 relativeToView:relativeToView];
+    return [JGActionSheetSection sectionWithTitle:nil
+                                          message:nil
+                                      contentView:contentView];
+  };
+  
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:alertSectionMaker];
 }
 
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
