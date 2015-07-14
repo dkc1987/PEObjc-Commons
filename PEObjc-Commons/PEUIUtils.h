@@ -900,6 +900,47 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   vpadding:(CGFloat)vpadding
                   hpadding:(CGFloat)hpadding;
 
++ (UIView *)panelWithTitle:(NSString *)title
+                titleImage:(UIImage *)titleImage
+               description:(NSAttributedString *)description
+            relativeToView:(UIView *)relativeToView;
+
++ (UIView *)panelWithMsgs:(NSArray *)msgs
+                    title:(NSString *)title
+               titleImage:(UIImage *)titleImage
+              description:(NSAttributedString *)description
+              messageIcon:(UIImage *)messageIcon
+           relativeToView:(UIView *)relativeToView;
+
++ (UIView *)panelWithMsgs:(NSArray *)msgs
+                    title:(NSString *)title
+               titleImage:(UIImage *)titleImage
+              description:(NSAttributedString *)description
+          descriptionFont:(UIFont *)descriptionFont
+              messageIcon:(UIImage *)messageIcon
+           relativeToView:(UIView *)relativeToView;
+
++ (UIView *)failuresPanelWithFailures:(NSArray *)failures
+                                width:(CGFloat)width;
+
++ (UIView *)failuresPanelWithFailures:(NSArray *)failures
+                          description:(NSAttributedString *)description
+                      descriptionFont:(UIFont *)descriptionFont
+                       relativeToView:(UIView *)relativeToView;
+
++ (UIView *)failuresPanelWithFailures:(NSArray *)failures
+                                title:(NSString *)title
+                          description:(NSAttributedString *)description
+                      descriptionFont:(UIFont *)descriptionFont
+                       relativeToView:(UIView *)relativeToView;
+
++ (UIView *)mixedResultsPanelWithSuccessMsgs:(NSArray *)successMsgs
+                                       title:(NSString *)title
+                                 description:(NSAttributedString *)description
+                         failuresDescription:(NSAttributedString *)failuresDescription
+                                    failures:(NSArray *)failures
+                              relativeToView:(UIView *)relativeToView;
+
 #pragma mark - Alert Section Makers
 
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
@@ -921,6 +962,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                               title:(NSString *)title
                                    alertDescription:(NSAttributedString *)alertDescription
                                      relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)dangerAlertSectionWithTitle:(NSString *)title
+                                     alertDescription:(NSAttributedString *)alertDescription
+                                       relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)questionAlertSectionWithTitle:(NSString *)title
                                        alertDescription:(NSAttributedString *)alertDescription
