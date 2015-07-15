@@ -993,6 +993,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 #pragma mark - Showing Alerts
 
++ (void)showAlertWithTitle:(NSString *)title
+                titleImage:(UIImage *)titleImage
+          alertDescription:(NSAttributedString *)alertDescription
+               buttonTitle:(NSString *)buttonTitle
+              buttonAction:(void(^)(void))buttonAction
+            relativeToView:(UIView *)relativeToView;
+
 /**
  Displays a warning alert dialog with the provided collection of messages to display.
  @param msgs A collection of strings to make up the body of the message

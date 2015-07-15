@@ -1375,6 +1375,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 #pragma mark - Showing Alerts
 
++ (void)showAlertWithTitle:(NSString *)title
+                titleImage:(UIImage *)titleImage
+          alertDescription:(NSAttributedString *)alertDescription
+               buttonTitle:(NSString *)buttonTitle
+              buttonAction:(void(^)(void))buttonAction
+            relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:^{ return [PEUIUtils alertSectionWithTitle:title
+                                                                      titleImage:titleImage
+                                                                alertDescription:alertDescription
+                                                                  relativeToView:relativeToView]; }];
+}
+
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
