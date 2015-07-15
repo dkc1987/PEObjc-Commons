@@ -1,5 +1,5 @@
 //
-//  UIImage+PEAdditions.h
+//  UIView+PERoundify.h
 //
 // Copyright (c) 2014-2015 PEObjc-Commons
 //
@@ -23,23 +23,15 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface UIImage (PEAdditions)
+/* http://stackoverflow.com/questions/4847163/round-two-corners-in-uiview */
+@interface UIView (PERoundify)
 
-#pragma mark - Syncable Images
+-(void)addRoundedCorners:(UIRectCorner)corners
+               withRadii:(CGSize)radii;
 
-+ (UIImage *)syncable;
-
-+ (UIImage *)syncableIcon;
-
-+ (UIImage *)syncableMedIcon;
-
-#pragma mark - Unsyncable Images
-
-+ (UIImage *)unsyncable;
-
-+ (UIImage *)unsyncableIcon;
-
-+ (UIImage *)unsyncableMedIcon;
+-(CALayer*)maskForRoundedCorners:(UIRectCorner)corners
+                       withRadii:(CGSize)radii;
 
 @end

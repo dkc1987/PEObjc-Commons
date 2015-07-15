@@ -27,6 +27,7 @@
 		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
 		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
 		CA9C30B01B5597F4009E8AF3 /* UIImage+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */; };
+		CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
 		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 /* End PBXBuildFile section */
@@ -101,6 +102,8 @@
 		CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CA9C30AE1B5597F4009E8AF3 /* UIImage+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PEAdditions.h"; sourceTree = "<group>"; };
 		CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PEAdditions.m"; sourceTree = "<group>"; };
+		CA9C30B21B569A89009E8AF3 /* UIView+PERoundify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PERoundify.h"; sourceTree = "<group>"; };
+		CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PERoundify.m"; sourceTree = "<group>"; };
 		CAA3BDB41B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PEAdditions.h"; sourceTree = "<group>"; };
 		CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PEAdditions.m"; sourceTree = "<group>"; };
 		EEB4277907649C35CBE5D8D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +234,7 @@
 		186348C51A7AB7440090E88D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				CA9C30B11B569A72009E8AF3 /* UIView */,
 				CA9C30AD1B5597DF009E8AF3 /* UIImage */,
 				186348C91A7AB7810090E88D /* NSString */,
 				CAA3BDB31B1FE1C500DC0AF8 /* NSDictionary */,
@@ -375,6 +379,15 @@
 				CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */,
 			);
 			name = UIImage;
+			sourceTree = "<group>";
+		};
+		CA9C30B11B569A72009E8AF3 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				CA9C30B21B569A89009E8AF3 /* UIView+PERoundify.h */,
+				CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */,
+			);
+			name = UIView;
 			sourceTree = "<group>";
 		};
 		CAA3BDB31B1FE1C500DC0AF8 /* NSDictionary */ = {
@@ -565,6 +578,7 @@
 				CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */,
 				186348E31A7AB8A40090E88D /* NSString+PEAdditions.m in Sources */,
 				186348D41A7AB8770090E88D /* PEUIToolkit.m in Sources */,
+				CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */,
 				186348DD1A7AB8940090E88D /* PEHttpUtils.m in Sources */,
 				186348DA1A7AB88D0090E88D /* PEUIUtils.m in Sources */,
 			);

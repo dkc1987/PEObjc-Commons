@@ -1,5 +1,5 @@
 //
-//  UIImage+PEAdditions.h
+//  UIView+PERoundify.m
 //
 // Copyright (c) 2014-2015 PEObjc-Commons
 //
@@ -21,25 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "UIView+PERoundify.h"
 
-@interface UIImage (PEAdditions)
+@implementation UIView (PERoundify)
 
-#pragma mark - Syncable Images
+-(void)addRoundedCorners:(UIRectCorner)corners withRadii:(CGSize)radii {
+  CALayer *tMaskLayer = [self maskForRoundedCorners:corners withRadii:radii];
+  self.layer.mask = tMaskLayer;
+}
 
-+ (UIImage *)syncable;
-
-+ (UIImage *)syncableIcon;
-
-+ (UIImage *)syncableMedIcon;
-
-#pragma mark - Unsyncable Images
-
-+ (UIImage *)unsyncable;
-
-+ (UIImage *)unsyncableIcon;
-
-+ (UIImage *)unsyncableMedIcon;
+-(CALayer*)maskForRoundedCorners:(UIRectCorner)corners withRadii:(CGSize)radii {
+  CAShapeLayer *maskLayer = [CAShapeLayer layer];
+  maskLayer.frame = self.bounds;
+  UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:
+                               maskLayer.bounds byRoundingCorners:corners cornerRadii:radii];
+  maskLayer.fillColor = [[UIColor whiteColor] CGColor];
+  maskLayer.backgroundColor = [[UIColor clearColor] CGColor];
+  maskLayer.path = [roundedPath CGPath];
+  return maskLayer;
+}
 
 @end

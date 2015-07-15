@@ -23,6 +23,7 @@
 
 #import "AppDelegate.h"
 #import "PEUIUtils.h"
+#import "UIView+PERoundify.h"
 
 @implementation AppDelegate
 
@@ -192,8 +193,9 @@ into your remote account:"]
 - (UIView *)clusterPanel {
   NSArray *leftBtns = @[[self btnWithKey:@"A Btn"],
                            [self btnWithKey:@"Bluftoni Button"],
-                           [self btnWithKey:@"C Button"],
+                           [self squareBtnWithKey:@"C Button"],
                            [self btnWithKey:@"Deterministic Button"]];
+  [leftBtns[2] addRoundedCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft withRadii:CGSizeMake(20.0, 20.0)];
   [leftBtns[3] addTarget:self action:@selector(deterministicButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[0] addTarget:self action:@selector(aButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[1] addTarget:self action:@selector(bluftoniButtonAction) forControlEvents:UIControlEventTouchUpInside];
@@ -322,6 +324,7 @@ are as follows:"]
                                                 leftViewPadding:10
                                                         ofWidth:.5
                                                      relativeTo:p1];
+  [tf1 addRoundedCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft withRadii:CGSizeMake(20.0, 20.0)];
   [PEUIUtils placeView:tf1
           toTheRightOf:b1
                   onto:p1
@@ -346,7 +349,7 @@ are as follows:"]
   return p1;
 }
 
- - (UIButton *)btnWithKey:(NSString *)key {
+-(UIButton *)btnWithKey:(NSString *)key {
   return [PEUIUtils buttonWithKey:key
                              font:[UIFont systemFontOfSize:15]
                   backgroundColor:[UIColor blueColor]
@@ -358,7 +361,21 @@ are as follows:"]
                      cornerRadius:3
                            target:self
                            action:@selector(buttonClick)];
- }
+}
+
+-(UIButton *)squareBtnWithKey:(NSString *)key {
+  return [PEUIUtils buttonWithKey:key
+                             font:[UIFont systemFontOfSize:15]
+                  backgroundColor:[UIColor blueColor]
+                        textColor:[UIColor yellowColor]
+     disabledStateBackgroundColor:[UIColor grayColor]
+           disabledStateTextColor:[UIColor grayColor]
+                  verticalPadding:10
+                horizontalPadding:10
+                     cornerRadius:0.0
+                           target:self
+                           action:@selector(buttonClick)];
+}
 
 - (void)buttonClick {
 }
