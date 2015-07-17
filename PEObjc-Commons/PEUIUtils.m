@@ -1137,7 +1137,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   CGFloat topPanelVpadding = 3.0;
   CGFloat contentViewHeight = topViewHeight + descriptionLbl.frame.size.height + syncIconMessageLbl.frame.size.height + syncMsgIconImageView.frame.size.height;
   CGFloat descriptionVpadding = 13.0;
-  CGFloat syncIconMessageVpadding = 7.0;
+  CGFloat syncIconMessageVpadding = 15.0;
   CGFloat syncMsgIconImageVpadding = 7.0;
   contentViewHeight += topPanelVpadding + descriptionVpadding + syncIconMessageVpadding + syncMsgIconImageVpadding;
   // now add a little bit more height so there's some nice bottom-padding; we'll have more
