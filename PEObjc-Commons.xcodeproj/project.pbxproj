@@ -26,6 +26,7 @@
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
 		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
 		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
+		CA97EE491B594881000EC1B3 /* NSMutableArray+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */; };
 		CA9C30B01B5597F4009E8AF3 /* UIImage+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */; };
 		CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
@@ -100,6 +101,8 @@
 		CA90F4281B45CACE005FAB35 /* DemoApp.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.debug.xcconfig; sourceTree = "<group>"; };
 		CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.release.xcconfig; sourceTree = "<group>"; };
 		CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CA97EE471B594881000EC1B3 /* NSMutableArray+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+PEAdditions.h"; sourceTree = "<group>"; };
+		CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+PEAdditions.m"; sourceTree = "<group>"; };
 		CA9C30AE1B5597F4009E8AF3 /* UIImage+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PEAdditions.h"; sourceTree = "<group>"; };
 		CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PEAdditions.m"; sourceTree = "<group>"; };
 		CA9C30B21B569A89009E8AF3 /* UIView+PERoundify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PERoundify.h"; sourceTree = "<group>"; };
@@ -234,6 +237,7 @@
 		186348C51A7AB7440090E88D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				CA97EE461B594863000EC1B3 /* NSMutableArray */,
 				CA9C30B11B569A72009E8AF3 /* UIView */,
 				CA9C30AD1B5597DF009E8AF3 /* UIImage */,
 				186348C91A7AB7810090E88D /* NSString */,
@@ -370,6 +374,15 @@
 				CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */,
 			);
 			name = "Target Support Files";
+			sourceTree = "<group>";
+		};
+		CA97EE461B594863000EC1B3 /* NSMutableArray */ = {
+			isa = PBXGroup;
+			children = (
+				CA97EE471B594881000EC1B3 /* NSMutableArray+PEAdditions.h */,
+				CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */,
+			);
+			name = NSMutableArray;
 			sourceTree = "<group>";
 		};
 		CA9C30AD1B5597DF009E8AF3 /* UIImage */ = {
@@ -579,6 +592,7 @@
 				186348E31A7AB8A40090E88D /* NSString+PEAdditions.m in Sources */,
 				186348D41A7AB8770090E88D /* PEUIToolkit.m in Sources */,
 				CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */,
+				CA97EE491B594881000EC1B3 /* NSMutableArray+PEAdditions.m in Sources */,
 				186348DD1A7AB8940090E88D /* PEHttpUtils.m in Sources */,
 				186348DA1A7AB88D0090E88D /* PEUIUtils.m in Sources */,
 			);
