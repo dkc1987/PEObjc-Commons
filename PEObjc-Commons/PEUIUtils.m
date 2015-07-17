@@ -1390,6 +1390,61 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                   relativeToView:relativeToView]; }];
 }
 
++ (void)showConfirmAlertWithTitle:(NSString *)title
+                       titleImage:(UIImage *)titleImage
+                 alertDescription:(NSAttributedString *)alertDescription
+                  okaybuttonTitle:(NSString *)okayButtonTitle
+                 okaybuttonAction:(void(^)(void))okayButtonAction
+                  okayButtonStyle:(JGActionSheetButtonStyle)okayButtonStyle
+                cancelbuttonTitle:(NSString *)cancelButtonTitle
+               cancelbuttonAction:(void(^)(void))cancelButtonAction
+                 cancelButtonSyle:(JGActionSheetButtonStyle)cancelButtonStyle
+                   relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils alertSectionWithTitle:title
+                                                               titleImage:titleImage
+                                                         alertDescription:alertDescription
+                                                           relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[okayButtonTitle, cancelButtonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [buttonsSection setButtonStyle:okayButtonStyle forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:cancelButtonStyle forButtonAtIndex:1];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    switch (indexPath.row) {
+      case 0:  // okay
+        okayButtonAction();
+        break;
+      case 1:  // cancel
+        cancelButtonAction();
+        break;
+    }
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
++ (void)showWarningConfirmAlertWithTitle:(NSString *)title
+                        alertDescription:(NSAttributedString *)alertDescription
+                         okaybuttonTitle:(NSString *)okayButtonTitle
+                        okaybuttonAction:(void(^)(void))okayButtonAction
+                       cancelbuttonTitle:(NSString *)cancelButtonTitle
+                      cancelbuttonAction:(void(^)(void))cancelButtonAction
+                          relativeToView:(UIView *)relativeToView {
+  [self showConfirmAlertWithTitle:title
+                       titleImage:[PEUIUtils bundleImageWithName:@"warning"]
+                 alertDescription:alertDescription
+                  okaybuttonTitle:okayButtonTitle
+                 okaybuttonAction:okayButtonAction
+                  okayButtonStyle:JGActionSheetButtonStyleRed
+                cancelbuttonTitle:cancelButtonTitle
+               cancelbuttonAction:cancelButtonAction
+                 cancelButtonSyle:JGActionSheetButtonStyleDefault
+                   relativeToView:relativeToView];
+}
+
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription

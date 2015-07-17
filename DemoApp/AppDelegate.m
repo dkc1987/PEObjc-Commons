@@ -210,10 +210,21 @@ into your remote account:"]
   [rtBtns[2] addTarget:self action:@selector(thriceButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[3] addTarget:self action:@selector(quinceButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [rtBtns[4] addTarget:self action:@selector(sixButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [rtBtns[5] addTarget:self action:@selector(sevenButtonAction) forControlEvents:UIControlEventTouchUpInside];
   return [PEUIUtils twoColumnViewCluster:leftBtns
                          withRightColumn:rtBtns
              verticalPaddingBetweenViews:5
          horizontalPaddingBetweenColumns:8];
+}
+
+- (void)sevenButtonAction {
+  [PEUIUtils showWarningConfirmAlertWithTitle:@"You have unsynced edits."
+                             alertDescription:[[NSAttributedString alloc] initWithString:@"You have unsynced edits.  If you log out,\nthey will be permanently deleted.\n\nAre you sure you want to do continue?"]
+                              okaybuttonTitle:@"Yes.  Log me out."
+                             okaybuttonAction:^{ NSLog(@"logging out");}
+                            cancelbuttonTitle:@"Cancel."
+                           cancelbuttonAction:^{ NSLog(@"Canceled.");}
+                               relativeToView:self.window.rootViewController.view];
 }
 
 - (void)quinceButtonAction {
