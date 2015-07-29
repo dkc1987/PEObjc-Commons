@@ -31,7 +31,7 @@
   }
 }
 
-- (void)setSecondsSince1970FromDate:(NSDate *)date forKey:(id<NSCopying>)key {
+- (void)setMillisecondsSince1970FromDate:(NSDate *)date forKey:(id<NSCopying>)key {
   if (date) {
     NSNumber *num = [NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)];
     [self setObject:num forKey:key];
