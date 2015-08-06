@@ -190,15 +190,31 @@ into your remote account:"]
                              relativeToView:self.window.rootViewController.view];
 }
 
+- (void)cButtonAction {
+  [PEUIUtils showWarningConfirmAlertWithMsgs:@[@"15 fuel purchase log records.", @"32 environment log records."]
+                                       title:@"Are you sure?"
+                            alertDescription:[[NSAttributedString alloc] initWithString:@"\
+Deleting this entity will result in the\n\
+following child-items being deleted.\n\n\
+Are you sure you want to continue?"]
+                             okaybuttonTitle:@"Yes, delete."
+                            okaybuttonAction:^{}
+                           cancelbuttonTitle:@"No, cancel."
+                          cancelbuttonAction:^{}
+                              relativeToView:self.window.rootViewController.view];
+}
+
 - (UIView *)clusterPanel {
   NSArray *leftBtns = @[[self btnWithKey:@"A Btn"],
-                           [self btnWithKey:@"Bluftoni Button"],
-                           [self squareBtnWithKey:@"C Button"],
-                           [self btnWithKey:@"Deterministic Button"]];
+                        [self btnWithKey:@"Bluftoni Button"],
+                        [self squareBtnWithKey:@"C Button"],
+                        [self btnWithKey:@"Deterministic Button"]];
   [leftBtns[2] addRoundedCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft withRadii:CGSizeMake(20.0, 20.0)];
   [leftBtns[3] addTarget:self action:@selector(deterministicButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[0] addTarget:self action:@selector(aButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [leftBtns[1] addTarget:self action:@selector(bluftoniButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  [leftBtns[2] addTarget:self action:@selector(cButtonAction) forControlEvents:UIControlEventTouchUpInside];
+  
   NSArray *rtBtns = @[[self btnWithKey:@"1 Btn"],
                          [self btnWithKey:@"Two Button"],
                          [self btnWithKey:@"thrice Button"],

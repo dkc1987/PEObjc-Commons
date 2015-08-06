@@ -1019,6 +1019,15 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                       cancelbuttonAction:(void(^)(void))cancelButtonAction
                           relativeToView:(UIView *)relativeToView;
 
++ (void)showWarningConfirmAlertWithMsgs:(NSArray *)msgs
+                                  title:(NSString *)title
+                       alertDescription:(NSAttributedString *)alertDescription
+                        okaybuttonTitle:(NSString *)buttonTitle
+                       okaybuttonAction:(void(^)(void))buttonAction
+                      cancelbuttonTitle:(NSString *)cancelButtonTitle
+                     cancelbuttonAction:(void(^)(void))cancelButtonAction
+                         relativeToView:(UIView *)relativeToView;
+
 /**
  Displays a warning alert dialog with the provided collection of messages to display.
  @param msgs A collection of strings to make up the body of the message

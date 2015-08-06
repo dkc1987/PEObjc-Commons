@@ -1239,6 +1239,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                            relativeToView:relativeToView]];
 }
 
++ (JGActionSheetSection *)alertSectionWithMsgs:(NSArray *)msgs
+                                         title:(NSString *)title
+                                    titleImage:(UIImage *)titleImage
+                              alertDescription:(NSAttributedString *)alertDescription
+                                relativeToView:(UIView *)relativeToView {
+  return [JGActionSheetSection sectionWithTitle:nil
+                                        message:nil
+                                    contentView:[PEUIUtils panelWithMsgs:msgs
+                                                                   title:title
+                                                              titleImage:titleImage
+                                                             description:alertDescription
+                                                             messageIcon:[PEUIUtils bundleImageWithName:@"black-dot"]
+                                                          relativeToView:relativeToView]];
+}
+
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -1426,6 +1441,44 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [alertSheet showInView:relativeToView animated:YES];
 }
 
++ (void)showConfirmAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                      titleImage:(UIImage *)titleImage
+                alertDescription:(NSAttributedString *)alertDescription
+                 okaybuttonTitle:(NSString *)okayButtonTitle
+                okaybuttonAction:(void(^)(void))okayButtonAction
+                 okayButtonStyle:(JGActionSheetButtonStyle)okayButtonStyle
+               cancelbuttonTitle:(NSString *)cancelButtonTitle
+              cancelbuttonAction:(void(^)(void))cancelButtonAction
+                cancelButtonSyle:(JGActionSheetButtonStyle)cancelButtonStyle
+                  relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils alertSectionWithMsgs:msgs
+                                                                   title:title
+                                                              titleImage:titleImage
+                                                        alertDescription:alertDescription
+                                                          relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[okayButtonTitle, cancelButtonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [buttonsSection setButtonStyle:okayButtonStyle forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:cancelButtonStyle forButtonAtIndex:1];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    switch (indexPath.row) {
+      case 0:  // okay
+        okayButtonAction();
+        break;
+      case 1:  // cancel
+        cancelButtonAction();
+        break;
+    }
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
 + (void)showWarningConfirmAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
                          okaybuttonTitle:(NSString *)okayButtonTitle
@@ -1443,6 +1496,27 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                cancelbuttonAction:cancelButtonAction
                  cancelButtonSyle:JGActionSheetButtonStyleDefault
                    relativeToView:relativeToView];
+}
+
++ (void)showWarningConfirmAlertWithMsgs:(NSArray *)msgs
+                                  title:(NSString *)title
+                       alertDescription:(NSAttributedString *)alertDescription
+                        okaybuttonTitle:(NSString *)okayButtonTitle
+                       okaybuttonAction:(void(^)(void))okayButtonAction
+                      cancelbuttonTitle:(NSString *)cancelButtonTitle
+                     cancelbuttonAction:(void(^)(void))cancelButtonAction
+                         relativeToView:(UIView *)relativeToView {
+  [self showConfirmAlertWithMsgs:msgs
+                           title:title
+                      titleImage:[PEUIUtils bundleImageWithName:@"warning"]
+                alertDescription:alertDescription
+                 okaybuttonTitle:okayButtonTitle
+                okaybuttonAction:okayButtonAction
+                 okayButtonStyle:JGActionSheetButtonStyleRed
+               cancelbuttonTitle:cancelButtonTitle
+              cancelbuttonAction:cancelButtonAction
+                cancelButtonSyle:JGActionSheetButtonStyleDefault
+                  relativeToView:relativeToView];
 }
 
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
