@@ -52,6 +52,8 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
 + (NSDecimalNumber *)nullSafeDecimalNumberFromString:(NSString *)value;
 
++ (NSString *)emptyIfNil:(NSString *)value;
+
 #pragma mark - Notifications
 
 + (void)observeIfNotNilNotificationName:(NSString *)notificationName

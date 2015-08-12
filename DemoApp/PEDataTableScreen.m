@@ -23,6 +23,7 @@
 
 #import "PEDataTableScreen.h"
 #import "PEUIUtils.h"
+#import "PEUtils.h"
 
 @implementation PEDataTableScreen
 
@@ -31,17 +32,22 @@
   [[self view] setBackgroundColor:[UIColor whiteColor]];
   NSArray *rowData = @[@[@"Label 1", @"value 1"],
                        @[@"Label 2", @"value 2.  Yes, I am the value 2 value and I'm very long."],
-                       @[@"Label 3", @"value 3"]];
+                       @[@"Label 3", @"value 3"],
+                       @[@"Label 4", [PEUtils emptyIfNil:nil]]];
   UIView *dataTablePanel = [PEUIUtils tablePanelWithRowData:rowData
-                                             withCellHeight:30.0
+                                             withCellHeight:36.75
                                           labelLeftHPadding:15.0
                                          valueRightHPadding:15.0
+                                                  labelFont:[UIFont systemFontOfSize:18]
+                                                  valueFont:[UIFont systemFontOfSize:18]
+                                             labelTextColor:[UIColor blackColor]
+                                             valueTextColor:[UIColor grayColor]
                              minPaddingBetweenLabelAndValue:10.0
                                           includeTopDivider:YES
                                        includeBottomDivider:YES
                                        includeInnerDividers:YES
                                     innerDividerWidthFactor:0.95
-                                             dividerPadding:1.0
+                                             dividerPadding:3.0
                                     rowPanelBackgroundColor:[UIColor whiteColor]
                                        panelBackgroundColor:[UIColor whiteColor]
                                                dividerColor:[UIColor lightGrayColor]

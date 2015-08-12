@@ -830,6 +830,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
                 includeTopDivider:(BOOL)includeTopDivider
              includeBottomDivider:(BOOL)includeBottomDivider
@@ -862,8 +866,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     [PEUIUtils placeView:topDivider atTopOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:0.0 hpadding:0.0];
   }
   UIView *aboveRowPanel;
-  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..."
-                                        withFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]].width;
+  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
   for (int i = 0; i < numRows; i++) {
     NSArray *cellData = rowData[i];
     NSString *labelStr = cellData[0];
@@ -871,12 +874,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     UIView *rowPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:cellHeight];
     [rowPanel setBackgroundColor:rowPanelPackgroundColor];
     UILabel *label = [PEUIUtils labelWithKey:labelStr
-                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                        font:labelFont
                              backgroundColor:[UIColor clearColor]
-                                   textColor:[UIColor blackColor]
+                                   textColor:labelTextColor
                          verticalTextPadding:0.0];
-    CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr
-                                                    withFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]].width;
+    CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
     CGFloat availableWidth = rowPanel.frame.size.width -
       label.frame.size.width -
       minPaddingBetweenLabelAndValue -
@@ -888,9 +890,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
       valueStr = [[valueStr substringToIndex:allowedNumLetters] stringByAppendingString:@"..."];
     }
     UILabel *value = [PEUIUtils labelWithKey:valueStr
-                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                        font:valueFont
                              backgroundColor:[UIColor clearColor]
-                                   textColor:[UIColor grayColor]
+                                   textColor:valueTextColor
                          verticalTextPadding:0.0];
     [PEUIUtils placeView:label inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:labelLeftHPadding];
     [PEUIUtils placeView:value inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeRight hpadding:valueRightHPadding];

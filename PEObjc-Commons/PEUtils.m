@@ -73,6 +73,13 @@
   return decNum;
 }
 
++ (NSString *)emptyIfNil:(NSString *)value {
+  if (value) {
+    return value;
+  }
+  return @"";
+}
+
 #pragma mark - Notifications
 
 + (void)observeIfNotNilNotificationName:(NSString *)notificationName

@@ -885,6 +885,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
                 includeTopDivider:(BOOL)includeTopDivider
              includeBottomDivider:(BOOL)includeBottomDivider
