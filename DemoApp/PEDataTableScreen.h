@@ -1,5 +1,5 @@
 //
-//  AppDelegate.m
+//  PEDataTableScreen.h
 //
 // Copyright (c) 2014-2015 PEObjc-Commons
 //
@@ -21,21 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AppDelegate.h"
-#import "PEUIUtils.h"
-#import "PEHomeScreen.h"
+#import <UIKit/UIKit.h>
 
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  PEHomeScreen *rootCtrl = [[PEHomeScreen alloc] initWithNibName:nil bundle:nil];
-  [[self window] setRootViewController:[PEUIUtils navigationControllerWithController:rootCtrl
-                                                                 navigationBarHidden:NO]];
-  self.window.backgroundColor = [UIColor whiteColor];
-  [self.window makeKeyAndVisible];
-  return YES;
-}
+@interface PEDataTableScreen : UIViewController
 
 @end

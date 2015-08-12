@@ -826,6 +826,121 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   return mainPanel;
 }
 
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+                   relativeToView:(UIView *)relativeToView {
+  CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
+  NSInteger numRows = [rowData count];
+  CGFloat innerDividerPaddingFactor = includeInnerDividers ? 2.0 : 1.5;
+  CGFloat panelHeight = (includeTopDivider ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : 0) + // top divider and its padding
+    (includeBottomDivider ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : 0) + // bottom divider and its padding
+    (numRows * cellHeight) + // cumulative cell height
+    (includeInnerDividers ? ((numRows - 1) * dividerHeight) : 0) + // cumulative height of inner dividers
+    ((numRows -1) * (innerDividerPaddingFactor * dividerPadding)); // cumulative height of inner divider paddings
+  UIView *panel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:panelHeight];
+  [panel setBackgroundColor:panelBackgroundColor];
+  UIView *divider = nil;
+  UIView *(^makeDivider)(CGFloat) = ^ UIView * (CGFloat widthOf) {
+    UIView *divider = [PEUIUtils panelWithWidthOf:widthOf relativeToView:relativeToView fixedHeight:dividerHeight];
+    [divider setBackgroundColor:dividerColor];
+    return divider;
+  };
+  UIView *topDivider = nil;
+  if (includeTopDivider) {
+    topDivider = makeDivider(1.0);
+    [PEUIUtils placeView:topDivider atTopOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:0.0 hpadding:0.0];
+  }
+  UIView *aboveRowPanel;
+  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..."
+                                        withFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]].width;
+  for (int i = 0; i < numRows; i++) {
+    NSArray *cellData = rowData[i];
+    NSString *labelStr = cellData[0];
+    NSString *valueStr = cellData[1];
+    UIView *rowPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:cellHeight];
+    [rowPanel setBackgroundColor:rowPanelPackgroundColor];
+    UILabel *label = [PEUIUtils labelWithKey:labelStr
+                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                             backgroundColor:[UIColor clearColor]
+                                   textColor:[UIColor blackColor]
+                         verticalTextPadding:0.0];
+    CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr
+                                                    withFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]].width;
+    CGFloat availableWidth = rowPanel.frame.size.width -
+      label.frame.size.width -
+      minPaddingBetweenLabelAndValue -
+      labelLeftHPadding -
+      valueRightHPadding;
+    if (wouldBeWidthOfValueLabel > availableWidth) {
+      CGFloat avgWidthPerLetter = wouldBeWidthOfValueLabel / [valueStr length];
+      NSInteger allowedNumLetters = (availableWidth - widthOfElipses) / avgWidthPerLetter;
+      valueStr = [[valueStr substringToIndex:allowedNumLetters] stringByAppendingString:@"..."];
+    }
+    UILabel *value = [PEUIUtils labelWithKey:valueStr
+                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                             backgroundColor:[UIColor clearColor]
+                                   textColor:[UIColor grayColor]
+                         verticalTextPadding:0.0];
+    [PEUIUtils placeView:label inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:labelLeftHPadding];
+    [PEUIUtils placeView:value inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeRight hpadding:valueRightHPadding];
+    if (i == 0) {
+      if (includeTopDivider) {
+        [PEUIUtils placeView:rowPanel
+                       below:topDivider
+                        onto:panel
+               withAlignment:PEUIHorizontalAlignmentTypeLeft
+                    vpadding:(innerDividerPaddingFactor * dividerPadding)
+                    hpadding:0.0];
+      } else {
+        [PEUIUtils placeView:rowPanel
+                     atTopOf:panel
+               withAlignment:PEUIHorizontalAlignmentTypeLeft
+                    vpadding:0.0
+                    hpadding:0.0];
+      }
+    } else {
+      [PEUIUtils placeView:rowPanel
+                     below:aboveRowPanel
+                      onto:panel
+             withAlignment:PEUIHorizontalAlignmentTypeLeft
+                  vpadding:(includeInnerDividers ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : (innerDividerPaddingFactor * dividerPadding))
+                  hpadding:0.0];
+    }
+    aboveRowPanel = rowPanel;
+    if (includeInnerDividers) {
+      if (i + 1 < numRows) {
+        divider = makeDivider(innerDividerWidthFactor);
+        [PEUIUtils placeView:divider
+                       below:rowPanel
+                        onto:panel
+               withAlignment:PEUIHorizontalAlignmentTypeRight
+                    vpadding:dividerPadding
+                    hpadding:0.0];
+      }
+    }
+  }
+  if (includeBottomDivider) {
+    UIView *bottomDivider = makeDivider(1.0);
+    [PEUIUtils placeView:bottomDivider
+              atBottomOf:panel
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:(innerDividerPaddingFactor * dividerPadding)
+                hpadding:0.0];
+  }
+  return panel;
+}
+
 + (UIView *)panelWithViews:(NSArray *)views
                    ofWidth:(CGFloat)percentage
       vertAlignmentOfViews:(PEUIVerticalAlignmentType)vertAlignment

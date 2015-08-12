@@ -876,6 +876,27 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  horizontalPaddingBetweenColumns:(CGFloat)hpadding;
 
 /**
+ Creates a panel that displays rowData as a 2-dimensional table.
+ @param rowData An array of arrays.  Each array contained in rowData should 
+ consist of exactly 2 elements.  The first element being a label string and the
+ 2nd element being the value string.
+ */
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+                   relativeToView:(UIView *)relativeToView;
+
+/**
  Creates a panel (UIView) that will contain a string of views flowing from left
  to right, with hpadding in-between them.  The string-of-views will be
  horizontally alignment using the given horAlignment, and each individual view
