@@ -223,9 +223,9 @@
 }
 
 + (BOOL)nilSafeIs:(NSObject *)obj1 equalTo:(NSObject *)obj2 {
-  if (obj1 == nil) {
-    return obj2 == nil;
-  } else if (obj2 == nil) {
+  if ([PEUtils isNil:obj1]) {
+    return [PEUtils isNil:obj2];
+  } else if ([PEUtils isNil:obj2]) {
     return false;
   } else {
     return [obj1 isEqual:obj2];
@@ -233,9 +233,9 @@
 }
 
 + (BOOL)isString:(NSString *)str1 equalTo:(NSString *)str2 {
-  if (str1 == nil) {
-    return str2 == nil;
-  } else if (str2 == nil) {
+  if ([PEUtils isNil:str1]) {
+    return [PEUtils isNil:str2];
+  } else if ([PEUtils isNil:str2]) {
     return false;
   } else {
     return [str1 isEqualToString:str2];
@@ -243,9 +243,9 @@
 }
 
 + (BOOL)isNumber:(NSNumber *)num1 equalTo:(NSNumber *)num2 {
-  if (num1 == nil) {
-    return num2 == nil;
-  } else if (num2 == nil) {
+  if ([PEUtils isNil:num1]) {
+    return [PEUtils isNil:num2];
+  } else if ([PEUtils isNil:num2]) {
     return false;
   } else {
     return [num1 isEqualToNumber:num2];
@@ -253,9 +253,9 @@
 }
 
 + (BOOL)isDate:(NSDate *)dt1 equalTo:(NSDate *)dt2 {
-  if (dt1 == nil) {
-    return dt2 == nil;
-  } else if (dt2 == nil) {
+  if ([PEUtils isNil:dt1]) {
+    return [PEUtils isNil:dt2];
+  } else if ([PEUtils isNil:dt2]) {
     return false;
   } else {
     return [dt1 isEqualToDate:dt2];
@@ -263,9 +263,9 @@
 }
 
 + (BOOL)isDate:(NSDate *)dt1 msprecisionEqualTo:(NSDate *)dt2 {
-  if (dt1 == nil) {
-    return dt2 == nil;
-  } else if (dt2 == nil) {
+  if ([PEUtils isNil:dt1]) {
+    return [PEUtils isNil:dt2];
+  } else if ([PEUtils isNil:dt2]) {
     return false;
   } else {
     return llround([dt1 timeIntervalSince1970] * 1000.0) ==
