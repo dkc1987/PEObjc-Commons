@@ -218,6 +218,10 @@
 
 #pragma mark - Equality
 
++ (BOOL)isNil:(id)object {
+  return object == nil || [object isEqual:[NSNull null]];
+}
+
 + (BOOL)nilSafeIs:(NSObject *)obj1 equalTo:(NSObject *)obj2 {
   if (obj1 == nil) {
     return obj2 == nil;

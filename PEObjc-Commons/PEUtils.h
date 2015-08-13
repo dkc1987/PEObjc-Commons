@@ -143,6 +143,11 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 #pragma mark - Equality
 
 /**
+ @return YES If object is nil or equal to [NSNull null]; otherwise returns NO.
+ */
++ (BOOL)isNil:(id)object;
+
+/**
  @return YES If obj1 is equal to obj2, including if both of them are nil.
  */
 + (BOOL)nilSafeIs:(NSObject *)obj1 equalTo:(NSObject *)obj2;
