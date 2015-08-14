@@ -74,10 +74,17 @@
 }
 
 + (NSString *)emptyIfNil:(NSString *)value {
-  if (value) {
-    return value;
+  if ([PEUtils isNil:value]) {
+    return @"";
   }
-  return @"";
+  return value;
+}
+
++ (NSString *)descriptionOrEmptyIfNil:(id)object {
+  if ([PEUtils isNil:object]) {
+    return @"";
+  }
+  return [object description];
 }
 
 #pragma mark - Notifications

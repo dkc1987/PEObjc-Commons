@@ -54,6 +54,8 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
 + (NSString *)emptyIfNil:(NSString *)value;
 
++ (NSString *)descriptionOrEmptyIfNil:(id)object;
+
 #pragma mark - Notifications
 
 + (void)observeIfNotNilNotificationName:(NSString *)notificationName
