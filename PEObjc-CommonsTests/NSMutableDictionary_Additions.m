@@ -30,7 +30,7 @@ context(@"setObjectIfNotNull Tests", ^{
     it(@"Is working for non-nil and nil objects", ^{
         NSMutableDictionary *mutableDictionary =
           [NSMutableDictionary dictionary];
-      [mutableDictionary setObjectIfNotNull:nil forKey:@"keyval"];
+      [mutableDictionary nullSafeSetObject:nil forKey:@"keyval"];
       [[mutableDictionary objectForKey:@"keyval"] shouldBeNil];
     });
   });

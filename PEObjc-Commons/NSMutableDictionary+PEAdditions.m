@@ -31,6 +31,14 @@
   }
 }
 
+- (void)nullSafeSetObject:(id)object forKey:(id<NSCopying>)key {
+  if (object) {
+    [self setObject:object forKey:key];
+  } else {
+    [self setObject:[NSNull null] forKey:key];
+  }
+}
+
 - (void)setMillisecondsSince1970FromDate:(NSDate *)date forKey:(id<NSCopying>)key {
   if (date) {
     NSNumber *num = [NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)];

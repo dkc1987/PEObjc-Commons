@@ -34,6 +34,14 @@
 - (void)setObjectIfNotNull:(id)object forKey:(id<NSCopying>)key;
 
 /**
+ *  Adds object into the dictionary keyed under key.  If object is nil, then
+ *  [NSNull null] will be set as the object.
+ *  @param object The object to add to the dictionary.
+ *  @param key The key for the object.
+ */
+- (void)nullSafeSetObject:(id)object forKey:(id<NSCopying>)key;
+
+/**
  *  Adds an NSNumber representing the number of milliseconds since 1970 that date represents,
  *  into the dictionary keyed under key, only if date is non-nil.  If date is nil,
  *  nothing is done.
