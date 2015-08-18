@@ -1636,6 +1636,90 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   relativeToView:relativeToView];
 }
 
++ (void)showEditConflictAlertWithTitle:(NSString *)title
+                      alertDescription:(NSAttributedString *)alertDescription
+                      mergeButtonTitle:(NSString *)mergeButtonTitle
+                     mergeButtonAction:(void(^)(void))mergeButtonAction
+                    replaceButtonTitle:(NSString *)replaceButtonTitle
+                   replaceButtonAction:(void(^)(void))replaceButtonAction
+             forceSaveLocalButtonTitle:(NSString *)forceSaveButtonTitle
+                 forceSaveButtonAction:(void(^)(void))forceSaveButtonAction
+                     cancelButtonTitle:(NSString *)cancelButtonTitle
+                    cancelButtonAction:(void(^)(void))cancelButtonAction
+                        relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils alertSectionWithTitle:title
+                                                               titleImage:[PEUIUtils bundleImageWithName:@"conflict"]
+                                                         alertDescription:alertDescription
+                                                           relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[mergeButtonTitle, replaceButtonTitle, forceSaveButtonTitle, cancelButtonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:1];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:2];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:3];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    switch (indexPath.row) {
+      case 0:  // merge
+        mergeButtonAction();
+        break;
+      case 1:  // replace local copy with remote copy
+        replaceButtonAction();
+        break;
+      case 2: // force save using local copy
+        forceSaveButtonAction();
+        break;
+      case 3: // cancel
+        cancelButtonAction();
+        break;
+    }
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
++ (void)showDeleteConflictAlertWithTitle:(NSString *)title
+                        alertDescription:(NSAttributedString *)alertDescription
+                      replaceButtonTitle:(NSString *)replaceButtonTitle
+                     replaceButtonAction:(void(^)(void))replaceButtonAction
+             forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
+                 forceDeleteButtonAction:(void(^)(void))forceDeleteButtonAction
+                       cancelButtonTitle:(NSString *)cancelButtonTitle
+                      cancelButtonAction:(void(^)(void))cancelButtonAction
+                          relativeToView:(UIView *)relativeToView {
+  JGActionSheetSection *contentSection = [PEUIUtils alertSectionWithTitle:title
+                                                               titleImage:[PEUIUtils bundleImageWithName:@"conflict"]
+                                                         alertDescription:alertDescription
+                                                           relativeToView:relativeToView];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[replaceButtonTitle, forceDeleteButtonTitle, cancelButtonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:1];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:2];
+  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    switch (indexPath.row) {
+      case 0:  // replace local copy with remote copy
+        replaceButtonAction();
+        break;
+      case 1: // force delete
+        forceDeleteButtonAction();
+        break;
+      case 2: // cancel
+        cancelButtonAction();
+        break;
+    }
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToView animated:YES];
+}
+
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription

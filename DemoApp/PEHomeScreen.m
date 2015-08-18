@@ -366,6 +366,14 @@ are as follows:"]
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:8
               hpadding:0];
+  UIButton *editConflictBtn = [self btnWithKey:@"Edit Conflict"];
+  [editConflictBtn addTarget:self action:@selector(editConflict) forControlEvents:UIControlEventTouchUpInside];
+  [PEUIUtils placeView:editConflictBtn
+                 below:b3
+                  onto:p1
+         withAlignment:PEUIHorizontalAlignmentTypeRight
+              vpadding:8
+              hpadding:0];
   UIButton *b4 = [self btnWithKey:@"4th Btn"];
   [b4 addTarget:self action:@selector(fourthButtonAction) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils placeView:b4
@@ -375,6 +383,32 @@ are as follows:"]
               vpadding:8
               hpadding:15];
   return p1;
+}
+
+- (void)deleteConflict {
+  
+}
+
+- (void)editConflict {
+  NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:@"\
+The remote copy of this entity has been\n\
+updated since you downloaded it.  You have\n\
+a few options:\n\n\
+If you cancel, your local edits will be\n\
+retained."];
+  NSDictionary *attrs = @{ NSFontAttributeName : [UIFont italicSystemFontOfSize:14.0] };
+  [desc setAttributes:attrs range:NSMakeRange(99, 49)];
+  [PEUIUtils showEditConflictAlertWithTitle:@"Conflict."
+                           alertDescription:desc
+                           mergeButtonTitle:@"Merge remote and local, then review."
+                          mergeButtonAction:^{}
+                         replaceButtonTitle:@"Replace local with remote, then review."
+                        replaceButtonAction:^{}
+                  forceSaveLocalButtonTitle:@"I don't care.  Force save my local copy."
+                      forceSaveButtonAction:^{}
+                          cancelButtonTitle:@"Cancel.  I'll deal with this later."
+                         cancelButtonAction:^{}
+                             relativeToView:self.view];
 }
 
 -(UIButton *)btnWithKey:(NSString *)key {

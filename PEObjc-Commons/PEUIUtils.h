@@ -1053,6 +1053,28 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      cancelbuttonAction:(void(^)(void))cancelButtonAction
                          relativeToView:(UIView *)relativeToView;
 
++ (void)showEditConflictAlertWithTitle:(NSString *)title
+                      alertDescription:(NSAttributedString *)alertDescription
+                      mergeButtonTitle:(NSString *)mergeButtonTitle
+                     mergeButtonAction:(void(^)(void))mergeButtonAction
+                    replaceButtonTitle:(NSString *)replaceButtonTitle
+                   replaceButtonAction:(void(^)(void))replaceButtonAction
+             forceSaveLocalButtonTitle:(NSString *)forceSaveButtonTitle
+                 forceSaveButtonAction:(void(^)(void))forceSaveButtonAction
+                     cancelButtonTitle:(NSString *)cancelButtonTitle
+                    cancelButtonAction:(void(^)(void))cancelButtonAction
+                        relativeToView:(UIView *)relativeToView;
+
++ (void)showDeleteConflictAlertWithTitle:(NSString *)title
+                        alertDescription:(NSAttributedString *)alertDescription
+                      replaceButtonTitle:(NSString *)replaceButtonTitle
+                     replaceButtonAction:(void(^)(void))replaceButtonAction
+             forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
+                 forceDeleteButtonAction:(void(^)(void))forceDeleteButtonAction
+                       cancelButtonTitle:(NSString *)cancelButtonTitle
+                      cancelButtonAction:(void(^)(void))cancelButtonAction
+                          relativeToView:(UIView *)relativeToView;
+
 /**
  Displays a warning alert dialog with the provided collection of messages to display.
  @param msgs A collection of strings to make up the body of the message
