@@ -22,7 +22,31 @@
 // THE SOFTWARE.
 
 #import "PELangDummyCar.h"
+#import "PEUtils.h"
 
 @implementation PELangDummyCar
+
+#pragma mark - Equality
+
+- (BOOL)isEqualToDummyCar:(PELangDummyCar *)dummyCar {
+  if (!dummyCar) { return NO; }
+  return [PEUtils isString:[self paintColor] equalTo:[dummyCar paintColor]] &&
+    [PEUtils isNumProperty:@selector(horsepower) equalFor:self and:dummyCar] &&
+    [PEUtils isBoolProperty:@selector(cleanHistory) equalFor:self and:dummyCar] &&
+    [PEUtils isDateProperty:@selector(productionDate) msprecisionEqualFor:self and:dummyCar];
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)object {
+  if (self == object) { return YES; }
+  if (![object isKindOfClass:[PELangDummyCar class]]) { return NO; }
+  return [self isEqualToDummyCar:object];
+}
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"paintColor: [%@], horsepower: [%@], cleanHistory: [%d], productionDate: [%@]",
+          _paintColor, _horsepower, _cleanHistory, _productionDate];
+}
 
 @end

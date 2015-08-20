@@ -33,4 +33,8 @@
 
 @property (nonatomic) BOOL cleanHistory;
 
+#pragma mark - Equality
+
+- (BOOL)isEqualToDummyCar:(PELangDummyCar *)dummyCar;
+
 @end

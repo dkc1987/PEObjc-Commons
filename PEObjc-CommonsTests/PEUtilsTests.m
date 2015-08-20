@@ -27,6 +27,81 @@
 
 SPEC_BEGIN(PEUtilsSpec)
 
+PELangDummyCar * (^newCar)(NSString *, NSString *, NSString *, BOOL) =
+^(NSString *paintColor,
+  NSString *horsepower,
+  NSString *prodDtStr,
+  BOOL cleanHistory) {
+  PELangDummyCar *car = [[PELangDummyCar alloc] init];
+  [car setPaintColor:paintColor];
+  [car setHorsepower:[NSDecimalNumber decimalNumberWithString:horsepower]];
+  [car setProductionDate:[PEUtils
+                          dateFromString:prodDtStr
+                          withPattern:@"MM-dd-YYYY"]];
+  [car setCleanHistory:cleanHistory];
+  return car;
+};
+
+void (^mergeTest)(PELangDummyCar *, PELangDummyCar *, PELangDummyCar *, PELangDummyCar *, BOOL) = ^ (PELangDummyCar *localMaster,
+                                                                                                     PELangDummyCar *local,
+                                                                                                     PELangDummyCar *remote,
+                                                                                                     PELangDummyCar *expectedMergedResult,
+                                                                                                     BOOL expectedIsMergeConflict) {
+  BOOL isMergeConflict;
+  isMergeConflict = [PEUtils mergeRemoteObject:remote
+                               withLocalObject:local
+                           previousLocalObject:localMaster
+                       getterSetterComparators:@[@[[NSValue valueWithPointer:@selector(paintColor)],
+                                                   [NSValue valueWithPointer:@selector(setPaintColor:)],
+                                                   ^(SEL getter, id obj1, id obj2) {return [PEUtils isStringProperty:getter equalFor:obj1 and:obj2];},
+                                                   ^(PELangDummyCar * localObject, PELangDummyCar * remoteObject) { [localObject setPaintColor:[remoteObject paintColor]];},
+                                                   ^(id localObject, id remoteObject) {}],
+                                                 @[[NSValue valueWithPointer:@selector(horsepower)],
+                                                   [NSValue valueWithPointer:@selector(setHorsepower:)],
+                                                   ^(SEL getter, id obj1, id obj2) {return [PEUtils isNumProperty:getter equalFor:obj1 and:obj2];},
+                                                   ^(PELangDummyCar * localObject, PELangDummyCar * remoteObject) { [localObject setHorsepower:[remoteObject horsepower]];},
+                                                   ^(PELangDummyCar * localObject, PELangDummyCar * remoteObject) { [localObject setHorsepower:[NSDecimalNumber decimalNumberWithString:@"-1.11"]];}],
+                                                 @[[NSValue valueWithPointer:@selector(cleanHistory)],
+                                                   [NSValue valueWithPointer:@selector(setCleanHistory:)],
+                                                   ^(SEL getter, id obj1, id obj2) {return [PEUtils isBoolProperty:getter equalFor:obj1 and:obj2];},
+                                                   ^(PELangDummyCar * localObject, PELangDummyCar * remoteObject) { [localObject setCleanHistory:[remoteObject cleanHistory]];},
+                                                   ^(id localObject, id remoteObject) {}],
+                                                 @[[NSValue valueWithPointer:@selector(productionDate)],
+                                                   [NSValue valueWithPointer:@selector(setProductionDate:)],
+                                                   ^(SEL getter, id obj1, id obj2) {return [PEUtils isDateProperty:getter msprecisionEqualFor:obj1 and:obj2];},
+                                                   ^(PELangDummyCar * localObject, PELangDummyCar * remoteObject) { [localObject setProductionDate:[remoteObject productionDate]];},
+                                                   ^(id localObject, id remoteObject) {}]]];
+  [[theValue(isMergeConflict) should] equal:theValue(expectedIsMergeConflict)];
+  [[local should] equal:expectedMergedResult];
+};
+
+context(@"Merging", ^{
+  it(@"works when remote hasn't changed, but local has changed", ^{
+    PELangDummyCar *localMaster = newCar(@"blue", @"300.50", @"01-23-1978", YES);
+    PELangDummyCar *local = newCar(@"orange", @"300.50", @"01-23-1978", YES);
+    PELangDummyCar *remote = newCar(@"blue", @"300.50", @"01-23-1978", YES);
+    mergeTest(localMaster, local, remote,
+              newCar(@"orange", @"300.50", @"01-23-1978", YES),
+              NO);
+  });
+  it(@"works when remote and local have both changed, but are still mergable", ^{
+    PELangDummyCar *localMaster = newCar(@"blue", @"300.50", @"01-23-1978", YES);
+    PELangDummyCar *local = newCar(@"orange", @"300.50", @"01-23-1978", NO);
+    PELangDummyCar *remote = newCar(@"blue", @"302.75", @"01-23-1978", NO);
+    mergeTest(localMaster, local, remote,
+              newCar(@"orange", @"302.75", @"01-23-1978", NO),
+              NO);
+  });
+  it(@"works when remote and local have both changed, but are NOT fully mergable", ^{
+    PELangDummyCar *localMaster = newCar(@"blue", @"300.50", @"01-23-1978", YES);
+    PELangDummyCar *local = newCar(@"orange", @"225.85", @"01-23-1978", NO);
+    PELangDummyCar *remote = newCar(@"blue", @"302.75", @"01-23-1978", NO);
+    mergeTest(localMaster, local, remote,
+              newCar(@"orange", @"-1.11", @"01-23-1978", NO),
+              YES);
+  });
+});
+
 context(@"Address helpers", ^{
   it(@"is working", ^{
     [[[PEUtils addressStringFromStreet:@"5 Main St." city:@"Albany" state:@"NY" zip:@"12309"] should]
@@ -45,21 +120,6 @@ context(@"Address helpers", ^{
 });
 
 context(@"Equality Helpers", ^{
-  PELangDummyCar * (^newCar)(NSString *, NSString *, NSString *, BOOL) =
-  ^(NSString *paintColor,
-    NSString *horsepower,
-    NSString *prodDtStr,
-    BOOL cleanHistory) {
-    PELangDummyCar *car = [[PELangDummyCar alloc] init];
-    [car setPaintColor:paintColor];
-    [car setHorsepower:[NSDecimalNumber decimalNumberWithString:horsepower]];
-    [car setProductionDate:[PEUtils
-                            dateFromString:prodDtStr
-                            withPattern:@"MM-dd-YYYY"]];
-    [car setCleanHistory:cleanHistory];
-    return car;
-  };
-
   it(@"works when properties are non-nil and equal", ^{
     PELangDummyCar *car1 = newCar(@"blue", @"300.50", @"01-23-1978", YES);
     PELangDummyCar *car2 = newCar(@"blue", @"300.5", @"01-23-1978", YES);

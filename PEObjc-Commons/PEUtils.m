@@ -41,6 +41,81 @@
   return deviceMake;
 }
 
+#pragma mark - Merging
+
++ (BOOL)mergeRemoteObject:(id)remoteObject
+          withLocalObject:(id)localObject
+      previousLocalObject:(id)previousLocalObject
+                   getter:(SEL)getter
+                   setter:(SEL)setter
+               comparator:(BOOL(^)(SEL, id, id))comparator
+   replaceLocalWithRemote:(void(^)(id, id))replaceLocalWithRemote
+            mergeConflict:(void(^)(id, id))mergeConflict {
+  BOOL isMergeConflict = NO;
+  if (comparator(getter, localObject, previousLocalObject)) {
+    // because we haven't changed the property locally at all, we'll just
+    // use remote's property value no matter what.
+    replaceLocalWithRemote(localObject, remoteObject);
+  } else { // local has changed...
+    // because previousLocalObject is a reflection of some previous copy of the
+    // remote object, we can use it to deduce if remoteObject's property
+    // represents a change in itself or not.
+    BOOL remoteHasChanged = !comparator(getter, previousLocalObject, remoteObject);
+    if (remoteHasChanged) {
+      if (!comparator(getter, localObject, remoteObject)) {
+        isMergeConflict = YES;
+        mergeConflict(localObject, remoteObject);
+      }
+    }
+  }
+  return isMergeConflict;
+}
+
++ (BOOL)mergeRemoteObject:(id)remoteObject
+          withLocalObject:(id)localObject
+      previousLocalObject:(id)previousLocalObject
+  getterSetterComparators:(NSArray *)getterSetterComparators {
+  BOOL isMergeConflict = NO;
+  for (NSArray *getterSetterComparator in getterSetterComparators) {
+    NSValue *getterPtrVal = getterSetterComparator[0];
+    NSValue *setterPtrVal = getterSetterComparator[1];
+    SEL getter = [getterPtrVal pointerValue];
+    SEL setter = [setterPtrVal pointerValue];
+    BOOL(^comparator)(SEL, id, id) = getterSetterComparator[2];
+    void(^replaceLocalWithRemote)(id, id) = getterSetterComparator[3];
+    void(^mergeConflict)(id, id) = getterSetterComparator[4];
+    isMergeConflict = isMergeConflict || [PEUtils mergeRemoteObject:remoteObject
+                                                    withLocalObject:localObject
+                                                previousLocalObject:previousLocalObject
+                                                             getter:getter
+                                                             setter:setter
+                                                         comparator:comparator
+                                             replaceLocalWithRemote:replaceLocalWithRemote
+                                                      mergeConflict:mergeConflict];
+  }
+  return isMergeConflict;
+}
+
+#pragma mark - Dynamic Invocation
+
++ (BOOL)boolValueForTarget:(id)object selector:(SEL)selector {
+  NSInvocationOperation *invocationOp =
+    [[NSInvocationOperation alloc] initWithTarget:object selector:selector object:nil];
+  NSInvocation *invocation = [invocationOp invocation];
+  BOOL boolVal;
+  [invocation invoke];
+  [invocation getReturnValue:&boolVal];
+  return boolVal;
+}
+
++ (void)setBoolValueForTarget:(id)object selector:(SEL)selector value:(BOOL)value {
+  NSInvocationOperation *invocationOp =
+  [[NSInvocationOperation alloc] initWithTarget:object selector:selector object:nil];
+  NSInvocation *invocation = [invocationOp invocation];
+  [invocation setArgument:&value atIndex:2];
+  [invocation invoke];
+}
+
 #pragma mark - String
 
 + (NSString *)concat:(NSArray *)msgs {

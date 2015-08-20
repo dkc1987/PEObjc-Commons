@@ -38,6 +38,28 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 /** @return Helper that returns the device make / model name. */
 + (NSString *)deviceMake;
 
+#pragma mark - Merging
+
++ (BOOL)mergeRemoteObject:(id)remoteObject
+          withLocalObject:(id)localObject
+      previousLocalObject:(id)previousLocalObject
+                   getter:(SEL)getter
+                   setter:(SEL)setter
+               comparator:(BOOL(^)(SEL, id, id))comparator
+   replaceLocalWithRemote:(void(^)(id, id))replaceLocalWithRemote
+            mergeConflict:(void(^)(id, id))mergeConflict;
+
++ (BOOL)mergeRemoteObject:(id)remoteObject
+          withLocalObject:(id)localObject
+      previousLocalObject:(id)previousLocalObject
+  getterSetterComparators:(NSArray *)getterSetterComparators;
+
+#pragma mark - Dynamic Invocation
+
++ (BOOL)boolValueForTarget:(id)object selector:(SEL)selector;
+
++ (void)setBoolValueForTarget:(id)object selector:(SEL)selector value:(BOOL)value;
+
 #pragma mark - String
 
 /**
