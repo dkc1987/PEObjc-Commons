@@ -40,19 +40,19 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
 #pragma mark - Merging
 
-+ (BOOL)mergeRemoteObject:(id)remoteObject
++ (void)mergeRemoteObject:(id)remoteObject
           withLocalObject:(id)localObject
       previousLocalObject:(id)previousLocalObject
                    getter:(SEL)getter
                    setter:(SEL)setter
                comparator:(BOOL(^)(SEL, id, id))comparator
    replaceLocalWithRemote:(void(^)(id, id))replaceLocalWithRemote
-            mergeConflict:(void(^)(id, id))mergeConflict;
+            mergeConflict:(void(^)(void))mergeConflict;
 
-+ (BOOL)mergeRemoteObject:(id)remoteObject
-          withLocalObject:(id)localObject
-      previousLocalObject:(id)previousLocalObject
-  getterSetterComparators:(NSArray *)getterSetterComparators;
++ (NSDictionary *)mergeRemoteObject:(id)remoteObject
+                    withLocalObject:(id)localObject
+                previousLocalObject:(id)previousLocalObject
+        getterSetterKeysComparators:(NSArray *)getterSetterKeysComparators;
 
 #pragma mark - Dynamic Invocation
 

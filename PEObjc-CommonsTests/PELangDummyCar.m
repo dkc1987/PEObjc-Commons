@@ -24,6 +24,11 @@
 #import "PELangDummyCar.h"
 #import "PEUtils.h"
 
+NSString * const PECarPaintColorField = @"PECarPaintColorField";
+NSString * const PECarHorsepowerField = @"PECarHorsepowerField";
+NSString * const PECarProductionDateField = @"PECarProductionDateField";
+NSString * const PECarCleanHistoryField = @"PECarCleanHistoryField";
+
 @implementation PELangDummyCar
 
 #pragma mark - Equality

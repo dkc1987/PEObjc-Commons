@@ -43,15 +43,14 @@
 
 #pragma mark - Merging
 
-+ (BOOL)mergeRemoteObject:(id)remoteObject
++ (void)mergeRemoteObject:(id)remoteObject
           withLocalObject:(id)localObject
       previousLocalObject:(id)previousLocalObject
                    getter:(SEL)getter
                    setter:(SEL)setter
                comparator:(BOOL(^)(SEL, id, id))comparator
    replaceLocalWithRemote:(void(^)(id, id))replaceLocalWithRemote
-            mergeConflict:(void(^)(id, id))mergeConflict {
-  BOOL isMergeConflict = NO;
+            mergeConflict:(void(^)(void))mergeConflict {
   if (comparator(getter, localObject, previousLocalObject)) {
     // because we haven't changed the property locally at all, we'll just
     // use remote's property value no matter what.
@@ -63,37 +62,35 @@
     BOOL remoteHasChanged = !comparator(getter, previousLocalObject, remoteObject);
     if (remoteHasChanged) {
       if (!comparator(getter, localObject, remoteObject)) {
-        isMergeConflict = YES;
-        mergeConflict(localObject, remoteObject);
+        mergeConflict();
       }
     }
   }
-  return isMergeConflict;
 }
 
-+ (BOOL)mergeRemoteObject:(id)remoteObject
-          withLocalObject:(id)localObject
-      previousLocalObject:(id)previousLocalObject
-  getterSetterComparators:(NSArray *)getterSetterComparators {
-  BOOL isMergeConflict = NO;
-  for (NSArray *getterSetterComparator in getterSetterComparators) {
++ (NSDictionary *)mergeRemoteObject:(id)remoteObject
+                    withLocalObject:(id)localObject
+                previousLocalObject:(id)previousLocalObject
+        getterSetterKeysComparators:(NSArray *)getterSetterKeysComparators {
+  NSMutableDictionary *mergeConflicts = [NSMutableDictionary dictionary];
+  for (NSArray *getterSetterComparator in getterSetterKeysComparators) {
     NSValue *getterPtrVal = getterSetterComparator[0];
     NSValue *setterPtrVal = getterSetterComparator[1];
     SEL getter = [getterPtrVal pointerValue];
     SEL setter = [setterPtrVal pointerValue];
     BOOL(^comparator)(SEL, id, id) = getterSetterComparator[2];
     void(^replaceLocalWithRemote)(id, id) = getterSetterComparator[3];
-    void(^mergeConflict)(id, id) = getterSetterComparator[4];
-    isMergeConflict = isMergeConflict || [PEUtils mergeRemoteObject:remoteObject
-                                                    withLocalObject:localObject
-                                                previousLocalObject:previousLocalObject
-                                                             getter:getter
-                                                             setter:setter
-                                                         comparator:comparator
-                                             replaceLocalWithRemote:replaceLocalWithRemote
-                                                      mergeConflict:mergeConflict];
+    NSString *mergeConflictFieldKey = getterSetterComparator[4];
+    [PEUtils mergeRemoteObject:remoteObject
+               withLocalObject:localObject
+           previousLocalObject:previousLocalObject
+                        getter:getter
+                        setter:setter
+                    comparator:comparator
+        replaceLocalWithRemote:replaceLocalWithRemote
+                 mergeConflict:^{ mergeConflicts[mergeConflictFieldKey] = @(YES); }];
   }
-  return isMergeConflict;
+  return mergeConflicts;
 }
 
 #pragma mark - Dynamic Invocation

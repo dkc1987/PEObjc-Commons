@@ -23,6 +23,11 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXPORT NSString * const PECarPaintColorField;
+FOUNDATION_EXPORT NSString * const PECarHorsepowerField;
+FOUNDATION_EXPORT NSString * const PECarProductionDateField;
+FOUNDATION_EXPORT NSString * const PECarCleanHistoryField;
+
 @interface PELangDummyCar : NSObject
 
 @property (nonatomic) NSString *paintColor;
