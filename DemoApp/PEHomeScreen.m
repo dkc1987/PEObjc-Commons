@@ -130,6 +130,7 @@
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are very important!"]
+                             topInset:70.0
                           buttonTitle:@"Okay."
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -141,6 +142,7 @@ are very important!"]
                    alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are very important!"]
+                           topInset:70.0
                         buttonTitle:@"Okay."
                        buttonAction:^{ NSLog(@"alert button tapped."); }
                      relativeToView:self.view];
@@ -152,6 +154,7 @@ are very important!"]
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are very important!"]
+                             topInset:70.0
                           buttonTitle:@"Okay."
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -162,6 +165,7 @@ are very important!"]
                              title:@"Server Busy."
                   alertDescription:[[NSAttributedString alloc] initWithString:@"We apologize, but the server is currently\n\
 busy.  Please retry your request shortly."]
+                          topInset:70.0
                        buttonTitle:@"Okay."
                       buttonAction:^{ NSLog(@"alert button tapped."); }
                     relativeToView:self.view];
@@ -179,6 +183,7 @@ remote account."]
 The following icon will appear in the app\n\
 indicating that your are currently logged\n\
 into your remote account:"]
+                                   topInset:70.0
                                 buttonTitle:@"Okay."
                                buttonAction:nil
                              relativeToView:self.view];
@@ -191,10 +196,11 @@ into your remote account:"]
 Deleting this entity will result in the\n\
 following child-items being deleted.\n\n\
 Are you sure you want to continue?"]
-                             okaybuttonTitle:@"Yes, delete."
-                            okaybuttonAction:^{}
-                           cancelbuttonTitle:@"No, cancel."
-                          cancelbuttonAction:^{}
+                                    topInset:70.0
+                             okayButtonTitle:@"Yes, delete."
+                            okayButtonAction:^{}
+                           cancelButtonTitle:@"No, cancel."
+                          cancelButtonAction:^{}
                               relativeToView:self.view];
 }
 
@@ -238,10 +244,11 @@ Are you sure you want to continue?"]
   [PEUIUtils showWarningConfirmAlertWithTitle:@"You have unsynced edits."
                              alertDescription:[[NSAttributedString alloc] initWithString:@"You have unsynced edits.  If you log out,\n\
 they will be permanently deleted.\n\nAre you sure you want to do continue?"]
-                              okaybuttonTitle:@"Yes.  Log me out."
-                             okaybuttonAction:^{ NSLog(@"logging out");}
-                            cancelbuttonTitle:@"Cancel."
-                           cancelbuttonAction:^{ NSLog(@"Canceled.");}
+                                     topInset:70.0
+                              okayButtonTitle:@"Yes.  Log me out."
+                             okayButtonAction:^{ NSLog(@"logging out");}
+                            cancelButtonTitle:@"Cancel."
+                           cancelButtonAction:^{ NSLog(@"Canceled.");}
                                relativeToView:self.view];
 }
 
@@ -251,6 +258,7 @@ they will be permanently deleted.\n\nAre you sure you want to do continue?"]
                                                @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
                                        title:@"Multiple Errors."
                             alertDescription:[[NSAttributedString alloc] initWithString:@"None of your entities could be saved."]
+                                    topInset:70.0
                                  buttonTitle:@"Okay."
                                 buttonAction:^{ NSLog(@"alert button tapped."); }
                               relativeToView:self.view];
@@ -272,6 +280,7 @@ records.  The successful syncs are:"];
                                                 failures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
                                                            @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
                                                            @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
+                                                topInset:70.0
                                              buttonTitle:@"Okay."
                                             buttonAction:^{ NSLog(@"alert button tapped."); }
                                           relativeToView:self.view];
@@ -281,6 +290,7 @@ records.  The successful syncs are:"];
   [PEUIUtils showWarningAlertWithMsgs:@[@"message 1"]
                                 title:@"This is a warning dialog."
                      alertDescription:[[NSAttributedString alloc] initWithString:@"There are some validation errors:"]
+                             topInset:70.0
                           buttonTitle:@"Okey Dokey"
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -292,6 +302,7 @@ records.  The successful syncs are:"];
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are as follows:"]
+                             topInset:70.0
                           buttonTitle:@"Okey Dokey"
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -303,6 +314,7 @@ are as follows:"]
                    alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are as follows:"]
+                           topInset:70.0
                         buttonTitle:@"Okay."
                        buttonAction:^{ NSLog(@"alert button tapped."); }
                      relativeToView:self.view];
@@ -314,6 +326,7 @@ are as follows:"]
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are as follows:"]
+                             topInset:70.0
                           buttonTitle:@"Okay."
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -325,6 +338,7 @@ are as follows:"]
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
 some things I need to tell you, and they\n\
 are as follows:"]
+                             topInset:70.0
                           buttonTitle:@"Okay."
                          buttonAction:^{ NSLog(@"alert button tapped."); }
                        relativeToView:self.view];
@@ -400,8 +414,51 @@ retained."];
   [desc setAttributes:attrs range:NSMakeRange(99, 49)];
   [PEUIUtils showEditConflictAlertWithTitle:@"Conflict."
                            alertDescription:desc
+                                   topInset:70.0
                            mergeButtonTitle:@"Merge remote and local, then review."
-                          mergeButtonAction:^{}
+                          mergeButtonAction:^ (UIView *alertSection) {
+                            NSString *desc = @"\
+Use the form below to resolve the\n\
+merge conflicts.";
+                            NSArray *fields;
+                            fields = @[@[@"Name", @(16), @"300zx", @"Fairlady Z"],
+                                       @[@"Default octane", @(17), @"19.1", @"19.2"]];
+                            [PEUIUtils showConflictResolverWithTitle:@"Conflict resolver."
+                                                    alertDescription:[[NSAttributedString alloc] initWithString:desc]
+                                               conflictResolveFields:fields
+                                                      withCellHeight:36.75
+                                                   labelLeftHPadding:5.0
+                                                  valueRightHPadding:8.0
+                                                           labelFont:[UIFont systemFontOfSize:14]
+                                                           valueFont:[UIFont systemFontOfSize:14]
+                                                      labelTextColor:[UIColor darkGrayColor]
+                                                      valueTextColor:[UIColor darkGrayColor]
+                                      minPaddingBetweenLabelAndValue:10.0
+                                                   includeTopDivider:NO
+                                                includeBottomDivider:NO
+                                                includeInnerDividers:YES
+                                             innerDividerWidthFactor:0.967
+                                                      dividerPadding:3.0
+                                             rowPanelBackgroundColor:[UIColor clearColor]
+                                                panelBackgroundColor:[UIColor whiteColor]
+                                                        dividerColor:[UIColor lightGrayColor]
+                                                            topInset:70.0
+                                                     okayButtonTitle:@"Okay.  Merge 'em!"
+                                                    okayButtonAction:^(NSArray *valueLabels) {
+                                                      NSInteger numValueLabels = [valueLabels count];
+                                                      for (int i = 0; i < numValueLabels; i++) {
+                                                        NSArray *valueLabelPair = valueLabels[i];
+                                                        UILabel *localValue = valueLabelPair[0];
+                                                        UILabel *remoteValue = valueLabelPair[1];
+                                                        NSLog(@"For field [%d], localValue text is: [%@] and tag is: [%ld]", i, localValue.text, (long)localValue.tag);
+                                                        NSLog(@"For field [%d], remoteValue text is: [%@] and tag is: [%ld]\n", i, remoteValue.text, (long)remoteValue.tag);
+                                                      }
+                                                    }
+                                                   cancelButtonTitle:@"Cancel.  I'll deal with this later."
+                                                  cancelButtonAction:^{}
+                                             relativeToViewForLayout:alertSection
+                                                relativeToViewForPop:self.view];
+                          }
                          replaceButtonTitle:@"Replace local with remote, then review."
                         replaceButtonAction:^{}
                   forceSaveLocalButtonTitle:@"I don't care.  Force save my local copy."

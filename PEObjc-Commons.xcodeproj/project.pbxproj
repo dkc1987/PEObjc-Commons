@@ -26,6 +26,8 @@
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
 		CA2AC91B1B7A90A200192E76 /* PEHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */; };
 		CA2AC91F1B7A946F00192E76 /* PEDataTableScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */; };
+		CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228801B8BB89600896679 /* libBlocksKit.a */; };
+		CA6228831B8BB89A00896679 /* libJGActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228821B8BB89A00896679 /* libJGActionSheet.a */; };
 		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
 		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
 		CA97EE491B594881000EC1B3 /* NSMutableArray+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */; };
@@ -101,12 +103,17 @@
 		CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEHomeScreen.m; sourceTree = "<group>"; };
 		CA2AC91D1B7A946F00192E76 /* PEDataTableScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEDataTableScreen.h; sourceTree = "<group>"; };
 		CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEDataTableScreen.m; sourceTree = "<group>"; };
+		CA62287E1B8BB7E900896679 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		CA6228801B8BB89600896679 /* libBlocksKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBlocksKit.a; path = "Pods/../build/Debug-iphoneos/libBlocksKit.a"; sourceTree = "<group>"; };
+		CA6228821B8BB89A00896679 /* libJGActionSheet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJGActionSheet.a; path = "Pods/../build/Debug-iphoneos/libJGActionSheet.a"; sourceTree = "<group>"; };
 		CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "PEObjc-Commons.bundle"; sourceTree = "<group>"; };
 		CA7BA2691B4CC85000CCB7FB /* PEObjcCommonsConstantsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PEObjcCommonsConstantsInternal.h; sourceTree = "<group>"; };
 		CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CA90F4281B45CACE005FAB35 /* DemoApp.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.debug.xcconfig; sourceTree = "<group>"; };
 		CA90F4291B45CACE005FAB35 /* DemoApp.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DemoApp.release.xcconfig; sourceTree = "<group>"; };
 		CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CA95FA741B8BB73A007A9351 /* libBlocksKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBlocksKit.a; path = "Pods/../build/Debug-iphoneos/libBlocksKit.a"; sourceTree = "<group>"; };
+		CA95FA761B8BB73F007A9351 /* libJGActionSheet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJGActionSheet.a; path = "Pods/../build/Debug-iphoneos/libJGActionSheet.a"; sourceTree = "<group>"; };
 		CA97EE471B594881000EC1B3 /* NSMutableArray+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+PEAdditions.h"; sourceTree = "<group>"; };
 		CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+PEAdditions.m"; sourceTree = "<group>"; };
 		CA9C30AE1B5597F4009E8AF3 /* UIImage+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PEAdditions.h"; sourceTree = "<group>"; };
@@ -141,6 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA6228831B8BB89A00896679 /* libJGActionSheet.a in Frameworks */,
+				CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */,
 				1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +357,11 @@
 		B1C0A59BBC8FEE1B450C69AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA6228821B8BB89A00896679 /* libJGActionSheet.a */,
+				CA6228801B8BB89600896679 /* libBlocksKit.a */,
+				CA62287E1B8BB7E900896679 /* libPods.a */,
+				CA95FA761B8BB73F007A9351 /* libJGActionSheet.a */,
+				CA95FA741B8BB73A007A9351 /* libBlocksKit.a */,
 				CA90F42C1B45CE02005FAB35 /* SenTestingKit.framework */,
 				186348FA1A7AB94D0090E88D /* Foundation.framework */,
 				186348F81A7AB92B0090E88D /* UIKit.framework */,
@@ -805,16 +819,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = DemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -826,12 +838,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = DemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

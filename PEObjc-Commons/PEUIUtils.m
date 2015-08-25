@@ -27,6 +27,7 @@
 #import "UIImage+PEAdditions.h"
 #import "PEObjcCommonsConstantsInternal.h"
 #import <JGActionSheet/JGActionSheet.h>
+#import <BlocksKit/UIControl+BlocksKit.h>
 
 typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
@@ -466,9 +467,16 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   return image;
 }
 
-+ (void)applyBorderToView:(UIView *)view withColor:(UIColor *)color {
++ (void)applyBorderToView:(UIView *)view
+                withColor:(UIColor *)color {
+  [PEUIUtils applyBorderToView:view withColor:color width:1.0];
+}
+
++ (void)applyBorderToView:(UIView *)view
+                withColor:(UIColor *)color
+                    width:(CGFloat)width {
   view.layer.borderColor = color.CGColor;
-  view.layer.borderWidth = 1.0f;
+  view.layer.borderWidth = width;
 }
 
 #pragma mark - Label maker helper
@@ -724,9 +732,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [[btn titleLabel] setLineBreakMode:NSLineBreakByWordWrapping];
   [[btn titleLabel] setTextAlignment:NSTextAlignmentCenter];
   [btn setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
-  [btn addTarget:target
-          action:action
-       forControlEvents:UIControlEventTouchUpInside];
+  if (target) {
+    [btn addTarget:target
+            action:action
+        forControlEvents:UIControlEventTouchUpInside];
+  }
   return btn;
 }
 
@@ -737,6 +747,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [disclosure setFrame:[button bounds]];
   [disclosure setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
   [disclosure setUserInteractionEnabled:NO];
+}
+
++ (void)setBackgroundColorOfButton:(UIButton *)button
+                             color:(UIColor *)color {
+  UIImage *bgColorAsImgNormState = [PEUIUtils imageWithColor:color];
+  [button setBackgroundImage:bgColorAsImgNormState forState:UIControlStateNormal];
 }
 
 #pragma mark - Panels
@@ -1210,6 +1226,217 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                             viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
 }
 
++ (NSArray *)conflictResolvePanelWithFields:(NSArray *)fields
+                             withCellHeight:(CGFloat)cellHeight
+                          labelLeftHPadding:(CGFloat)labelLeftHPadding
+                         valueRightHPadding:(CGFloat)valueRightHPadding
+                                  labelFont:(UIFont *)labelFont
+                                  valueFont:(UIFont *)valueFont
+                             labelTextColor:(UIColor *)labelTextColor
+                             valueTextColor:(UIColor *)valueTextColor
+             minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                          includeTopDivider:(BOOL)includeTopDivider
+                       includeBottomDivider:(BOOL)includeBottomDivider
+                       includeInnerDividers:(BOOL)includeInnerDividers
+                    innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                             dividerPadding:(CGFloat)dividerPadding
+                    rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                       panelBackgroundColor:(UIColor *)panelBackgroundColor
+                               dividerColor:(UIColor *)dividerColor
+                             relativeToView:(UIView *)relativeToView {
+  CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
+  NSInteger numRows = [fields count];
+  CGFloat rowContainerHeightFactor = 1.2;
+  CGFloat paddingBetweenRowPanels = 5.0;
+  CGFloat innerDividerPaddingFactor = includeInnerDividers ? 2.0 : 1.5;
+  CGFloat panelHeight = (includeTopDivider ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : 0) + // top divider and its padding
+    (includeBottomDivider ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : 0) + // bottom divider and its padding
+    (numRows * (2 * (paddingBetweenRowPanels + (rowContainerHeightFactor * cellHeight)))) + // cumulative cell height
+    (includeInnerDividers ? ((numRows - 1) * dividerHeight) : 0) + // cumulative height of inner dividers
+    ((numRows -1) * (innerDividerPaddingFactor * dividerPadding)); // cumulative height of inner divider paddings
+  UIView *panel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:panelHeight];
+  [panel setBackgroundColor:panelBackgroundColor];
+  UIView *divider = nil;
+  UIView *(^makeDivider)(CGFloat) = ^ UIView * (CGFloat widthOf) {
+    UIView *divider = [PEUIUtils panelWithWidthOf:widthOf relativeToView:relativeToView fixedHeight:dividerHeight];
+    [divider setBackgroundColor:dividerColor];
+    return divider;
+  };
+  UIView *topDivider = nil;
+  if (includeTopDivider) {
+    topDivider = makeDivider(1.0);
+    [PEUIUtils placeView:topDivider atTopOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:0.0 hpadding:0.0];
+  }
+  UIView *aboveRowPanel;
+  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
+  UILabel *(^makeLabel)(NSString *, UIFont *, UIColor *) = ^ (NSString *fieldLabelStr, UIFont *font, UIColor *textColor) {
+    return [PEUIUtils labelWithKey:fieldLabelStr
+                              font:font
+                   backgroundColor:[UIColor clearColor]
+                         textColor:textColor
+               verticalTextPadding:0.0];
+  };
+  NSString *(^truncateValueString)(CGFloat, NSString *) = ^(CGFloat availableWidth, NSString *valueStr) {
+    CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
+    if (wouldBeWidthOfValueLabel > availableWidth) {
+      CGFloat avgWidthPerLetter = wouldBeWidthOfValueLabel / [valueStr length];
+      NSInteger allowedNumLetters = (availableWidth - widthOfElipses) / avgWidthPerLetter;
+      valueStr = [[valueStr substringToIndex:allowedNumLetters] stringByAppendingString:@"..."];
+    }
+    return valueStr;
+  };
+  CGFloat rowPanelContainerWidthFactor = 0.967;
+  CGFloat rowPanelWidthFactor = 0.825;
+  UIColor *selectedColor = [UIColor blueColor];
+  UIColor *unselectedColor = [UIColor darkGrayColor];
+  NSArray *(^makeRowPanel)(NSString *,
+                          NSString *,
+                          NSString *) = ^(NSString *fieldName,
+                                          NSString *valueStr,
+                                          NSString *indicatorStr) {
+    UIView *rowPanel = [PEUIUtils panelWithWidthOf:rowPanelWidthFactor relativeToView:panel fixedHeight:cellHeight];
+    [rowPanel setBackgroundColor:rowPanelPackgroundColor];
+    CGFloat rowPanelContainerHeight = rowContainerHeightFactor * rowPanel.frame.size.height;
+    UIView *rowPanelContainer = [PEUIUtils panelWithWidthOf:rowPanelContainerWidthFactor relativeToView:panel fixedHeight:rowPanelContainerHeight];
+    [rowPanelContainer setBackgroundColor:[UIColor clearColor]];
+    [PEUIUtils applyBorderToView:rowPanel withColor:selectedColor width:3.0];
+    UILabel *localLabel = makeLabel(fieldName, labelFont, labelTextColor);
+    CGFloat availableWidth = rowPanel.frame.size.width -
+    localLabel.frame.size.width -
+    minPaddingBetweenLabelAndValue -
+    labelLeftHPadding -
+    valueRightHPadding;
+    valueStr = truncateValueString(availableWidth, valueStr);
+    UILabel *value = makeLabel(valueStr, valueFont, valueTextColor);
+    UILabel *ind = makeLabel(indicatorStr, [UIFont systemFontOfSize:11.0], selectedColor);
+    // http://stackoverflow.com/questions/13670181/how-can-i-remove-uilabels-gray-border-on-the-right-side
+    [ind setBackgroundColor:[UIColor clearColor]];
+    [[ind layer] setBackgroundColor:[UIColor whiteColor].CGColor];
+    UIButton *useBtn = [PEUIUtils buttonWithKey:@"Use"
+                                           font:[UIFont systemFontOfSize:14]
+                                backgroundColor:selectedColor
+                                      textColor:[UIColor whiteColor]
+                   disabledStateBackgroundColor:nil
+                         disabledStateTextColor:nil
+                                verticalPadding:5.0
+                              horizontalPadding:12.0
+                                   cornerRadius:3.0
+                                         target:nil
+                                         action:nil];
+    [PEUIUtils setFrameHeight:rowPanel.frame.size.height ofView:useBtn];
+    [PEUIUtils placeView:localLabel inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeLeft hpadding:labelLeftHPadding];
+    [PEUIUtils placeView:value inMiddleOf:rowPanel withAlignment:PEUIHorizontalAlignmentTypeRight hpadding:valueRightHPadding];
+    [PEUIUtils placeView:rowPanel atBottomOf:rowPanelContainer withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:0.0 hpadding:0.0];
+    [PEUIUtils placeView:ind atTopOf:rowPanelContainer withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:1.0 hpadding:20.0];
+    [PEUIUtils placeView:useBtn atBottomOf:rowPanelContainer withAlignment:PEUIHorizontalAlignmentTypeRight vpadding:0.0 hpadding:1.0];
+    return @[rowPanelContainer, rowPanel, useBtn, ind, value];
+  };
+  NSMutableArray *valueLabels = [NSMutableArray arrayWithCapacity:numRows];
+  for (int i = 0; i < numRows; i++) {
+    NSArray *field = fields[i];
+    NSString *fieldName = field[0];
+    NSInteger fieldTagValue = [field[1] integerValue];
+    NSString *localValueStr = field[2];
+    NSString *remoteValueStr = field[3];
+    NSArray *localRowArray = makeRowPanel(fieldName, localValueStr, @" Local ");
+    NSArray *remoteRowArray = makeRowPanel(fieldName, remoteValueStr, @" Remote ");
+    UIView *localRowContainerPanel = localRowArray[0];
+    UIView *remoteRowContainerPanel = remoteRowArray[0];
+    UIView *localRowPanel = localRowArray[1];
+    UIView *remoteRowPanel = remoteRowArray[1];
+    UIButton *useLocalBtn = localRowArray[2];
+    UIButton *useRemoteBtn = remoteRowArray[2];
+    UILabel *localInd = localRowArray[3];
+    UILabel *remoteInd = remoteRowArray[3];
+    UILabel *localValue = localRowArray[4];
+    UILabel *remoteValue = remoteRowArray[4];
+    valueLabels[i] = @[localValue, remoteValue];
+    [localValue setTag:fieldTagValue];
+    [PEUIUtils applyBorderToView:remoteRowPanel withColor:unselectedColor];
+    [PEUIUtils setBackgroundColorOfButton:useRemoteBtn color:unselectedColor];
+    [remoteInd setTextColor:unselectedColor];
+    [useLocalBtn bk_addEventHandler:^(id sender) {
+      [PEUIUtils applyBorderToView:localRowPanel withColor:selectedColor width:3.0];
+      [PEUIUtils setBackgroundColorOfButton:useLocalBtn color:selectedColor];
+      [localInd setTextColor:selectedColor];
+      [localValue setTag:fieldTagValue];
+      
+      [PEUIUtils applyBorderToView:remoteRowPanel withColor:unselectedColor];
+      [PEUIUtils setBackgroundColorOfButton:useRemoteBtn color:unselectedColor];
+      [remoteInd setTextColor:unselectedColor];
+      [remoteValue setTag:0];
+    } forControlEvents:UIControlEventTouchUpInside];
+    [useRemoteBtn bk_addEventHandler:^(id sender) {
+      [PEUIUtils applyBorderToView:localRowPanel withColor:unselectedColor];
+      [PEUIUtils setBackgroundColorOfButton:useLocalBtn color:unselectedColor];
+      [localInd setTextColor:unselectedColor];
+      [localValue setTag:0];
+      
+      [PEUIUtils applyBorderToView:remoteRowPanel withColor:selectedColor width:3.0];
+      [PEUIUtils setBackgroundColorOfButton:useRemoteBtn color:selectedColor];
+      [remoteInd setTextColor:selectedColor];
+      [remoteValue setTag:fieldTagValue];
+    } forControlEvents:UIControlEventTouchUpInside];
+    UIView *rowPanelContainer = [PEUIUtils panelWithFixedWidth:localRowContainerPanel.frame.size.width
+                                                   fixedHeight:((localRowContainerPanel.frame.size.height * 2) + paddingBetweenRowPanels)];
+    [PEUIUtils placeView:localRowContainerPanel
+                 atTopOf:rowPanelContainer
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:0.0
+                hpadding:0.0];
+    [PEUIUtils placeView:remoteRowContainerPanel
+                   below:localRowContainerPanel
+                    onto:rowPanelContainer
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:0.0
+                hpadding:0.0];
+    if (i == 0) {
+      if (includeTopDivider) {
+        [PEUIUtils placeView:rowPanelContainer
+                       below:topDivider
+                        onto:panel
+               withAlignment:PEUIHorizontalAlignmentTypeLeft
+                    vpadding:(innerDividerPaddingFactor * dividerPadding)
+                    hpadding:0.0];
+      } else {
+        [PEUIUtils placeView:rowPanelContainer
+                     atTopOf:panel
+               withAlignment:PEUIHorizontalAlignmentTypeLeft
+                    vpadding:0.0
+                    hpadding:0.0];
+      }
+    } else {
+      [PEUIUtils placeView:rowPanelContainer
+                     below:aboveRowPanel
+                      onto:panel
+             withAlignment:PEUIHorizontalAlignmentTypeLeft
+                  vpadding:(includeInnerDividers ? (dividerHeight + (innerDividerPaddingFactor * dividerPadding)) : (innerDividerPaddingFactor * dividerPadding))
+                  hpadding:0.0];
+    }
+    aboveRowPanel = rowPanelContainer;
+    if (includeInnerDividers) {
+      if (i + 1 < numRows) {
+        divider = makeDivider(innerDividerWidthFactor);
+        [PEUIUtils placeView:divider
+                       below:rowPanelContainer
+                        onto:panel
+               withAlignment:PEUIHorizontalAlignmentTypeRight
+                    vpadding:dividerPadding
+                    hpadding:0.0];
+      }
+    }
+  }
+  if (includeBottomDivider) {
+    UIView *bottomDivider = makeDivider(1.0);
+    [PEUIUtils placeView:bottomDivider
+              atBottomOf:panel
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:(innerDividerPaddingFactor * dividerPadding)
+                hpadding:0.0];
+  }
+  return @[panel, valueLabels];
+}
+
 + (UIView *)loginSuccessPanelWithTitle:(NSString *)title
                            description:(NSAttributedString *)description
                        descriptionFont:(UIFont *)descriptionFont
@@ -1483,9 +1710,52 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                              relativeToView:relativeToView]];
 }
 
++ (NSArray *)conflictResolveAlertSectionWithFields:(NSArray *)fields
+                                    withCellHeight:(CGFloat)cellHeight
+                                 labelLeftHPadding:(CGFloat)labelLeftHPadding
+                                valueRightHPadding:(CGFloat)valueRightHPadding
+                                         labelFont:(UIFont *)labelFont
+                                         valueFont:(UIFont *)valueFont
+                                    labelTextColor:(UIColor *)labelTextColor
+                                    valueTextColor:(UIColor *)valueTextColor
+                    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                                 includeTopDivider:(BOOL)includeTopDivider
+                              includeBottomDivider:(BOOL)includeBottomDivider
+                              includeInnerDividers:(BOOL)includeInnerDividers
+                           innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                                    dividerPadding:(CGFloat)dividerPadding
+                           rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                              panelBackgroundColor:(UIColor *)panelBackgroundColor
+                                      dividerColor:(UIColor *)dividerColor
+                                    relativeToView:(UIView *)relativeToView {
+  NSArray *conflictResolvePanelArray = [PEUIUtils conflictResolvePanelWithFields:fields
+                                                                  withCellHeight:cellHeight
+                                                               labelLeftHPadding:labelLeftHPadding
+                                                              valueRightHPadding:valueRightHPadding
+                                                                       labelFont:labelFont
+                                                                       valueFont:valueFont
+                                                                  labelTextColor:labelTextColor
+                                                                  valueTextColor:valueTextColor
+                                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
+                                                               includeTopDivider:includeTopDivider
+                                                            includeBottomDivider:includeBottomDivider
+                                                            includeInnerDividers:includeInnerDividers
+                                                         innerDividerWidthFactor:innerDividerWidthFactor
+                                                                  dividerPadding:dividerPadding
+                                                         rowPanelBackgroundColor:rowPanelPackgroundColor
+                                                            panelBackgroundColor:panelBackgroundColor
+                                                                    dividerColor:dividerColor
+                                                                  relativeToView:relativeToView];
+  JGActionSheetSection *section = [JGActionSheetSection sectionWithTitle:nil
+                                                                 message:nil
+                                                             contentView:conflictResolvePanelArray[0]];
+  return @[section, conflictResolvePanelArray[1]];
+}
+
 #pragma mark - Showing Alert Helper
 
 + (void)showAlertWithButtonTitle:(NSString *)buttonTitle
+                        topInset:(CGFloat)topInset
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView
              contentSectionMaker:(PEAlertSectionMaker)contentSectionMaker {
@@ -1495,7 +1765,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                    buttonTitles:@[buttonTitle]
                                                                     buttonStyle:JGActionSheetButtonStyleDefault];
   JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     [sheet dismissAnimated:YES];
     if (buttonAction) {
@@ -1510,10 +1780,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showAlertWithTitle:(NSString *)title
                 titleImage:(UIImage *)titleImage
           alertDescription:(NSAttributedString *)alertDescription
+                  topInset:(CGFloat)topInset
                buttonTitle:(NSString *)buttonTitle
               buttonAction:(void(^)(void))buttonAction
             relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils alertSectionWithTitle:title
@@ -1525,11 +1797,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showConfirmAlertWithTitle:(NSString *)title
                        titleImage:(UIImage *)titleImage
                  alertDescription:(NSAttributedString *)alertDescription
-                  okaybuttonTitle:(NSString *)okayButtonTitle
-                 okaybuttonAction:(void(^)(void))okayButtonAction
+                         topInset:(CGFloat)topInset
+                  okayButtonTitle:(NSString *)okayButtonTitle
+                 okayButtonAction:(void(^)(void))okayButtonAction
                   okayButtonStyle:(JGActionSheetButtonStyle)okayButtonStyle
-                cancelbuttonTitle:(NSString *)cancelButtonTitle
-               cancelbuttonAction:(void(^)(void))cancelButtonAction
+                cancelButtonTitle:(NSString *)cancelButtonTitle
+               cancelButtonAction:(void(^)(void))cancelButtonAction
                  cancelButtonSyle:(JGActionSheetButtonStyle)cancelButtonStyle
                    relativeToView:(UIView *)relativeToView {
   JGActionSheetSection *contentSection = [PEUIUtils alertSectionWithTitle:title
@@ -1543,7 +1816,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
   [buttonsSection setButtonStyle:okayButtonStyle forButtonAtIndex:0];
   [buttonsSection setButtonStyle:cancelButtonStyle forButtonAtIndex:1];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
       case 0:  // okay
@@ -1562,6 +1835,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            title:(NSString *)title
                       titleImage:(UIImage *)titleImage
                 alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
                  okaybuttonTitle:(NSString *)okayButtonTitle
                 okaybuttonAction:(void(^)(void))okayButtonAction
                  okayButtonStyle:(JGActionSheetButtonStyle)okayButtonStyle
@@ -1581,7 +1855,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
   [buttonsSection setButtonStyle:okayButtonStyle forButtonAtIndex:0];
   [buttonsSection setButtonStyle:cancelButtonStyle forButtonAtIndex:1];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
       case 0:  // okay
@@ -1598,19 +1872,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showWarningConfirmAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
-                         okaybuttonTitle:(NSString *)okayButtonTitle
-                        okaybuttonAction:(void(^)(void))okayButtonAction
-                       cancelbuttonTitle:(NSString *)cancelButtonTitle
-                      cancelbuttonAction:(void(^)(void))cancelButtonAction
+                                topInset:(CGFloat)topInset
+                         okayButtonTitle:(NSString *)okayButtonTitle
+                        okayButtonAction:(void(^)(void))okayButtonAction
+                       cancelButtonTitle:(NSString *)cancelButtonTitle
+                      cancelButtonAction:(void(^)(void))cancelButtonAction
                           relativeToView:(UIView *)relativeToView {
   [self showConfirmAlertWithTitle:title
                        titleImage:[PEUIUtils bundleImageWithName:@"warning"]
                  alertDescription:alertDescription
-                  okaybuttonTitle:okayButtonTitle
-                 okaybuttonAction:okayButtonAction
+                         topInset:topInset
+                  okayButtonTitle:okayButtonTitle
+                 okayButtonAction:okayButtonAction
                   okayButtonStyle:JGActionSheetButtonStyleRed
-                cancelbuttonTitle:cancelButtonTitle
-               cancelbuttonAction:cancelButtonAction
+                cancelButtonTitle:cancelButtonTitle
+               cancelButtonAction:cancelButtonAction
                  cancelButtonSyle:JGActionSheetButtonStyleDefault
                    relativeToView:relativeToView];
 }
@@ -1618,15 +1894,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showWarningConfirmAlertWithMsgs:(NSArray *)msgs
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
-                        okaybuttonTitle:(NSString *)okayButtonTitle
-                       okaybuttonAction:(void(^)(void))okayButtonAction
-                      cancelbuttonTitle:(NSString *)cancelButtonTitle
-                     cancelbuttonAction:(void(^)(void))cancelButtonAction
+                               topInset:(CGFloat)topInset
+                        okayButtonTitle:(NSString *)okayButtonTitle
+                       okayButtonAction:(void(^)(void))okayButtonAction
+                      cancelButtonTitle:(NSString *)cancelButtonTitle
+                     cancelButtonAction:(void(^)(void))cancelButtonAction
                          relativeToView:(UIView *)relativeToView {
   [self showConfirmAlertWithMsgs:msgs
                            title:title
                       titleImage:[PEUIUtils bundleImageWithName:@"warning"]
                 alertDescription:alertDescription
+                        topInset:topInset
                  okaybuttonTitle:okayButtonTitle
                 okaybuttonAction:okayButtonAction
                  okayButtonStyle:JGActionSheetButtonStyleRed
@@ -1638,8 +1916,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showEditConflictAlertWithTitle:(NSString *)title
                       alertDescription:(NSAttributedString *)alertDescription
+                              topInset:(CGFloat)topInset
                       mergeButtonTitle:(NSString *)mergeButtonTitle
-                     mergeButtonAction:(void(^)(void))mergeButtonAction
+                     mergeButtonAction:(void(^)(UIView *))mergeButtonAction
                     replaceButtonTitle:(NSString *)replaceButtonTitle
                    replaceButtonAction:(void(^)(void))replaceButtonAction
              forceSaveLocalButtonTitle:(NSString *)forceSaveButtonTitle
@@ -1660,11 +1939,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:1];
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:2];
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:3];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
+  __weak JGActionSheetSection *weakContentSection = contentSection;
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
       case 0:  // merge
-        mergeButtonAction();
+        mergeButtonAction(weakContentSection);
         break;
       case 1:  // replace local copy with remote copy
         replaceButtonAction();
@@ -1683,6 +1963,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showDeleteConflictAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
+                                topInset:(CGFloat)topInset
                       replaceButtonTitle:(NSString *)replaceButtonTitle
                      replaceButtonAction:(void(^)(void))replaceButtonAction
              forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
@@ -1702,7 +1983,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:1];
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:2];
-  [alertSheet setInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
       case 0:  // replace local copy with remote copy
@@ -1720,13 +2001,86 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [alertSheet showInView:relativeToView animated:YES];
 }
 
++ (void)showConflictResolverWithTitle:(NSString *)title
+                     alertDescription:(NSAttributedString *)alertDescription
+                conflictResolveFields:(NSArray *)conflictResolveFields
+                       withCellHeight:(CGFloat)cellHeight
+                    labelLeftHPadding:(CGFloat)labelLeftHPadding
+                   valueRightHPadding:(CGFloat)valueRightHPadding
+                            labelFont:(UIFont *)labelFont
+                            valueFont:(UIFont *)valueFont
+                       labelTextColor:(UIColor *)labelTextColor
+                       valueTextColor:(UIColor *)valueTextColor
+       minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                    includeTopDivider:(BOOL)includeTopDivider
+                 includeBottomDivider:(BOOL)includeBottomDivider
+                 includeInnerDividers:(BOOL)includeInnerDividers
+              innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                       dividerPadding:(CGFloat)dividerPadding
+              rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                 panelBackgroundColor:(UIColor *)panelBackgroundColor
+                         dividerColor:(UIColor *)dividerColor
+                             topInset:(CGFloat)topInset
+                      okayButtonTitle:(NSString *)okayButtonTitle
+                     okayButtonAction:(void(^)(NSArray *))okayButtonAction
+                    cancelButtonTitle:(NSString *)cancelButtonTitle
+                   cancelButtonAction:(void(^)(void))cancelButtonAction
+              relativeToViewForLayout:(UIView *)relativeToViewForLayout
+                 relativeToViewForPop:(UIView *)relativeToViewForPop {
+  JGActionSheetSection *descriptionSection = [PEUIUtils alertSectionWithTitle:title
+                                                                   titleImage:[PEUIUtils bundleImageWithName:@"conflict-resolve"]
+                                                             alertDescription:alertDescription
+                                                               relativeToView:relativeToViewForPop];
+  NSArray *conflictResolveSectionArray = [PEUIUtils conflictResolveAlertSectionWithFields:conflictResolveFields
+                                                                           withCellHeight:cellHeight
+                                                                        labelLeftHPadding:labelLeftHPadding
+                                                                       valueRightHPadding:valueRightHPadding
+                                                                                labelFont:labelFont
+                                                                                valueFont:valueFont
+                                                                           labelTextColor:labelTextColor
+                                                                           valueTextColor:valueTextColor
+                                                           minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
+                                                                        includeTopDivider:includeTopDivider
+                                                                     includeBottomDivider:includeBottomDivider
+                                                                     includeInnerDividers:includeInnerDividers
+                                                                  innerDividerWidthFactor:innerDividerWidthFactor
+                                                                           dividerPadding:dividerPadding
+                                                                  rowPanelBackgroundColor:rowPanelPackgroundColor
+                                                                     panelBackgroundColor:panelBackgroundColor
+                                                                             dividerColor:dividerColor
+                                                                           relativeToView:relativeToViewForLayout];
+  JGActionSheetSection *conflictResolveSection = conflictResolveSectionArray[0];
+  JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
+                                                                        message:nil
+                                                                   buttonTitles:@[okayButtonTitle, cancelButtonTitle]
+                                                                    buttonStyle:JGActionSheetButtonStyleDefault];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[descriptionSection, conflictResolveSection, buttonsSection]];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:1];
+  [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
+  [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    switch (indexPath.row) {
+      case 0:  // okay
+        okayButtonAction(conflictResolveSectionArray[1]);
+        break;
+      case 1: // cancel
+        cancelButtonAction();
+        break;
+    }
+    [sheet dismissAnimated:YES];
+  }];
+  [alertSheet showInView:relativeToViewForPop animated:YES];
+}
+
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils warningAlertSectionWithMsgs:msgs
@@ -1737,10 +2091,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showSuccessAlertWithTitle:(NSString *)title
                  alertDescription:(NSAttributedString *)alertDescription
+                         topInset:(CGFloat)topInset
                       buttonTitle:(NSString *)buttonTitle
                      buttonAction:(void(^)(void))buttonAction
                    relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithTitle:title
@@ -1751,6 +2107,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showLoginSuccessAlertWithTitle:(NSString *)title
                       alertDescription:(NSAttributedString *)alertDescription
                        syncIconMessage:(NSAttributedString *)syncIconMessage
+                              topInset:(CGFloat)topInset
                            buttonTitle:(NSString *)buttonTitle
                           buttonAction:(void(^)(void))buttonAction
                         relativeToView:(UIView *)relativeToView {
@@ -1766,6 +2123,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                       contentView:contentView];
   };  
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:alertSectionMaker];
@@ -1774,10 +2132,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithMsgs:msgs
@@ -1789,10 +2149,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showWaitAlertWithMsgs:(NSArray *)msgs
                         title:(NSString *)title
              alertDescription:(NSAttributedString *)alertDescription
+                     topInset:(CGFloat)topInset
                   buttonTitle:(NSString *)buttonTitle
                  buttonAction:(void(^)(void))buttonAction
                relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils waitAlertSectionWithMsgs:msgs
@@ -1804,10 +2166,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showErrorAlertWithMsgs:(NSArray *)msgs
                          title:(NSString *)title
               alertDescription:(NSAttributedString *)alertDescription
+                      topInset:(CGFloat)topInset
                    buttonTitle:(NSString *)buttonTitle
                   buttonAction:(void(^)(void))buttonAction
                 relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils errorAlertSectionWithMsgs:msgs
@@ -1819,10 +2183,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showMultiErrorAlertWithFailures:(NSArray *)failures
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
+                               topInset:(CGFloat)topInset
                             buttonTitle:(NSString *)buttonTitle
                            buttonAction:(void(^)(void))buttonAction
                          relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils multiErrorAlertSectionWithFailures:failures
@@ -1836,10 +2202,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                    alertDescription:(NSAttributedString *)alertDescription
                                 failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
+                                           topInset:(CGFloat)topInset
                                         buttonTitle:(NSString *)buttonTitle
                                        buttonAction:(void(^)(void))buttonAction
                                      relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils mixedResultsAlertSectionWithSuccessMsgs:successMsgs
@@ -1852,6 +2220,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
                              title:(NSString *)title
+                          topInset:(CGFloat)topInset
                        buttonTitle:(NSString *)buttonTitle
                       buttonAction:(void(^)(void))buttonAction
                     relativeToView:(UIView *)relativeToView {
@@ -1880,6 +2249,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                 title:title
                      alertDescription:[[NSAttributedString alloc] initWithString:@"There was a problem communicating with\n\
 the server.  The error is as follows:"]
+                             topInset:topInset
                           buttonTitle:buttonTitle
                          buttonAction:buttonAction
                        relativeToView:relativeToView];

@@ -509,12 +509,21 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
 + (UIImage *)imageWithColor:(UIColor *)color;
 
 /**
- Applies a border to the given view in the given color (useful for developing /
- debugging GUI construction).
+ Applies a border to the given view in the given color of width 1.0.
  @param view the view to apply a border to
  @param color the color to use for the border
 */
 + (void)applyBorderToView:(UIView *)view withColor:(UIColor *)color;
+
+/**
+ Applies a border to the given view in the given color and width.
+ @param view the view to apply a border to
+ @param color the color to use for the border.
+ @param width The width to use for the border.
+ */
++ (void)applyBorderToView:(UIView *)view
+                withColor:(UIColor *)color
+                    width:(CGFloat)width;
 
 #pragma mark - Labels
 
@@ -795,6 +804,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)addDisclosureIndicatorToButton:(UIButton *)button;
 
++ (void)setBackgroundColorOfButton:(UIButton *)button
+                             color:(UIColor *)color;
+
 #pragma mark - Bundle Image Fetch
 
 + (UIImage *)bundleImageWithName:(NSString *)imageName;
@@ -970,6 +982,25 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                     failures:(NSArray *)failures
                               relativeToView:(UIView *)relativeToView;
 
++ (NSArray *)conflictResolvePanelWithFields:(NSArray *)fields
+                             withCellHeight:(CGFloat)cellHeight
+                          labelLeftHPadding:(CGFloat)labelLeftHPadding
+                         valueRightHPadding:(CGFloat)valueRightHPadding
+                                  labelFont:(UIFont *)labelFont
+                                  valueFont:(UIFont *)valueFont
+                             labelTextColor:(UIColor *)labelTextColor
+                             valueTextColor:(UIColor *)valueTextColor
+             minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                          includeTopDivider:(BOOL)includeTopDivider
+                       includeBottomDivider:(BOOL)includeBottomDivider
+                       includeInnerDividers:(BOOL)includeInnerDividers
+                    innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                             dividerPadding:(CGFloat)dividerPadding
+                    rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                       panelBackgroundColor:(UIColor *)panelBackgroundColor
+                               dividerColor:(UIColor *)dividerColor
+                             relativeToView:(UIView *)relativeToView;
+
 #pragma mark - Alert Section Makers
 
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
@@ -1016,11 +1047,31 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                          failures:(NSArray *)failures
                                                    relativeToView:(UIView *)relativeToView;
 
++ (NSArray *)conflictResolveAlertSectionWithFields:(NSArray *)fields
+                                    withCellHeight:(CGFloat)cellHeight
+                                 labelLeftHPadding:(CGFloat)labelLeftHPadding
+                                valueRightHPadding:(CGFloat)valueRightHPadding
+                                         labelFont:(UIFont *)labelFont
+                                         valueFont:(UIFont *)valueFont
+                                    labelTextColor:(UIColor *)labelTextColor
+                                    valueTextColor:(UIColor *)valueTextColor
+                    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                                 includeTopDivider:(BOOL)includeTopDivider
+                              includeBottomDivider:(BOOL)includeBottomDivider
+                              includeInnerDividers:(BOOL)includeInnerDividers
+                           innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                                    dividerPadding:(CGFloat)dividerPadding
+                           rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                              panelBackgroundColor:(UIColor *)panelBackgroundColor
+                                      dividerColor:(UIColor *)dividerColor
+                                    relativeToView:(UIView *)relativeToView;
+
 #pragma mark - Showing Alerts
 
 + (void)showAlertWithTitle:(NSString *)title
                 titleImage:(UIImage *)titleImage
           alertDescription:(NSAttributedString *)alertDescription
+                  topInset:(CGFloat)topInset
                buttonTitle:(NSString *)buttonTitle
               buttonAction:(void(^)(void))buttonAction
             relativeToView:(UIView *)relativeToView;
@@ -1028,35 +1079,39 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showConfirmAlertWithTitle:(NSString *)title
                        titleImage:(UIImage *)titleImage
                  alertDescription:(NSAttributedString *)alertDescription
-                  okaybuttonTitle:(NSString *)okayButtonTitle
-                 okaybuttonAction:(void(^)(void))okayButtonAction
+                         topInset:(CGFloat)topInset
+                  okayButtonTitle:(NSString *)okayButtonTitle
+                 okayButtonAction:(void(^)(void))okayButtonAction
                   okayButtonStyle:(JGActionSheetButtonStyle)okayButtonStyle
-                cancelbuttonTitle:(NSString *)cancelButtonTitle
-               cancelbuttonAction:(void(^)(void))cancelButtonAction
+                cancelButtonTitle:(NSString *)cancelButtonTitle
+               cancelButtonAction:(void(^)(void))cancelButtonAction
                  cancelButtonSyle:(JGActionSheetButtonStyle)cancelButtonStyle
                    relativeToView:(UIView *)relativeToView;
 
 + (void)showWarningConfirmAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
-                         okaybuttonTitle:(NSString *)buttonTitle
-                        okaybuttonAction:(void(^)(void))buttonAction
-                       cancelbuttonTitle:(NSString *)cancelButtonTitle
-                      cancelbuttonAction:(void(^)(void))cancelButtonAction
+                                topInset:(CGFloat)topInset
+                         okayButtonTitle:(NSString *)buttonTitle
+                        okayButtonAction:(void(^)(void))buttonAction
+                       cancelButtonTitle:(NSString *)cancelButtonTitle
+                      cancelButtonAction:(void(^)(void))cancelButtonAction
                           relativeToView:(UIView *)relativeToView;
 
 + (void)showWarningConfirmAlertWithMsgs:(NSArray *)msgs
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
-                        okaybuttonTitle:(NSString *)buttonTitle
-                       okaybuttonAction:(void(^)(void))buttonAction
-                      cancelbuttonTitle:(NSString *)cancelButtonTitle
-                     cancelbuttonAction:(void(^)(void))cancelButtonAction
+                               topInset:(CGFloat)topInset
+                        okayButtonTitle:(NSString *)buttonTitle
+                       okayButtonAction:(void(^)(void))buttonAction
+                      cancelButtonTitle:(NSString *)cancelButtonTitle
+                     cancelButtonAction:(void(^)(void))cancelButtonAction
                          relativeToView:(UIView *)relativeToView;
 
 + (void)showEditConflictAlertWithTitle:(NSString *)title
                       alertDescription:(NSAttributedString *)alertDescription
+                              topInset:(CGFloat)topInset
                       mergeButtonTitle:(NSString *)mergeButtonTitle
-                     mergeButtonAction:(void(^)(void))mergeButtonAction
+                     mergeButtonAction:(void(^)(UIView *))mergeButtonAction
                     replaceButtonTitle:(NSString *)replaceButtonTitle
                    replaceButtonAction:(void(^)(void))replaceButtonAction
              forceSaveLocalButtonTitle:(NSString *)forceSaveButtonTitle
@@ -1067,6 +1122,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (void)showDeleteConflictAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
+                                topInset:(CGFloat)topInset
                       replaceButtonTitle:(NSString *)replaceButtonTitle
                      replaceButtonAction:(void(^)(void))replaceButtonAction
              forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
@@ -1074,6 +1130,33 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        cancelButtonTitle:(NSString *)cancelButtonTitle
                       cancelButtonAction:(void(^)(void))cancelButtonAction
                           relativeToView:(UIView *)relativeToView;
+
++ (void)showConflictResolverWithTitle:(NSString *)title
+                     alertDescription:(NSAttributedString *)alertDescription
+                conflictResolveFields:(NSArray *)conflictResolveFields
+                       withCellHeight:(CGFloat)cellHeight
+                    labelLeftHPadding:(CGFloat)labelLeftHPadding
+                   valueRightHPadding:(CGFloat)valueRightHPadding
+                            labelFont:(UIFont *)labelFont
+                            valueFont:(UIFont *)valueFont
+                       labelTextColor:(UIColor *)labelTextColor
+                       valueTextColor:(UIColor *)valueTextColor
+       minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                    includeTopDivider:(BOOL)includeTopDivider
+                 includeBottomDivider:(BOOL)includeBottomDivider
+                 includeInnerDividers:(BOOL)includeInnerDividers
+              innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                       dividerPadding:(CGFloat)dividerPadding
+              rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+                 panelBackgroundColor:(UIColor *)panelBackgroundColor
+                         dividerColor:(UIColor *)dividerColor
+                             topInset:(CGFloat)topInset
+                      okayButtonTitle:(NSString *)okayButtonTitle
+                     okayButtonAction:(void(^)(NSArray *))okayButtonAction
+                    cancelButtonTitle:(NSString *)cancelButtonTitle
+                   cancelButtonAction:(void(^)(void))cancelButtonAction
+              relativeToViewForLayout:(UIView *)relativeToViewForLayout
+                 relativeToViewForPop:(UIView *)relativeToViewForPop;
 
 /**
  Displays a warning alert dialog with the provided collection of messages to display.
@@ -1087,6 +1170,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showWarningAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView;
@@ -1102,6 +1186,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showSuccessAlertWithTitle:(NSString *)title
                  alertDescription:(NSAttributedString *)alertDescription
+                         topInset:(CGFloat)topInset
                       buttonTitle:(NSString *)buttonTitle
                      buttonAction:(void(^)(void))buttonAction
                    relativeToView:(UIView *)relativeToView;
@@ -1109,6 +1194,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showLoginSuccessAlertWithTitle:(NSString *)title
                       alertDescription:(NSAttributedString *)alertDescription
                        syncIconMessage:(NSAttributedString *)syncIconMessage
+                              topInset:(CGFloat)topInset
                            buttonTitle:(NSString *)buttonTitle
                           buttonAction:(void(^)(void))buttonAction
                         relativeToView:(UIView *)relativeToView;
@@ -1125,6 +1211,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
                            title:(NSString *)title
                 alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView;
@@ -1141,6 +1228,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showWaitAlertWithMsgs:(NSArray *)msgs
                         title:(NSString *)title
              alertDescription:(NSAttributedString *)alertDescription
+                     topInset:(CGFloat)topInset
                   buttonTitle:(NSString *)buttonTitle
                  buttonAction:(void(^)(void))buttonAction
                relativeToView:(UIView *)relativeToView;
@@ -1157,6 +1245,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showErrorAlertWithMsgs:(NSArray *)msgs
                          title:(NSString *)title
               alertDescription:(NSAttributedString *)alertDescription
+                      topInset:(CGFloat)topInset
                    buttonTitle:(NSString *)buttonTitle
                   buttonAction:(void(^)(void))buttonAction
                 relativeToView:(UIView *)relativeToView;
@@ -1173,6 +1262,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showMultiErrorAlertWithFailures:(NSArray *)failures
                                   title:(NSString *)title
                        alertDescription:(NSAttributedString *)alertDescription
+                               topInset:(CGFloat)topInset
                             buttonTitle:(NSString *)buttonTitle
                            buttonAction:(void(^)(void))buttonAction
                          relativeToView:(UIView *)relativeToView;
@@ -1194,6 +1284,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                    alertDescription:(NSAttributedString *)alertDescription
                                 failuresDescription:(NSAttributedString *)failuresDescription
                                            failures:(NSArray *)failures
+                                           topInset:(CGFloat)topInset
                                         buttonTitle:(NSString *)buttonTitle
                                        buttonAction:(void(^)(void))buttonAction
                                      relativeToView:(UIView *)relativeToView;
@@ -1214,6 +1305,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  */
 + (void)showAlertForNSURLErrorCode:(NSInteger)errorCode
                              title:(NSString *)title
+                          topInset:(CGFloat)topInset
                        buttonTitle:(NSString *)buttonTitle
                       buttonAction:(void(^)(void))buttonAction
                     relativeToView:(UIView *)relativeToView;
