@@ -126,6 +126,8 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
 #pragma mark - Conversions
 
++ (id)nilIfNSNull:(id)object;
+
 + (NSNumber *)millisecondsFromDate:(NSDate *)date;
 
 /**

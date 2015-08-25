@@ -262,6 +262,13 @@
 
 #pragma mark - Conversions
 
++ (id)nilIfNSNull:(id)object {
+  if ([object isEqual:[NSNull null]]) {
+    return nil;
+  }
+  return object;
+}
+
 + (NSNumber *)millisecondsFromDate:(NSDate *)date { 
   if (date) {
     return @([date timeIntervalSince1970] * 1000);
