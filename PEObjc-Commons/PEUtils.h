@@ -28,6 +28,8 @@
 
 typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
 
+typedef id (^PEOrNil)(id);
+
 /**
  A collection of domain-agnostic helper functions.
  */
@@ -125,6 +127,10 @@ typedef void (^PEDictionaryPutter)(id, SEL, NSString *);
                                   zip:(NSString *)zip;
 
 #pragma mark - Conversions
+
++ (id)orNil:(id)object;
+
++ (PEOrNil)orNilMaker;
 
 + (id)nilIfNSNull:(id)object;
 

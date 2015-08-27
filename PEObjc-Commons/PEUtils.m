@@ -262,6 +262,19 @@
 
 #pragma mark - Conversions
 
++ (id)orNil:(id)object {
+  if (!object) {
+    return [NSNull null];
+  }
+  return object;
+}
+
++ (PEOrNil)orNilMaker {
+  return ^ id (id object) {
+    return [PEUtils orNil:object];
+  };
+}
+
 + (id)nilIfNSNull:(id)object {
   if ([object isEqual:[NSNull null]]) {
     return nil;
