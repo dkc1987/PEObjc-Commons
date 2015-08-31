@@ -1012,6 +1012,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                       alertDescription:(NSAttributedString *)alertDescription
                                         relativeToView:(UIView *)relativeToView;
 
++ (JGActionSheetSection *)infoAlertSectionWithTitle:(NSString *)title
+                                   alertDescription:(NSAttributedString *)alertDescription
+                                     relativeToView:(UIView *)relativeToView;
+
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -1198,6 +1202,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            buttonTitle:(NSString *)buttonTitle
                           buttonAction:(void(^)(void))buttonAction
                         relativeToView:(UIView *)relativeToView;
+
++ (void)showInfoAlertWithTitle:(NSString *)title
+              alertDescription:(NSAttributedString *)alertDescription
+                      topInset:(CGFloat)topInset
+                   buttonTitle:(NSString *)buttonTitle
+                  buttonAction:(void(^)(void))buttonAction
+                relativeToView:(UIView *)relativeToView;
 
 /**
  Displays a success alert dialog with the provided collection of messages to display.

@@ -1621,6 +1621,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                  relativeToView:relativeToView];
 }
 
++ (JGActionSheetSection *)infoAlertSectionWithTitle:(NSString *)title
+                                   alertDescription:(NSAttributedString *)alertDescription
+                                     relativeToView:(UIView *)relativeToView {
+  return [JGActionSheetSection sectionWithTitle:nil
+                                        message:nil
+                                    contentView:[PEUIUtils panelWithTitle:title
+                                                               titleImage:[PEUIUtils bundleImageWithName:@"info"]
+                                                              description:alertDescription
+                                                           relativeToView:relativeToView]];
+}
+
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -2127,6 +2138,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:alertSectionMaker];
+}
+
++ (void)showInfoAlertWithTitle:(NSString *)title
+              alertDescription:(NSAttributedString *)alertDescription
+                      topInset:(CGFloat)topInset
+                   buttonTitle:(NSString *)buttonTitle
+                  buttonAction:(void(^)(void))buttonAction
+                relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:^{ return [PEUIUtils infoAlertSectionWithTitle:title
+                                                                    alertDescription:alertDescription
+                                                                      relativeToView:relativeToView]; }];
 }
 
 + (void)showSuccessAlertWithMsgs:(NSArray *)msgs
