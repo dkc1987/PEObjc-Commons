@@ -172,7 +172,13 @@ typedef id (^PEOrNil)(id);
 + (NSString *)stringFromDate:(NSDate *)dateValue
                  withPattern:(NSString *)datePattern;
 
-#pragma mark - Equality
+#pragma mark - Comparisons
+
+/**
+ @return date1 if date1 is later than date2.  nil if date1 and date2 are both
+ nil.  If one is nil and the other isn't, the non-nil date is return.
+ */
++ (NSDate *)largerOfDate:(NSDate *)date1 andDate:(NSDate *)date2;
 
 /**
  @return YES If object is nil or equal to [NSNull null]; otherwise returns NO.

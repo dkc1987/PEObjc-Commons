@@ -315,7 +315,25 @@
   return [formatter stringFromDate:dateValue];
 }
 
-#pragma mark - Equality
+#pragma mark - Comparisons
+
++ (NSDate *)largerOfDate:(NSDate *)date1 andDate:(NSDate *)date2 {
+  if (date1) {
+    if (date2) {
+      if ([date1 compare:date2] == NSOrderedDescending) {
+        return date1;
+      } else {
+        return date2;
+      }
+    } else {
+      return date1;
+    }
+  } else if (date2) {
+    return date2;
+  } else {
+    return nil;
+  }
+}
 
 + (BOOL)isNil:(id)object {
   return object == nil || [object isEqual:[NSNull null]];
