@@ -283,7 +283,7 @@
 }
 
 + (NSNumber *)millisecondsFromDate:(NSDate *)date { 
-  if (date) {
+  if (![PEUtils isNil:date]) {
     return @([date timeIntervalSince1970] * 1000);
   }
   return nil;
