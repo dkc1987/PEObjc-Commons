@@ -1003,6 +1003,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 #pragma mark - Alert Section Makers
 
++ (JGActionSheetSection *)alertSectionWithTitle:(NSString *)title
+                                     titleImage:(UIImage *)titleImage
+                               alertDescription:(NSAttributedString *)alertDescription
+                                 relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)alertSectionWithMsgs:(NSArray *)msgs
+                                         title:(NSString *)title
+                                    titleImage:(UIImage *)titleImage
+                              alertDescription:(NSAttributedString *)alertDescription
+                                relativeToView:(UIView *)relativeToView;
+
 + (JGActionSheetSection *)warningAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -1050,6 +1061,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                               failuresDescription:(NSAttributedString *)failuresDescription
                                                          failures:(NSArray *)failures
                                                    relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)conflictAlertSectionWithTitle:(NSString *)title
+                                       alertDescription:(NSAttributedString *)alertDescription
+                                         relativeToView:(UIView *)relativeToView;
 
 + (NSArray *)conflictResolveAlertSectionWithFields:(NSArray *)fields
                                     withCellHeight:(CGFloat)cellHeight

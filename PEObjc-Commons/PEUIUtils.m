@@ -1721,6 +1721,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                              relativeToView:relativeToView]];
 }
 
++ (JGActionSheetSection *)conflictAlertSectionWithTitle:(NSString *)title
+                                       alertDescription:(NSAttributedString *)alertDescription
+                                         relativeToView:(UIView *)relativeToView {
+  return [JGActionSheetSection sectionWithTitle:nil
+                                        message:nil
+                                    contentView:[PEUIUtils panelWithTitle:title
+                                                               titleImage:[PEUIUtils bundleImageWithName:@"conflict"]
+                                                              description:alertDescription
+                                                           relativeToView:relativeToView]];
+}
+
 + (NSArray *)conflictResolveAlertSectionWithFields:(NSArray *)fields
                                     withCellHeight:(CGFloat)cellHeight
                                  labelLeftHPadding:(CGFloat)labelLeftHPadding
