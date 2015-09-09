@@ -140,9 +140,9 @@
 
 - (void)bluftoniButtonAction {
   [PEUIUtils showWarningAlertWithMsgs:nil //@[]
-                                title:@"This is a warning dialog."
-                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                                title:@"This is a warning dialog, and is a, a really long title."
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are very important!"]
                              topInset:70.0
                           buttonTitle:@"Okay."
@@ -153,8 +153,8 @@ are very important!"]
 - (void)oneButtonAction {
   [PEUIUtils showErrorAlertWithMsgs:nil //@[]
                               title:@"This is an error dialog."
-                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are very important!"]
                            topInset:70.0
                         buttonTitle:@"Okay."
@@ -165,8 +165,8 @@ are very important!"]
 - (void)twoButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:nil //@[]
                                 title:@"This is a success dialog."
-                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are very important!"]
                              topInset:70.0
                           buttonTitle:@"Okay."
@@ -177,7 +177,7 @@ are very important!"]
 - (void)aButtonAction {
   [PEUIUtils showWaitAlertWithMsgs:nil //@[]
                              title:@"Server Busy."
-                  alertDescription:[[NSAttributedString alloc] initWithString:@"We apologize, but the server is currently\n\
+                  alertDescription:[[NSAttributedString alloc] initWithString:@"We apologize, but the server is currently \
 busy.  Please retry your request shortly."]
                           topInset:70.0
                        buttonTitle:@"Okay."
@@ -189,13 +189,13 @@ busy.  Please retry your request shortly."]
   [PEUIUtils showLoginSuccessAlertWithTitle:@"Login success."
                            alertDescription:[[NSAttributedString alloc] initWithString:@"\
 You have been successfully logged in.\n\n\
-Your remote account is now connected to\n\
-this device.  Any fuel purchase data that\n\
-you create and save will be synced to your\n\
+Your remote account is now connected to \
+this device.  Any fuel purchase data that \
+you create and save will be synced to your \
 remote account."]
                             syncIconMessage:[[NSAttributedString alloc] initWithString:@"\
-The following icon will appear in the app\n\
-indicating that your are currently logged\n\
+The following icon will appear in the app \
+indicating that your are currently logged \
 into your remote account:"]
                                    topInset:70.0
                                 buttonTitle:@"Okay."
@@ -207,7 +207,7 @@ into your remote account:"]
   [PEUIUtils showWarningConfirmAlertWithMsgs:@[@"15 fuel purchase log records.", @"32 environment log records."]
                                        title:@"Are you sure?"
                             alertDescription:[[NSAttributedString alloc] initWithString:@"\
-Deleting this entity will result in the\n\
+Deleting this entity will result in the \
 following child-items being deleted.\n\n\
 Are you sure you want to continue?"]
                                     topInset:70.0
@@ -256,7 +256,7 @@ Are you sure you want to continue?"]
 
 - (void)sevenButtonAction {
   [PEUIUtils showWarningConfirmAlertWithTitle:@"You have unsynced edits."
-                             alertDescription:[[NSAttributedString alloc] initWithString:@"You have unsynced edits.  If you log out,\n\
+                             alertDescription:[[NSAttributedString alloc] initWithString:@"You have unsynced edits.  If you log out, \
 they will be permanently deleted.\n\nAre you sure you want to do continue?"]
                                      topInset:70.0
                               okayButtonTitle:@"Yes.  Log me out."
@@ -267,10 +267,10 @@ they will be permanently deleted.\n\nAre you sure you want to do continue?"]
 }
 
 - (void)quinceButtonAction {
-  [PEUIUtils showMultiErrorAlertWithFailures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
-                                               @[@"Pre-fillup environment log not saved.", @(YES), @[@"Server error.", @"Client error."]],
-                                               @[@"Post-fillup environment log not saved.", @(YES), @[@"Server error."]]]
-                                       title:@"Multiple Errors."
+  [PEUIUtils showMultiErrorAlertWithFailures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error.  Yes, crazy, right!?  A major SERVER Error!"]],
+                                               @[@"Pre-fillup environment log not saved.  What are we going to do!?", @(YES), @[@"Server error.", @"Client error."]],
+                                               @[@"Post-fillup environment log not saved.  A major. (huh?)", @(YES), @[@"Server error."]]]
+                                       title:@"Multiple Errors.  Yes, you read that right.  MULTIPLE ERRORS!"
                             alertDescription:[[NSAttributedString alloc] initWithString:@"None of your entities could be saved."]
                                     topInset:70.0
                                  buttonTitle:@"Okay."
@@ -279,16 +279,15 @@ they will be permanently deleted.\n\nAre you sure you want to do continue?"]
 }
 
 - (void)sixButtonAction {
-  
   NSMutableAttributedString *description = [[NSMutableAttributedString alloc] initWithString:@"\
-Because the results are mixed, you need to\n\
-fix the errors on the individual affected\n\
+Because the results are mixed, you need to \
+fix the errors on the individual affected \
 records.  The successful syncs are:"];
   NSDictionary *messageAttrs = @{ NSFontAttributeName:[UIFont boldSystemFontOfSize:16] };
   NSRange messageAttrsRange = NSMakeRange(2, 9);
   [description setAttributes:messageAttrs range:messageAttrsRange];
   [PEUIUtils showMixedResultsAlertSectionWithSuccessMsgs:@[@"Fuel purchase log saved.", @"Fuel station saved."]
-                                                   title:@"Mixed results saving fuel\npurchase and environment logs."
+                                                   title:@"Mixed results saving fuel purchase and environment logs."
                                         alertDescription:description
                                      failuresDescription:[[NSAttributedString alloc] initWithString:@"The failures are:"]
                                                 failures:@[@[@"Fuel purchase log not saved.", @(YES), @[@"Server error."]],
@@ -313,8 +312,8 @@ records.  The successful syncs are:"];
 - (void)thirdButtonAction {
   [PEUIUtils showWarningAlertWithMsgs:@[@"message 1", @"Hello, I am message 2."]
                                 title:@"This is a warning dialog."
-                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are as follows:"]
                              topInset:70.0
                           buttonTitle:@"Okey Dokey"
@@ -323,10 +322,10 @@ are as follows:"]
 }
 
 - (void)fourthButtonAction {
-  [PEUIUtils showErrorAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"error sub-msg 3"]
+  [PEUIUtils showErrorAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.  This is a very long message 2 I should say!", @"error sub-msg 3"]
                               title:@"This is an error dialog."
-                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                   alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are as follows:"]
                            topInset:70.0
                         buttonTitle:@"Okay."
@@ -337,8 +336,8 @@ are as follows:"]
 - (void)secondButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:@[@"message 1", @"Hello, I am message 2.", @"success sub-msg 3"]
                                 title:@"This is a success dialog."
-                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are as follows:"]
                              topInset:70.0
                           buttonTitle:@"Okay."
@@ -349,8 +348,8 @@ are as follows:"]
 - (void)firstButtonAction {
   [PEUIUtils showSuccessAlertWithMsgs:@[@"Message 1"]
                                 title:@"This is a success dialog."
-                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are\n\
-some things I need to tell you, and they\n\
+                     alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \
+some things I need to tell you, and they \
 are as follows:"]
                              topInset:70.0
                           buttonTitle:@"Okay."
@@ -419,10 +418,10 @@ are as follows:"]
 
 - (void)editConflict {
   NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:@"\
-The remote copy of this entity has been\n\
-updated since you downloaded it.  You have\n\
+The remote copy of this entity has been \
+updated since you downloaded it.  You have \
 a few options:\n\n\
-If you cancel, your local edits will be\n\
+If you cancel, your local edits will be \
 retained."];
   NSDictionary *attrs = @{ NSFontAttributeName : [UIFont italicSystemFontOfSize:14.0] };
   [desc setAttributes:attrs range:NSMakeRange(99, 49)];
@@ -432,7 +431,7 @@ retained."];
                            mergeButtonTitle:@"Merge remote and local, then review."
                           mergeButtonAction:^ (UIView *alertSection) {
                             NSString *desc = @"\
-Use the form below to resolve the\n\
+Use the form below to resolve the \
 merge conflicts.";
                             NSArray *fields;
                             fields = @[@[@"Name", @(16), @"300zx", @"Fairlady Z"],
@@ -465,7 +464,7 @@ merge conflicts.";
                                                         UILabel *localValue = valueLabelPair[0];
                                                         UILabel *remoteValue = valueLabelPair[1];
                                                         NSLog(@"For field [%d], localValue text is: [%@] and tag is: [%ld]", i, localValue.text, (long)localValue.tag);
-                                                        NSLog(@"For field [%d], remoteValue text is: [%@] and tag is: [%ld]\n", i, remoteValue.text, (long)remoteValue.tag);
+                                                        NSLog(@"For field [%d], remoteValue text is: [%@] and tag is: [%ld] ", i, remoteValue.text, (long)remoteValue.tag);
                                                       }
                                                     }
                                                    cancelButtonTitle:@"Cancel.  I'll deal with this later."

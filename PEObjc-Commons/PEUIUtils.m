@@ -577,6 +577,22 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   return label;
 }
 
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding
+                         fitToWidth:(CGFloat)fitToWidth {
+  UILabel *label = [PEUIUtils emptyLabelToFitText:[attributedText string]
+                                             font:font
+                                  backgroundColor:backgroundColor
+                                        textColor:textColor
+                              verticalTextPadding:verticalTextPadding
+                                       fitToWidth:fitToWidth];
+  [label setAttributedText:attributedText];
+  return label;
+}
+
 + (UIView *)leftPadView:(UIView *)view
                 padding:(CGFloat)padding {
   UIView *panel = [PEUIUtils panelWithFixedWidth:padding + view.frame.size.width
@@ -1100,33 +1116,37 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
           descriptionFont:(UIFont *)descriptionFont
               messageIcon:(UIImage *)messageIcon
            relativeToView:(UIView *)relativeToView {
-  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
-                                     relativeToView:relativeToView
-                                        fixedHeight:0];
+  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905 relativeToView:relativeToView fixedHeight:0];
   UIView *topPanel;
   CGFloat topViewHeight;
   if (title) {
-    UIImageView *titleImageView = nil;
-    UILabel *titleLbl = [PEUIUtils labelWithKey:title
-                                           font:[UIFont boldSystemFontOfSize:16]
-                                backgroundColor:[UIColor clearColor]
-                                      textColor:[UIColor blackColor]
-                            verticalTextPadding:0.0];
+    UILabel *(^makeTitleLabel)(CGFloat) = ^ UILabel * (CGFloat widthToFit) {
+      return [PEUIUtils labelWithKey:title
+                                font:[UIFont boldSystemFontOfSize:16]
+                     backgroundColor:[UIColor clearColor]
+                           textColor:[UIColor blackColor]
+                 verticalTextPadding:0.0
+                          fitToWidth:widthToFit];
+    };
     if (titleImage) {
-      titleImageView = [[UIImageView alloc] initWithImage:titleImage];
+      CGFloat leftPaddingForTitleImg = 2.0;
+      CGFloat paddingBetweenTitleImgAndLabel = 8.0;
+      UIImageView *titleImageView = [[UIImageView alloc] initWithImage:titleImage];
+      UILabel *titleLbl = makeTitleLabel(contentView.frame.size.width - titleImageView.frame.size.width - leftPaddingForTitleImg - paddingBetweenTitleImgAndLabel);
       topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
                        ? titleImageView.frame.size.height : titleLbl.frame.size.height);
       topPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:contentView fixedHeight:topViewHeight];
       [PEUIUtils placeView:titleImageView
                 inMiddleOf:topPanel
              withAlignment:PEUIHorizontalAlignmentTypeLeft
-                  hpadding:2.0];
+                  hpadding:leftPaddingForTitleImg];
       [PEUIUtils placeView:titleLbl
               toTheRightOf:titleImageView
                       onto:topPanel
              withAlignment:PEUIVerticalAlignmentTypeMiddle
-                  hpadding:8.0];
+                  hpadding:paddingBetweenTitleImgAndLabel];
     } else {
+      UILabel *titleLbl = makeTitleLabel(contentView.frame.size.width);
       topViewHeight = titleLbl.frame.size.height;
       topPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:contentView fixedHeight:topViewHeight];
       [PEUIUtils placeView:titleLbl
@@ -1142,7 +1162,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                          font:descriptionFont
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
-                                          verticalTextPadding:0.0];
+                                          verticalTextPadding:0.0
+                                                   fitToWidth:contentView.frame.size.width];
   UIImageView *topRightImageView = nil;
   if (topRightImage) {
     topRightImageView = [[UIImageView alloc] initWithImage:topRightImage];
@@ -1152,7 +1173,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     alertPanelsColumn = [PEUIUtils panelWithColumnOfViews:[PEUIUtils alertPanelsForMessages:msgs
                                                                                       width:contentView.frame.size.width
                                                                                 leftImgIcon:messageIcon]
-                              verticalPaddingBetweenViews:1.0
+                              verticalPaddingBetweenViews:3.0
                                            viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
   }
   CGFloat topPanelVpadding = 3.0;
@@ -1490,40 +1511,42 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        syncIconMessage:(NSAttributedString *)syncIconMessage
                          syncImageIcon:(UIImage *)syncImageIcon
                         relativeToView:(UIView *)relativeToView {
-  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905
-                                     relativeToView:relativeToView
-                                        fixedHeight:0];
+  UIView *contentView = [PEUIUtils panelWithWidthOf:0.905 relativeToView:relativeToView fixedHeight:0];
   UIView *topPanel;
   CGFloat topViewHeight;
-  UIImageView *titleImageView = nil;
+  UIImageView *titleImageView = [[UIImageView alloc] initWithImage:[PEUIUtils bundleImageWithName:@"success"]];
+  CGFloat leftPaddingForTitleImg = 2.0;
+  CGFloat paddingBetweenTitleImgAndLabel = 8.0;
   UILabel *titleLbl = [PEUIUtils labelWithKey:title
                                          font:[UIFont boldSystemFontOfSize:16]
                               backgroundColor:[UIColor clearColor]
                                     textColor:[UIColor blackColor]
-                          verticalTextPadding:0.0];
-  titleImageView = [[UIImageView alloc] initWithImage:[PEUIUtils bundleImageWithName:@"success"]];
+                          verticalTextPadding:0.0
+                                   fitToWidth:(contentView.frame.size.width - titleImageView.frame.size.width - leftPaddingForTitleImg - paddingBetweenTitleImgAndLabel)];
   topViewHeight = (titleImageView.frame.size.height > titleLbl.frame.size.height
                    ? titleImageView.frame.size.height : titleLbl.frame.size.height);
   topPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:contentView fixedHeight:topViewHeight];
   [PEUIUtils placeView:titleImageView
             inMiddleOf:topPanel
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              hpadding:2.0];
+              hpadding:leftPaddingForTitleImg];
   [PEUIUtils placeView:titleLbl
           toTheRightOf:titleImageView
                   onto:topPanel
          withAlignment:PEUIVerticalAlignmentTypeMiddle
-              hpadding:8.0];
+              hpadding:paddingBetweenTitleImgAndLabel];
   UILabel *descriptionLbl = [PEUIUtils labelWithAttributeText:description
                                                          font:descriptionFont
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
-                                          verticalTextPadding:0.0];
+                                          verticalTextPadding:0.0
+                                                   fitToWidth:contentView.frame.size.width];
   UILabel *syncIconMessageLbl = [PEUIUtils labelWithAttributeText:syncIconMessage
                                                              font:descriptionFont
                                                   backgroundColor:[UIColor clearColor]
                                                         textColor:[UIColor blackColor]
-                                              verticalTextPadding:0.0];
+                                              verticalTextPadding:0.0
+                                                       fitToWidth:contentView.frame.size.width];
   UIImageView *syncMsgIconImageView = [[UIImageView alloc] initWithImage:syncImageIcon];
   CGFloat topPanelVpadding = 3.0;
   CGFloat contentViewHeight = topViewHeight + descriptionLbl.frame.size.height + syncIconMessageLbl.frame.size.height + syncMsgIconImageView.frame.size.height;
@@ -1566,23 +1589,28 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIView *)messagePanelWithTitle:(NSString *)title
                       leftImgIcon:(UIImage *)leftImgIcon
                             width:(CGFloat)width {
-  UIView *errorPanel = [PEUIUtils panelWithFixedWidth:width fixedHeight:25.0];
+  UIView *errorPanel = [PEUIUtils panelWithFixedWidth:width fixedHeight:0.0]; //25.0];
   UIImageView *errImgView = [[UIImageView alloc] initWithImage:leftImgIcon];
+  CGFloat paddingBetweenImgAndLabel = 5.0;
   UILabel *errorMsgLbl = [PEUIUtils labelWithKey:title
                                             font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
                                  backgroundColor:[UIColor clearColor]
                                        textColor:[UIColor blackColor]
-                             verticalTextPadding:0.0];
-  // TODO pad label with 3.0?
+                             verticalTextPadding:0.0
+                                      fitToWidth:(width - (errImgView.frame.size.width + paddingBetweenImgAndLabel))];
+  CGFloat frameHeight = errorMsgLbl.frame.size.height > errImgView.frame.size.height ?
+    errorMsgLbl.frame.size.height : errImgView.frame.size.height;
+  [PEUIUtils setFrameHeight:frameHeight ofView:errorPanel];
   [PEUIUtils placeView:errImgView
-            inMiddleOf:errorPanel
+               atTopOf:errorPanel
          withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:3.0
               hpadding:0.0];
   [PEUIUtils placeView:errorMsgLbl
-          toTheRightOf:errImgView
-                  onto:errorPanel
-         withAlignment:PEUIVerticalAlignmentTypeMiddle
-              hpadding:5.0];
+               atTopOf:errorPanel
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:0.0
+              hpadding:errImgView.frame.size.width + paddingBetweenImgAndLabel];
   return errorPanel;
 }
 
@@ -1591,9 +1619,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                         leftImgIcon:(UIImage *)leftImgIcon {
   NSMutableArray *alertPanels = [NSMutableArray arrayWithCapacity:[messages count]];
   for (NSString *message in messages) {
-    UIView *errorPanel = [PEUIUtils messagePanelWithTitle:message
-                                              leftImgIcon:leftImgIcon
-                                                    width:width];
+    UIView *errorPanel = [PEUIUtils messagePanelWithTitle:message leftImgIcon:leftImgIcon width:width];
     [alertPanels addObject:errorPanel];
   }
   return alertPanels;
