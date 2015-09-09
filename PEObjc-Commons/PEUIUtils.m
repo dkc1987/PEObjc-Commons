@@ -481,22 +481,52 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
 #pragma mark - Label maker helper
 
-+ (UILabel *)labelWithText:(NSString *)text
-                      font:(UIFont *)font
-           backgroundColor:(UIColor *)backgroundColor
-                 textColor:(UIColor *)textColor
-       verticalTextPadding:(CGFloat)verticalTextPadding {
-  CGSize textSize = [PEUIUtils sizeOfText:text withFont:font];
-  textSize = CGSizeMake(textSize.width, textSize.height + verticalTextPadding);
++ (UILabel *)emptyLabelWithFont:(UIFont *)font
+                backgroundColor:(UIColor *)backgroundColor
+                      textColor:(UIColor *)textColor
+            verticalTextPadding:(CGFloat)verticalTextPadding
+                          width:(CGFloat)width
+                         height:(CGFloat)height {
   UILabel *label =
-  [[UILabel alloc]
-   initWithFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
+    [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height + verticalTextPadding)];
   [label setNumberOfLines:0];
   [label setBackgroundColor:backgroundColor];
   [label setLineBreakMode:NSLineBreakByWordWrapping];
   [label setTextColor:textColor];
   [label setFont:font];
   return label;
+}
+
++ (UILabel *)emptyLabelToFitText:(NSString *)text
+                            font:(UIFont *)font
+                 backgroundColor:(UIColor *)backgroundColor
+                       textColor:(UIColor *)textColor
+             verticalTextPadding:(CGFloat)verticalTextPadding
+                      fitToWidth:(CGFloat)fitToWidth {
+  CGRect rect = [text boundingRectWithSize:CGSizeMake(fitToWidth, MAXFLOAT)
+                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                attributes:@{ NSFontAttributeName : font }
+                                   context:nil];
+  return [PEUIUtils emptyLabelWithFont:font
+                       backgroundColor:backgroundColor
+                             textColor:textColor
+                   verticalTextPadding:verticalTextPadding
+                                 width:rect.size.width
+                                height:rect.size.height];
+}
+
++ (UILabel *)emptyLabelToFitText:(NSString *)text
+                            font:(UIFont *)font
+                 backgroundColor:(UIColor *)backgroundColor
+                       textColor:(UIColor *)textColor
+             verticalTextPadding:(CGFloat)verticalTextPadding {
+  CGSize textSize = [PEUIUtils sizeOfText:text withFont:font];
+  return [PEUIUtils emptyLabelWithFont:font
+                       backgroundColor:backgroundColor
+                             textColor:textColor
+                   verticalTextPadding:verticalTextPadding
+                                 width:textSize.width
+                                height:textSize.height];
 }
 
 #pragma mark - Labels
@@ -507,11 +537,28 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
                 textColor:(UIColor *)textColor
       verticalTextPadding:(CGFloat)verticalTextPadding {
   NSString *text = LS(key);
-  UILabel *label = [PEUIUtils labelWithText:text
-                                       font:font
-                            backgroundColor:backgroundColor
-                                  textColor:textColor
-                        verticalTextPadding:verticalTextPadding];
+  UILabel *label = [PEUIUtils emptyLabelToFitText:text
+                                             font:font
+                                  backgroundColor:backgroundColor
+                                        textColor:textColor
+                              verticalTextPadding:verticalTextPadding];
+  [label setText:text];
+  return label;
+}
+
++ (UILabel *)labelWithKey:(NSString *)key
+                     font:(UIFont *)font
+          backgroundColor:(UIColor *)backgroundColor
+                textColor:(UIColor *)textColor
+      verticalTextPadding:(CGFloat)verticalTextPadding
+               fitToWidth:(CGFloat)fitToWidth {
+  NSString *text = LS(key);
+  UILabel *label = [PEUIUtils emptyLabelToFitText:text
+                                             font:font
+                                  backgroundColor:backgroundColor
+                                        textColor:textColor
+                              verticalTextPadding:verticalTextPadding
+                                       fitToWidth:fitToWidth];
   [label setText:text];
   return label;
 }
@@ -521,11 +568,11 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
                     backgroundColor:(UIColor *)backgroundColor
                           textColor:(UIColor *)textColor
                 verticalTextPadding:(CGFloat)verticalTextPadding {
-  UILabel *label = [PEUIUtils labelWithText:[attributedText string]
-                                       font:font
-                            backgroundColor:backgroundColor
-                                  textColor:textColor
-                        verticalTextPadding:verticalTextPadding];
+  UILabel *label = [PEUIUtils emptyLabelToFitText:[attributedText string]
+                                             font:font
+                                  backgroundColor:backgroundColor
+                                        textColor:textColor
+                              verticalTextPadding:verticalTextPadding];
   [label setAttributedText:attributedText];
   return label;
 }

@@ -84,11 +84,25 @@
                             backgroundColor:[UIColor yellowColor]
                                   textColor:[UIColor blueColor]
                         verticalTextPadding:10];
+  
+  UILabel *lbl2_2 = [PEUIUtils labelWithKey:@"This is a really long label."
+                                       font:[UIFont boldSystemFontOfSize:12]
+                            backgroundColor:[UIColor yellowColor]
+                                  textColor:[UIColor blueColor]
+                        verticalTextPadding:0.0
+                                 fitToWidth:65.0];
+  //[PEUIUtils applyBorderToView:lbl2_2 withColor:[UIColor greenColor] width:1.0];
   [PEUIUtils placeView:[PEUIUtils leftPadView:lbl2_1 padding:5.0]
                atTopOf:pnl
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:5
               hpadding:5];
+  [PEUIUtils placeView:lbl2_2
+                 below:lbl2_1
+                  onto:pnl
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:10.0
+              hpadding:0.0];
   UILabel *lbl3 = [PEUIUtils labelWithKey:@"Another!"
                                      font:[UIFont systemFontOfSize:24]
                           backgroundColor:[UIColor yellowColor]

@@ -547,6 +547,26 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
 
 /**
  Constructs and returns a UILabel with the given attributes.
+ @param key Key to a localized string to use for the text of the label; if no
+ localized string is found for the key, the key itself is used as the text for
+ the label.
+ @param font The font to use for the label text.
+ @param backgroundColor The background color to use for the label.
+ @param textColor The text color to use for the label.
+ @param verticalTextPadding Vertical padding to apply to the label's
+ frame-height.
+ @param Width for label to fit.
+ @return The newly constructed label.
+ */
++ (UILabel *)labelWithKey:(NSString *)key
+                     font:(UIFont *)font
+          backgroundColor:(UIColor *)backgroundColor
+                textColor:(UIColor *)textColor
+      verticalTextPadding:(CGFloat)verticalTextPadding
+               fitToWidth:(CGFloat)fitToWidth;
+
+/**
+ Constructs and returns a UILabel with the given attributes.
  @param attributedText The attributed string to use for the text of the label.
  @param font The font to use for the label text.
  @param backgroundColor The background color to use for the label.
