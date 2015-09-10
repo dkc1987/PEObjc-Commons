@@ -2059,8 +2059,6 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showDeleteConflictAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
                                 topInset:(CGFloat)topInset
-                      replaceButtonTitle:(NSString *)replaceButtonTitle
-                     replaceButtonAction:(void(^)(void))replaceButtonAction
              forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
                  forceDeleteButtonAction:(void(^)(void))forceDeleteButtonAction
                        cancelButtonTitle:(NSString *)cancelButtonTitle
@@ -2072,7 +2070,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                            relativeToView:relativeToView];
   JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
                                                                         message:nil
-                                                                   buttonTitles:@[replaceButtonTitle, forceDeleteButtonTitle, cancelButtonTitle]
+                                                                   buttonTitles:@[forceDeleteButtonTitle, cancelButtonTitle]
                                                                     buttonStyle:JGActionSheetButtonStyleDefault];
   JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
   [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
@@ -2081,13 +2079,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
-      case 0:  // replace local copy with remote copy
-        replaceButtonAction();
-        break;
-      case 1: // force delete
+      case 0:  // force delete
         forceDeleteButtonAction();
         break;
-      case 2: // cancel
+      case 1: // cancel
         cancelButtonAction();
         break;
     }

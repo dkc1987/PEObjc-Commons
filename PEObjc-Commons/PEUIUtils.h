@@ -1180,8 +1180,6 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)showDeleteConflictAlertWithTitle:(NSString *)title
                         alertDescription:(NSAttributedString *)alertDescription
                                 topInset:(CGFloat)topInset
-                      replaceButtonTitle:(NSString *)replaceButtonTitle
-                     replaceButtonAction:(void(^)(void))replaceButtonAction
              forceDeleteLocalButtonTitle:(NSString *)forceDeleteButtonTitle
                  forceDeleteButtonAction:(void(^)(void))forceDeleteButtonAction
                        cancelButtonTitle:(NSString *)cancelButtonTitle
