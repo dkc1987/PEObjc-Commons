@@ -2073,9 +2073,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                    buttonTitles:@[forceDeleteButtonTitle, cancelButtonTitle]
                                                                     buttonStyle:JGActionSheetButtonStyleDefault];
   JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
-  [buttonsSection setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
-  [buttonsSection setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:1];
-  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:2];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:0];
+  [buttonsSection setButtonStyle:JGActionSheetButtonStyleDefault forButtonAtIndex:1];
   [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     switch (indexPath.row) {
