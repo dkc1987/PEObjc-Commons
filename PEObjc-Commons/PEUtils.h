@@ -35,6 +35,12 @@ typedef id (^PEOrNil)(id);
  */
 @interface PEUtils : NSObject
 
+#pragma mark - Computation
+
++ (NSInteger)daysFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
+
++ (NSArray *)daysBetweenDates:(NSArray *)dates;
+
 #pragma mark - System
 
 /** @return Helper that returns the device make / model name. */

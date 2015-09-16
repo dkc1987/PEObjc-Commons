@@ -28,6 +28,31 @@
 
 @implementation PEUtils
 
+#pragma mark - Computation
+
++ (NSInteger)daysFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate {  
+  NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+  NSDateComponents *components = [gregorianCalendar components:NSCalendarUnitDay
+                                                      fromDate:fromDate
+                                                        toDate:toDate
+                                                       options:NSCalendarWrapComponents];
+  return [components day];
+}
+
++ (NSArray *)daysBetweenDates:(NSArray *)dates {
+  NSUInteger numDates = [dates count];
+  if (numDates <= 1) {
+    return nil;
+  } else {
+    NSMutableArray *intervals = [NSMutableArray arrayWithCapacity:numDates - 1];
+    NSInteger loopBoundary = numDates - 1;
+    for (NSUInteger i = 0; i < loopBoundary; i++) {
+      intervals[i] = @([PEUtils daysFromDate:dates[i] toDate:dates[i+1]]);
+    }
+    return intervals;
+  }
+}
+
 #pragma mark - System
 
 + (NSString *)deviceMake {

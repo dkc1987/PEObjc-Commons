@@ -410,6 +410,10 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   [[UITabBarItem alloc] initWithTitle:tabBarItemTitle
                                 image:tabBarItemImage
                         selectedImage:tabBarItemSelectedImage];
+  if (!tabBarItemTitle) {
+    // http://stackoverflow.com/questions/16285205/moving-uitabbaritem-image-down
+    tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+  }
   [navCtrl setTabBarItem:tabBarItem];
   return navCtrl;
 }
