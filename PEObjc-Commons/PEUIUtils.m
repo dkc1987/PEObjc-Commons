@@ -1080,6 +1080,24 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    relativeToView:relativeToView];
 }
 
++ (UIView *)panelWithTitle:(NSString *)title
+                titleImage:(UIImage *)titleImage
+           descriptionText:(NSString *)descriptionText
+           instructionText:(NSString *)instructionText
+            relativeToView:(UIView *)relativeToView {
+  NSString *descTextWithInstructionalText =
+    [NSString stringWithFormat:@"%@%@", descriptionText, instructionText];
+  NSDictionary *attrs = @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:[UIFont systemFontSize]] };
+  NSMutableAttributedString *attrDescTextWithInstructionalText =
+    [[NSMutableAttributedString alloc] initWithString:descTextWithInstructionalText];
+  NSRange instructionTextRange  = [descTextWithInstructionalText rangeOfString:instructionText];
+  [attrDescTextWithInstructionalText setAttributes:attrs range:instructionTextRange];
+  return [PEUIUtils panelWithTitle:title
+                        titleImage:titleImage
+                       description:attrDescTextWithInstructionalText
+                    relativeToView:relativeToView];
+}
+
 + (UIView *)panelWithMsgs:(NSArray *)msgs
                     title:(NSString *)title
                titleImage:(UIImage *)titleImage
@@ -1709,6 +1727,19 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                            relativeToView:relativeToView]];
 }
 
++ (JGActionSheetSection *)infoAlertSectionWithTitle:(NSString *)title
+                               alertDescriptionText:(NSString *)alertDescriptionText
+                                    instructionText:(NSString *)instructionText
+                                     relativeToView:(UIView *)relativeToView {
+  return [JGActionSheetSection sectionWithTitle:nil
+                                        message:nil
+                                    contentView:[PEUIUtils panelWithTitle:title
+                                                               titleImage:[PEUIUtils bundleImageWithName:@"info"]
+                                                          descriptionText:alertDescriptionText
+                                                          instructionText:instructionText
+                                                           relativeToView:relativeToView]];
+}
+
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
                                                 title:(NSString *)title
                                      alertDescription:(NSAttributedString *)alertDescription
@@ -2234,6 +2265,23 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils infoAlertSectionWithTitle:title
                                                                     alertDescription:alertDescription
+                                                                      relativeToView:relativeToView]; }];
+}
+
++ (void)showInstructionalAlertWithTitle:(NSString *)title
+                   alertDescriptionText:(NSString *)alertDescriptionText
+                        instructionText:(NSString *)instructionText
+                               topInset:(CGFloat)topInset
+                            buttonTitle:(NSString *)buttonTitle
+                           buttonAction:(void(^)(void))buttonAction
+                         relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:^{ return [PEUIUtils infoAlertSectionWithTitle:title
+                                                                alertDescriptionText:alertDescriptionText
+                                                                     instructionText:instructionText
                                                                       relativeToView:relativeToView]; }];
 }
 

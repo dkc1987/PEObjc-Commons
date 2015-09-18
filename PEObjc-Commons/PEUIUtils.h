@@ -984,6 +984,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                description:(NSAttributedString *)description
             relativeToView:(UIView *)relativeToView;
 
++ (UIView *)panelWithTitle:(NSString *)title
+                titleImage:(UIImage *)titleImage
+           descriptionText:(NSString *)descriptionText
+           instructionText:(NSString *)instructionText
+            relativeToView:(UIView *)relativeToView;
+
 + (UIView *)panelWithMsgs:(NSArray *)msgs
                     title:(NSString *)title
                titleImage:(UIImage *)titleImage
@@ -1063,6 +1069,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (JGActionSheetSection *)infoAlertSectionWithTitle:(NSString *)title
                                    alertDescription:(NSAttributedString *)alertDescription
+                                     relativeToView:(UIView *)relativeToView;
+
++ (JGActionSheetSection *)infoAlertSectionWithTitle:(NSString *)title
+                               alertDescriptionText:(NSString *)alertDescriptionText
+                                    instructionText:(NSString *)instructionText
                                      relativeToView:(UIView *)relativeToView;
 
 + (JGActionSheetSection *)successAlertSectionWithMsgs:(NSArray *)msgs
@@ -1260,6 +1271,14 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    buttonTitle:(NSString *)buttonTitle
                   buttonAction:(void(^)(void))buttonAction
                 relativeToView:(UIView *)relativeToView;
+
++ (void)showInstructionalAlertWithTitle:(NSString *)title
+                   alertDescriptionText:(NSString *)alertDescriptionText
+                        instructionText:(NSString *)instructionText
+                               topInset:(CGFloat)topInset
+                            buttonTitle:(NSString *)buttonTitle
+                           buttonAction:(void(^)(void))buttonAction
+                         relativeToView:(UIView *)relativeToView;
 
 /**
  Displays a success alert dialog with the provided collection of messages to display.

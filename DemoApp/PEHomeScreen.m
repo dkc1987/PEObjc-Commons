@@ -357,6 +357,17 @@ are as follows:"]
                        relativeToView:self.view];
 }
 
+- (void)instructional {
+  [PEUIUtils showInstructionalAlertWithTitle:@"Enable location services."
+                        alertDescriptionText:@"It would appear you've been asked before to enable \
+location services but you declined.  In order to enable location services, do the following:\n\n"
+                             instructionText:@"Exit Gas Jot \u2794 go to the Settings app \u2794 Privacy \u2794 Location Services"
+                                    topInset:70.0
+                                 buttonTitle:@"Okay."
+                                buttonAction:^{}
+                              relativeToView:self.view];
+}
+
 - (UIView *)topPanel {
   UIView *p1 = [PEUIUtils panelWithFixedWidth:275 fixedHeight:110];
   [PEUIUtils setFrameOrigin:CGPointMake(25, 25) ofView:p1];
@@ -393,6 +404,9 @@ are as follows:"]
          withAlignment:PEUIHorizontalAlignmentTypeRight
               vpadding:8
               hpadding:0];
+  UIButton *instructionBtn = [self btnWithKey:@"Instr"];
+  [instructionBtn addTarget:self action:@selector(instructional) forControlEvents:UIControlEventTouchUpInside];
+  [PEUIUtils placeView:instructionBtn toTheRightOf:b3 onto:p1 withAlignment:PEUIVerticalAlignmentTypeMiddle hpadding:3.0];
   UIButton *editConflictBtn = [self btnWithKey:@"Edit Conflict"];
   [editConflictBtn addTarget:self action:@selector(editConflict) forControlEvents:UIControlEventTouchUpInside];
   [PEUIUtils placeView:editConflictBtn
