@@ -925,6 +925,19 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
      verticalPaddingBetweenViews:(CGFloat)vpadding
  horizontalPaddingBetweenColumns:(CGFloat)hpadding;
 
++ (UIView *)labelValuePanelWithCellHeight:(CGFloat)cellHeight
+                              labelString:(NSString *)labelStr
+                                labelFont:(UIFont *)labelFont
+                           labelTextColor:(UIColor *)labelTextColor
+                        labelLeftHPadding:(CGFloat)labelLeftHPadding
+                              valueString:(NSString *)valueStr
+                                valueFont:(UIFont *)valueFont
+                           valueTextColor:(UIColor *)valueTextColor
+                       valueRightHPadding:(CGFloat)valueRightHPadding
+                            valueLabelTag:(NSNumber *)valueLabelTag
+           minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                           relativeToView:(UIView *)relativeToView;
+
 /**
  Creates a panel that displays rowData as a 2-dimensional table.
  @param rowData An array of arrays.  Each array contained in rowData should 
