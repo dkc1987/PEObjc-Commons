@@ -1008,6 +1008,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                   valueLabelTag:nil
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
                                                  relativeToView:relativeToView];
+    [rowPanel setBackgroundColor:rowPanelPackgroundColor];
     if (i == 0) {
       if (includeTopDivider) {
         [PEUIUtils placeView:rowPanel

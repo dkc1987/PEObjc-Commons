@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 #import "NSMutableDictionary+PEAdditions.h"
+#import "PEUtils.h"
 
 @implementation NSMutableDictionary (PEAdditions)
 
@@ -40,7 +41,7 @@
 }
 
 - (void)setMillisecondsSince1970FromDate:(NSDate *)date forKey:(id<NSCopying>)key {
-  if (date) {
+  if (![PEUtils isNil:date]) {
     NSNumber *num = [NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)];
     [self setObject:num forKey:key];
   }

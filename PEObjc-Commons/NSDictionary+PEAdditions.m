@@ -7,13 +7,14 @@
 //
 
 #import "NSDictionary+PEAdditions.h"
+#import "PEUtils.h"
 
 @implementation NSDictionary (PEAdditions)
 
 - (NSDate *)dateSince1970ForKey:(NSString *)key {
   NSDate *date = nil;
   NSNumber *dateNum = [self objectForKey:key];
-  if (dateNum) {
+  if (![PEUtils isNil:dateNum]) {
     date = [NSDate dateWithTimeIntervalSince1970:([dateNum doubleValue] / 1000)];
   }
   return date;
