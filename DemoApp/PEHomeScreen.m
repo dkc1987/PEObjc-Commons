@@ -431,14 +431,13 @@ location services but you declined.  In order to enable location services, do th
 }
 
 - (void)editConflict {
-  NSMutableAttributedString *desc = [[NSMutableAttributedString alloc] initWithString:@"\
+  NSAttributedString *desc = [PEUIUtils attributedTextWithTemplate:@"\
 The remote copy of this entity has been \
 updated since you downloaded it.  You have \
-a few options:\n\n\
-If you cancel, your local edits will be \
-retained."];
-  NSDictionary *attrs = @{ NSFontAttributeName : [UIFont italicSystemFontOfSize:14.0] };
-  [desc setAttributes:attrs range:NSMakeRange(99, 49)];
+a few options:\n\n\%@. Yeah.  Retained."
+                                                      textToAccent:@"If you cancel, your local edits will be retained"
+                                                    accentTextFont:[UIFont italicSystemFontOfSize:14.0]
+                                                   accentTextColor:[UIColor blueColor]];
   [PEUIUtils showEditConflictAlertWithTitle:@"Conflict."
                            alertDescription:desc
                                    topInset:70.0

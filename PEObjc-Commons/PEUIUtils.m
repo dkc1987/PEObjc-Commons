@@ -483,6 +483,35 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   view.layer.borderWidth = width;
 }
 
+#pragma mark - Attributed Text
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont
+                                   accentTextColor:(UIColor *)accentTextColor {
+  NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+  if (accentTextFont) {
+    [attrs setObject:accentTextFont forKey:NSFontAttributeName];
+  }
+  if (accentTextColor) {
+    [attrs setObject:accentTextColor forKey:NSForegroundColorAttributeName];
+  }
+  NSString *text = [NSString stringWithFormat:templateText, textToAccent];
+  NSRange range = [text rangeOfString:textToAccent];
+  NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text];
+  [attributedText setAttributes:attrs range:range];
+  return attributedText;
+}
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont {
+  return [PEUIUtils attributedTextWithTemplate:templateText
+                                  textToAccent:textToAccent
+                                accentTextFont:accentTextFont
+                               accentTextColor:nil];
+}
+
 #pragma mark - Label maker helper
 
 + (UILabel *)emptyLabelWithFont:(UIFont *)font

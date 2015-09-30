@@ -525,6 +525,17 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
                 withColor:(UIColor *)color
                     width:(CGFloat)width;
 
+#pragma mark - Attributed Text
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont
+                                   accentTextColor:(UIColor *)accentTextColor;
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont;
+
 #pragma mark - Labels
 
 /**
