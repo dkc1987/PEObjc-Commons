@@ -25,6 +25,7 @@
 
 @implementation PEDatePickerController {
   NSDate *_initialDate;
+  CGFloat _heightPercentage;
   UIDatePicker *_datePicker;
   NSString *_title;
   void (^_logDatePickedAction)(NSDate *);
@@ -33,11 +34,13 @@
 #pragma mark - Initializers
 
 - (id)initWithTitle:(NSString *)title
+   heightPercentage:(CGFloat)heightPercentage
         initialDate:(NSDate *)initialDate
 logDatePickedAction:(void(^)(NSDate *))logDatePickedAction {
   self = [super initWithNibName:nil bundle:nil];
   if (self) {
     _title = title;
+    _heightPercentage = heightPercentage;
     _initialDate = initialDate;
     _logDatePickedAction = logDatePickedAction;
   }
@@ -50,9 +53,10 @@ logDatePickedAction:(void(^)(NSDate *))logDatePickedAction {
   [super viewDidLoad];
   [[self view] setBackgroundColor:[UIColor whiteColor]];
   [[self navigationItem] setTitle:_title];
-  _datePicker =
-  [[UIDatePicker alloc]
-   initWithFrame:CGRectMake(0, 80, [self view].frame.size.width, 0)];
+  _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0,
+                                                               80,
+                                                               self.view.frame.size.width,
+                                                               (_heightPercentage * self.view.frame.size.height))];
   [_datePicker setDatePickerMode:UIDatePickerModeDate];
   [_datePicker setDate:_initialDate animated:YES];
   [[self view] addSubview:_datePicker];

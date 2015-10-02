@@ -39,6 +39,7 @@
  * @return A newly initialized date picker.
  */
 - (id)initWithTitle:(NSString *)title
+   heightPercentage:(CGFloat)heightPercentage
         initialDate:(NSDate *)initialDate
 logDatePickedAction:(void(^)(NSDate *))logDatePickedAction;
 
