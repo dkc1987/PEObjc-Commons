@@ -186,21 +186,7 @@ busy.  Please retry your request shortly."]
 }
 
 - (void)deterministicButtonAction {
-  [PEUIUtils showLoginSuccessAlertWithTitle:@"Login success."
-                           alertDescription:[[NSAttributedString alloc] initWithString:@"\
-You have been successfully logged in.\n\n\
-Your remote account is now connected to \
-this device.  Any fuel purchase data that \
-you create and save will be synced to your \
-remote account."]
-                            syncIconMessage:[[NSAttributedString alloc] initWithString:@"\
-The following icon will appear in the app \
-indicating that your are currently logged \
-into your remote account:"]
-                                   topInset:70.0
-                                buttonTitle:@"Okay."
-                               buttonAction:nil
-                             relativeToView:self.view];
+
 }
 
 - (void)cButtonAction {

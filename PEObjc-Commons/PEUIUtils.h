@@ -1281,28 +1281,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      buttonAction:(void(^)(void))buttonAction
                    relativeToView:(UIView *)relativeToView;
 
-+ (void)showLoginSuccessAlertWithTitle:(NSString *)title
-                      alertDescription:(NSAttributedString *)alertDescription
-                       syncIconMessage:(NSAttributedString *)syncIconMessage
-                              topInset:(CGFloat)topInset
-                           buttonTitle:(NSString *)buttonTitle
-                          buttonAction:(void(^)(void))buttonAction
-                        relativeToView:(UIView *)relativeToView;
-
-+ (void)showInfoAlertWithTitle:(NSString *)title
-              alertDescription:(NSAttributedString *)alertDescription
-                      topInset:(CGFloat)topInset
-                   buttonTitle:(NSString *)buttonTitle
-                  buttonAction:(void(^)(void))buttonAction
-                relativeToView:(UIView *)relativeToView;
-
-+ (void)showInstructionalAlertWithTitle:(NSString *)title
-                   alertDescriptionText:(NSString *)alertDescriptionText
-                        instructionText:(NSString *)instructionText
-                               topInset:(CGFloat)topInset
-                            buttonTitle:(NSString *)buttonTitle
-                           buttonAction:(void(^)(void))buttonAction
-                         relativeToView:(UIView *)relativeToView;
++ (void)showSuccessAlertWithTitle:(NSString *)title
+                 alertDescription:(NSAttributedString *)alertDescription
+         additionalContentSection:(JGActionSheetSection *)additionalContentSection
+                         topInset:(CGFloat)topInset
+                      buttonTitle:(NSString *)buttonTitle
+                     buttonAction:(void(^)(void))buttonAction
+                   relativeToView:(UIView *)relativeToView;
 
 /**
  Displays a success alert dialog with the provided collection of messages to display.
@@ -1320,6 +1305,30 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      buttonTitle:(NSString *)buttonTitle
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView;
+
++ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSAttributedString *)alertDescription
+        additionalContentSection:(JGActionSheetSection *)additionalContentSection
+                        topInset:(CGFloat)topInset
+                     buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
+                  relativeToView:(UIView *)relativeToView;
+
++ (void)showInfoAlertWithTitle:(NSString *)title
+              alertDescription:(NSAttributedString *)alertDescription
+                      topInset:(CGFloat)topInset
+                   buttonTitle:(NSString *)buttonTitle
+                  buttonAction:(void(^)(void))buttonAction
+                relativeToView:(UIView *)relativeToView;
+
++ (void)showInstructionalAlertWithTitle:(NSString *)title
+                   alertDescriptionText:(NSString *)alertDescriptionText
+                        instructionText:(NSString *)instructionText
+                               topInset:(CGFloat)topInset
+                            buttonTitle:(NSString *)buttonTitle
+                           buttonAction:(void(^)(void))buttonAction
+                         relativeToView:(UIView *)relativeToView;
 
 /**
  Displays a 'please wait' alert dialog with the provided collection of messages to display.

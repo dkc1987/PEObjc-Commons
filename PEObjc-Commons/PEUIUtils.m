@@ -1244,7 +1244,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
                                           verticalTextPadding:0.0
-                                                   fitToWidth:contentView.frame.size.width];
+                                                   fitToWidth:contentView.frame.size.width - 5.0];
   UIImageView *topRightImageView = nil;
   if (topRightImage) {
     topRightImageView = [[UIImageView alloc] initWithImage:topRightImage];
@@ -1941,19 +1941,26 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   return @[section, conflictResolvePanelArray[1]];
 }
 
-#pragma mark - Showing Alert Helper
+#pragma mark - Showing Alert Helpers
 
 + (void)showAlertWithButtonTitle:(NSString *)buttonTitle
                         topInset:(CGFloat)topInset
                     buttonAction:(void(^)(void))buttonAction
                   relativeToView:(UIView *)relativeToView
-             contentSectionMaker:(PEAlertSectionMaker)contentSectionMaker {
+             contentSectionMaker:(PEAlertSectionMaker)contentSectionMaker
+        additionalContentSection:(JGActionSheetSection *)additionalContentSection {
   JGActionSheetSection *contentSection = contentSectionMaker();
   JGActionSheetSection *buttonsSection = [JGActionSheetSection sectionWithTitle:nil
                                                                         message:nil
                                                                    buttonTitles:@[buttonTitle]
                                                                     buttonStyle:JGActionSheetButtonStyleDefault];
-  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:@[contentSection, buttonsSection]];
+  NSMutableArray *sections = [NSMutableArray array];
+  [sections addObject:contentSection];
+  if (additionalContentSection) {
+    [sections addObject:additionalContentSection];
+  }
+  [sections addObject:buttonsSection];
+  JGActionSheet *alertSheet = [JGActionSheet actionSheetWithSections:sections];
   [alertSheet setInsets:UIEdgeInsetsMake(topInset, 0.0f, 0.0f, 0.0f)];
   [alertSheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
     [sheet dismissAnimated:YES];
@@ -1962,6 +1969,19 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     }
   }];
   [alertSheet showInView:relativeToView animated:YES];
+}
+
++ (void)showAlertWithButtonTitle:(NSString *)buttonTitle
+                        topInset:(CGFloat)topInset
+                    buttonAction:(void(^)(void))buttonAction
+                  relativeToView:(UIView *)relativeToView
+             contentSectionMaker:(PEAlertSectionMaker)contentSectionMaker {
+  [PEUIUtils showAlertWithButtonTitle:buttonTitle
+                             topInset:topInset
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView
+                  contentSectionMaker:contentSectionMaker
+             additionalContentSection:nil];
 }
 
 #pragma mark - Showing Alerts
@@ -2278,38 +2298,66 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                       buttonTitle:(NSString *)buttonTitle
                      buttonAction:(void(^)(void))buttonAction
                    relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showSuccessAlertWithTitle:title
+                      alertDescription:alertDescription
+              additionalContentSection:nil
+                              topInset:topInset
+                           buttonTitle:buttonTitle
+                          buttonAction:buttonAction
+                        relativeToView:relativeToView];
+}
+
++ (void)showSuccessAlertWithTitle:(NSString *)title
+                 alertDescription:(NSAttributedString *)alertDescription
+         additionalContentSection:(JGActionSheetSection *)additionalContentSection
+                         topInset:(CGFloat)topInset
+                      buttonTitle:(NSString *)buttonTitle
+                     buttonAction:(void(^)(void))buttonAction
+                   relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
                              topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
                   contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithTitle:title
                                                                        alertDescription:alertDescription
-                                                                         relativeToView:relativeToView]; }];
+                                                                         relativeToView:relativeToView]; }
+             additionalContentSection:additionalContentSection];
 }
 
-+ (void)showLoginSuccessAlertWithTitle:(NSString *)title
-                      alertDescription:(NSAttributedString *)alertDescription
-                       syncIconMessage:(NSAttributedString *)syncIconMessage
-                              topInset:(CGFloat)topInset
-                           buttonTitle:(NSString *)buttonTitle
-                          buttonAction:(void(^)(void))buttonAction
-                        relativeToView:(UIView *)relativeToView {
-  PEAlertSectionMaker alertSectionMaker = ^ JGActionSheetSection * {
-    UIView *contentView = [PEUIUtils loginSuccessPanelWithTitle:title
-                                                    description:alertDescription
-                                                descriptionFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]
-                                                syncIconMessage:syncIconMessage
-                                                  syncImageIcon:[UIImage syncableMedIcon]
-                                                 relativeToView:relativeToView];
-    return [JGActionSheetSection sectionWithTitle:nil
-                                          message:nil
-                                      contentView:contentView];
-  };  
++ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSAttributedString *)alertDescription
+                        topInset:(CGFloat)topInset
+                     buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
+                  relativeToView:(UIView *)relativeToView {
+  [PEUIUtils showSuccessAlertWithMsgs:msgs
+                                title:title
+                     alertDescription:alertDescription
+             additionalContentSection:nil
+                             topInset:topInset
+                          buttonTitle:buttonTitle
+                         buttonAction:buttonAction
+                       relativeToView:relativeToView];
+}
+
++ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
+                           title:(NSString *)title
+                alertDescription:(NSAttributedString *)alertDescription
+        additionalContentSection:(JGActionSheetSection *)additionalContentSection
+                        topInset:(CGFloat)topInset
+                     buttonTitle:(NSString *)buttonTitle
+                    buttonAction:(void(^)(void))buttonAction
+                  relativeToView:(UIView *)relativeToView {
   [PEUIUtils showAlertWithButtonTitle:buttonTitle
                              topInset:topInset
                          buttonAction:buttonAction
                        relativeToView:relativeToView
-                  contentSectionMaker:alertSectionMaker];
+                  contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithMsgs:msgs
+                                                                                 title:title
+                                                                      alertDescription:alertDescription
+                                                                        relativeToView:relativeToView]; }
+             additionalContentSection:additionalContentSection];
 }
 
 + (void)showInfoAlertWithTitle:(NSString *)title
@@ -2342,23 +2390,6 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                 alertDescriptionText:alertDescriptionText
                                                                      instructionText:instructionText
                                                                       relativeToView:relativeToView]; }];
-}
-
-+ (void)showSuccessAlertWithMsgs:(NSArray *)msgs
-                           title:(NSString *)title
-                alertDescription:(NSAttributedString *)alertDescription
-                        topInset:(CGFloat)topInset
-                     buttonTitle:(NSString *)buttonTitle
-                    buttonAction:(void(^)(void))buttonAction
-                  relativeToView:(UIView *)relativeToView {
-  [PEUIUtils showAlertWithButtonTitle:buttonTitle
-                             topInset:topInset
-                         buttonAction:buttonAction
-                       relativeToView:relativeToView
-                  contentSectionMaker:^{ return [PEUIUtils successAlertSectionWithMsgs:msgs
-                                                                                 title:title
-                                                                      alertDescription:alertDescription
-                                                                        relativeToView:relativeToView]; }];
 }
 
 + (void)showWaitAlertWithMsgs:(NSArray *)msgs
