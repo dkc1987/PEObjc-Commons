@@ -24,6 +24,7 @@
 		1869DCF51A7B370E000FFA81 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869DCF41A7B370E000FFA81 /* AppDelegate.m */; };
 		1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
+		CA27A55D1BCCA60100CBD4B9 /* NSDate+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27A55C1BCCA60100CBD4B9 /* NSDate+PEAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		CA2AC91B1B7A90A200192E76 /* PEHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */; };
 		CA2AC91F1B7A946F00192E76 /* PEDataTableScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */; };
 		CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228801B8BB89600896679 /* libBlocksKit.a */; };
@@ -99,6 +100,8 @@
 		1869DCF41A7B370E000FFA81 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		373F2C92E48483A64179521D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9544E149096AC415210CC2D4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CA27A55B1BCCA60100CBD4B9 /* NSDate+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+PEAdditions.h"; sourceTree = "<group>"; };
+		CA27A55C1BCCA60100CBD4B9 /* NSDate+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PEAdditions.m"; sourceTree = "<group>"; };
 		CA2AC9191B7A90A200192E76 /* PEHomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEHomeScreen.h; sourceTree = "<group>"; };
 		CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEHomeScreen.m; sourceTree = "<group>"; };
 		CA2AC91D1B7A946F00192E76 /* PEDataTableScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEDataTableScreen.h; sourceTree = "<group>"; };
@@ -252,6 +255,7 @@
 		186348C51A7AB7440090E88D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				CA27A55A1BCCA5BC00CBD4B9 /* NSDate */,
 				CA97EE461B594863000EC1B3 /* NSMutableArray */,
 				CA9C30B11B569A72009E8AF3 /* UIView */,
 				CA9C30AD1B5597DF009E8AF3 /* UIImage */,
@@ -369,6 +373,15 @@
 				14A3617BC01BCB92B6EAF426 /* libPods-PEObjc-CommonsTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA27A55A1BCCA5BC00CBD4B9 /* NSDate */ = {
+			isa = PBXGroup;
+			children = (
+				CA27A55B1BCCA60100CBD4B9 /* NSDate+PEAdditions.h */,
+				CA27A55C1BCCA60100CBD4B9 /* NSDate+PEAdditions.m */,
+			);
+			name = NSDate;
 			sourceTree = "<group>";
 		};
 		CA2AC9181B7A908C00192E76 /* Home screen */ = {
@@ -637,6 +650,7 @@
 				186348D71A7AB8810090E88D /* PEUtils.m in Sources */,
 				186348E01A7AB89D0090E88D /* NSMutableDictionary+PEAdditions.m in Sources */,
 				CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */,
+				CA27A55D1BCCA60100CBD4B9 /* NSDate+PEAdditions.m in Sources */,
 				186348E31A7AB8A40090E88D /* NSString+PEAdditions.m in Sources */,
 				186348D41A7AB8770090E88D /* PEUIToolkit.m in Sources */,
 				CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */,
