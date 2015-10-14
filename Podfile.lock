@@ -19,7 +19,7 @@ PODS:
 
 DEPENDENCIES:
   - BlocksKit (~> 2.2.5)
-  - JGActionSheet (~> 1.0.4)
+  - JGActionSheet (~> 1.0.5)
   - Kiwi (~> 2.3.1)
 
 SPEC CHECKSUMS:
@@ -27,4 +27,4 @@ SPEC CHECKSUMS:
   JGActionSheet: 2cfca820b57a11ec4b4a5655d45ee599fbeddc05
   Kiwi: f038a6c61f7a9e4d7766bff5717aa3b3fdb75f55
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
