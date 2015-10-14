@@ -26,7 +26,6 @@
 #import "NSString+PEAdditions.h"
 #import "UIImage+PEAdditions.h"
 #import "PEObjcCommonsConstantsInternal.h"
-#import <JGActionSheet/JGActionSheet.h>
 #import <BlocksKit/UIControl+BlocksKit.h>
 
 typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
