@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PEUIToolkit.h"
-#import <JGActionSheet/JGActionSheet.h>
+#import "JGActionSheet.h"
 
 /** Horizontal alignment types. */
 typedef NS_ENUM(NSInteger, PEUIHorizontalAlignmentType) {

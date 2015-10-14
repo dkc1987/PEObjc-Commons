@@ -102,6 +102,8 @@
 		9544E149096AC415210CC2D4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CA27A55B1BCCA60100CBD4B9 /* NSDate+PEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+PEAdditions.h"; sourceTree = "<group>"; };
 		CA27A55C1BCCA60100CBD4B9 /* NSDate+PEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PEAdditions.m"; sourceTree = "<group>"; };
+		CA27A5621BCE063200CBD4B9 /* JGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JGActionSheet.h; path = "PEObjc-Commons/JGActionSheet.h"; sourceTree = "<group>"; };
+		CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JGActionSheet.m; path = "PEObjc-Commons/JGActionSheet.m"; sourceTree = "<group>"; };
 		CA2AC9191B7A90A200192E76 /* PEHomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEHomeScreen.h; sourceTree = "<group>"; };
 		CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEHomeScreen.m; sourceTree = "<group>"; };
 		CA2AC91D1B7A946F00192E76 /* PEDataTableScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEDataTableScreen.h; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				183D8A851A7AB47C0022AC28 /* PEObjc-Commons */,
+				CA27A5611BCE058F00CBD4B9 /* JGActionSheet */,
 				CA7BA2661B4CB8A200CCB7FB /* Resources */,
 				183D8A921A7AB47C0022AC28 /* PEObjc-CommonsTests */,
 				1869DCCE1A7B36AA000FFA81 /* DemoApp */,
@@ -382,6 +385,15 @@
 				CA27A55C1BCCA60100CBD4B9 /* NSDate+PEAdditions.m */,
 			);
 			name = NSDate;
+			sourceTree = "<group>";
+		};
+		CA27A5611BCE058F00CBD4B9 /* JGActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				CA27A5621BCE063200CBD4B9 /* JGActionSheet.h */,
+				CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */,
+			);
+			name = JGActionSheet;
 			sourceTree = "<group>";
 		};
 		CA2AC9181B7A908C00192E76 /* Home screen */ = {

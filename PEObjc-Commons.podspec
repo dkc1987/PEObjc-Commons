@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "PEObjc-Commons"
-  s.version      = "1.0.65"
+  s.version      = "1.0.66"
   s.license      = "MIT"
   s.summary      = "A collection of common Objective-C utilities that are not particular to any domain."
   s.author       = { "Paul Evans" => "evansp2@gmail.com" }
@@ -12,7 +12,6 @@ Pod::Spec.new do |s|
   s.exclude_files = "**/*Tests/*.*", "**/DemoApp/*"
   s.requires_arc = true
   s.resources = "#{s.name}/Resources/#{s.name}.bundle"
-  s.dependency 'JGActionSheet', '~> 1.0.5'
   s.dependency 'BlocksKit', '~> 2.2.5'
 
 end
