@@ -998,6 +998,46 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
                    relativeToView:(UIView *)relativeToView {
+  return [PEUIUtils tablePanelWithRowData:rowData
+                           withCellHeight:cellHeight
+                        labelLeftHPadding:labelLeftHPadding
+                       valueRightHPadding:valueRightHPadding
+                                labelFont:labelFont
+                                valueFont:valueFont
+                           labelTextColor:labelTextColor
+                           valueTextColor:valueTextColor
+           minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
+                        includeTopDivider:includeTopDivider
+                     includeBottomDivider:includeBottomDivider
+                     includeInnerDividers:includeInnerDividers
+                  innerDividerWidthFactor:innerDividerWidthFactor
+                           dividerPadding:dividerPadding
+                  rowPanelBackgroundColor:rowPanelPackgroundColor
+                     panelBackgroundColor:panelBackgroundColor
+                             dividerColor:dividerColor
+                     footerAttributedText:nil
+                           relativeToView:relativeToView];
+}
+
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+                   relativeToView:(UIView *)relativeToView {
   CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
   NSInteger numRows = [rowData count];
   CGFloat innerDividerPaddingFactor = includeInnerDividers ? 2.0 : 1.5;
@@ -1019,7 +1059,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     topDivider = makeDivider(1.0);
     [PEUIUtils placeView:topDivider atTopOf:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:0.0 hpadding:0.0];
   }
-  UIView *aboveRowPanel;
+  UIView *aboveRowPanel = topDivider;
   for (int i = 0; i < numRows; i++) {
     NSArray *cellData = rowData[i];
     NSString *labelStr = cellData[0];
@@ -1075,11 +1115,30 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   if (includeBottomDivider) {
     UIView *bottomDivider = makeDivider(1.0);
-    [PEUIUtils placeView:bottomDivider
-              atBottomOf:panel
-           withAlignment:PEUIHorizontalAlignmentTypeLeft
-                vpadding:(innerDividerPaddingFactor * dividerPadding)
-                hpadding:0.0];
+    if (aboveRowPanel) {
+      [PEUIUtils placeView:bottomDivider
+                     below:aboveRowPanel
+                      onto:panel
+             withAlignment:PEUIHorizontalAlignmentTypeLeft
+                  vpadding:(innerDividerPaddingFactor * dividerPadding)
+                  hpadding:0.0];
+    } else {
+      [PEUIUtils placeView:bottomDivider
+                atTopOf:panel
+             withAlignment:PEUIHorizontalAlignmentTypeLeft
+                  vpadding:0.0
+                  hpadding:0.0];
+    }
+    aboveRowPanel = bottomDivider;
+  }
+  if (footerAttributedText) {
+    UILabel *footerLabel = [PEUIUtils labelWithAttributeText:footerAttributedText
+                                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                             backgroundColor:[UIColor clearColor]
+                                                   textColor:[UIColor darkGrayColor]
+                                         verticalTextPadding:3.0
+                                                  fitToWidth:(panel.frame.size.width - 8)];
+    [PEUIUtils placeView:footerLabel below:aboveRowPanel onto:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:10.0 hpadding:10.0];
   }
   return panel;
 }

@@ -974,6 +974,26 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      dividerColor:(UIColor *)dividerColor
                    relativeToView:(UIView *)relativeToView;
 
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+                   relativeToView:(UIView *)relativeToView;
+
 /**
  Creates a panel (UIView) that will contain a string of views flowing from left
  to right, with hpadding in-between them.  The string-of-views will be

@@ -34,6 +34,9 @@
                        @[@"Label 2", @"value 2.  Yes, I am the value 2 value and I'm very long."],
                        @[@"Label 3", @"value 3"],
                        @[@"Label 4", [PEUtils emptyIfNil:nil]]];
+  NSAttributedString *footerText = [PEUIUtils attributedTextWithTemplate:@"Hello.  I'm the footer text, and, for testing, I'm going to make this %@ message."
+                                                            textToAccent:@"a really long"
+                                                          accentTextFont:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]];
   UIView *dataTablePanel = [PEUIUtils tablePanelWithRowData:rowData
                                              withCellHeight:36.75
                                           labelLeftHPadding:15.0
@@ -51,6 +54,7 @@
                                     rowPanelBackgroundColor:[UIColor whiteColor]
                                        panelBackgroundColor:[UIColor whiteColor]
                                                dividerColor:[UIColor lightGrayColor]
+                                       footerAttributedText:footerText
                                              relativeToView:self.view];
   [PEUIUtils placeView:dataTablePanel
                atTopOf:self.view
