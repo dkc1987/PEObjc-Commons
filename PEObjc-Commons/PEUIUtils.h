@@ -592,6 +592,13 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
                           textColor:(UIColor *)textColor
                 verticalTextPadding:(CGFloat)verticalTextPadding;
 
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+           fontForHeightCalculation:(UIFont *)fontForHeightCalculation
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding;
+
 /**
  Constructs and returns a UILabel with the given attributes.
  @param attributedText The attributed string to use for the text of the label.
@@ -605,6 +612,14 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  */
 + (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
                                font:(UIFont *)font
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding
+                         fitToWidth:(CGFloat)fitToWidth;
+
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+           fontForHeightCalculation:(UIFont *)fontForHeightCalculation
                     backgroundColor:(UIColor *)backgroundColor
                           textColor:(UIColor *)textColor
                 verticalTextPadding:(CGFloat)verticalTextPadding
@@ -992,6 +1007,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
                    relativeToView:(UIView *)relativeToView;
 
 /**

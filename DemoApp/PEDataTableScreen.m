@@ -55,6 +55,8 @@
                                        panelBackgroundColor:[UIColor whiteColor]
                                                dividerColor:[UIColor lightGrayColor]
                                        footerAttributedText:footerText
+                             footerFontForHeightCalculation:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]
+                                      footerVerticalPadding:5.0
                                              relativeToView:self.view];
   [PEUIUtils placeView:dataTablePanel
                atTopOf:self.view

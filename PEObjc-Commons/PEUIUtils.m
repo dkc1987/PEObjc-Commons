@@ -531,13 +531,14 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
 + (UILabel *)emptyLabelToFitText:(NSString *)text
                             font:(UIFont *)font
+        fontForHeightCalculation:(UIFont *)fontForHeightCalculation
                  backgroundColor:(UIColor *)backgroundColor
                        textColor:(UIColor *)textColor
              verticalTextPadding:(CGFloat)verticalTextPadding
                       fitToWidth:(CGFloat)fitToWidth {
   CGRect rect = [text boundingRectWithSize:CGSizeMake(fitToWidth, MAXFLOAT)
                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                attributes:@{ NSFontAttributeName : font }
+                                attributes:@{ NSFontAttributeName : fontForHeightCalculation }
                                    context:nil];
   return [PEUIUtils emptyLabelWithFont:font
                        backgroundColor:backgroundColor
@@ -549,10 +550,11 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
 + (UILabel *)emptyLabelToFitText:(NSString *)text
                             font:(UIFont *)font
+        fontForHeightCalculation:(UIFont *)fontForHeightCalculation
                  backgroundColor:(UIColor *)backgroundColor
                        textColor:(UIColor *)textColor
              verticalTextPadding:(CGFloat)verticalTextPadding {
-  CGSize textSize = [PEUIUtils sizeOfText:text withFont:font];
+  CGSize textSize = [PEUIUtils sizeOfText:text withFont:fontForHeightCalculation];
   return [PEUIUtils emptyLabelWithFont:font
                        backgroundColor:backgroundColor
                              textColor:textColor
@@ -571,6 +573,7 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   NSString *text = LS(key);
   UILabel *label = [PEUIUtils emptyLabelToFitText:text
                                              font:font
+                         fontForHeightCalculation:font
                                   backgroundColor:backgroundColor
                                         textColor:textColor
                               verticalTextPadding:verticalTextPadding];
@@ -587,6 +590,7 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   NSString *text = LS(key);
   UILabel *label = [PEUIUtils emptyLabelToFitText:text
                                              font:font
+                         fontForHeightCalculation:font
                                   backgroundColor:backgroundColor
                                         textColor:textColor
                               verticalTextPadding:verticalTextPadding
@@ -600,8 +604,23 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
                     backgroundColor:(UIColor *)backgroundColor
                           textColor:(UIColor *)textColor
                 verticalTextPadding:(CGFloat)verticalTextPadding {
+  return [PEUIUtils labelWithAttributeText:attributedText
+                                      font:font
+                  fontForHeightCalculation:font
+                           backgroundColor:backgroundColor
+                                 textColor:textColor
+                       verticalTextPadding:verticalTextPadding];
+}
+
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+           fontForHeightCalculation:(UIFont *)fontForHeightCalculation
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding {
   UILabel *label = [PEUIUtils emptyLabelToFitText:[attributedText string]
                                              font:font
+                         fontForHeightCalculation:fontForHeightCalculation
                                   backgroundColor:backgroundColor
                                         textColor:textColor
                               verticalTextPadding:verticalTextPadding];
@@ -615,8 +634,25 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
                           textColor:(UIColor *)textColor
                 verticalTextPadding:(CGFloat)verticalTextPadding
                          fitToWidth:(CGFloat)fitToWidth {
+  return [PEUIUtils labelWithAttributeText:attributedText
+                                      font:font
+                  fontForHeightCalculation:font
+                           backgroundColor:backgroundColor
+                                 textColor:textColor
+                       verticalTextPadding:verticalTextPadding
+                                fitToWidth:fitToWidth];
+}
+
++ (UILabel *)labelWithAttributeText:(NSAttributedString *)attributedText
+                               font:(UIFont *)font
+           fontForHeightCalculation:(UIFont *)fontForHeightCalculation
+                    backgroundColor:(UIColor *)backgroundColor
+                          textColor:(UIColor *)textColor
+                verticalTextPadding:(CGFloat)verticalTextPadding
+                         fitToWidth:(CGFloat)fitToWidth {
   UILabel *label = [PEUIUtils emptyLabelToFitText:[attributedText string]
                                              font:font
+                         fontForHeightCalculation:fontForHeightCalculation
                                   backgroundColor:backgroundColor
                                         textColor:textColor
                               verticalTextPadding:verticalTextPadding
@@ -1016,6 +1052,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      panelBackgroundColor:panelBackgroundColor
                              dividerColor:dividerColor
                      footerAttributedText:nil
+           footerFontForHeightCalculation:nil
+                    footerVerticalPadding:0.0
                            relativeToView:relativeToView];
 }
 
@@ -1037,6 +1075,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
                    relativeToView:(UIView *)relativeToView {
   CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
   NSInteger numRows = [rowData count];
@@ -1134,11 +1174,18 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   if (footerAttributedText) {
     UILabel *footerLabel = [PEUIUtils labelWithAttributeText:footerAttributedText
                                                         font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                    fontForHeightCalculation:footerFontForHeightCalculation
                                              backgroundColor:[UIColor clearColor]
                                                    textColor:[UIColor darkGrayColor]
                                          verticalTextPadding:3.0
                                                   fitToWidth:(panel.frame.size.width - 8)];
-    [PEUIUtils placeView:footerLabel below:aboveRowPanel onto:panel withAlignment:PEUIHorizontalAlignmentTypeLeft vpadding:10.0 hpadding:10.0];
+    [PEUIUtils placeView:footerLabel
+                   below:aboveRowPanel
+                    onto:panel
+           withAlignment:PEUIHorizontalAlignmentTypeLeft
+                vpadding:footerVerticalPadding
+                hpadding:10.0];
+    [PEUIUtils setFrameHeight:(panel.frame.size.height + footerVerticalPadding + footerLabel.frame.size.height) ofView:panel];
   }
   return panel;
 }
