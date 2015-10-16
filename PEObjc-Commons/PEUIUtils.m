@@ -1346,6 +1346,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   UILabel *descriptionLbl = [PEUIUtils labelWithAttributeText:description
                                                          font:descriptionFont
+                                     fontForHeightCalculation:[UIFont boldSystemFontOfSize:descriptionFont.pointSize]
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
                                           verticalTextPadding:0.0
@@ -1370,7 +1371,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   // now add a little bit more height so there's some nice bottom-padding; we'll have more
   // padding for when we have no messages panel-column.
   if ([msgs count] > 0) {
-    contentViewHeight += 3.0;
+    contentViewHeight += 7.5;
   } else {
     contentViewHeight += 10.0;
   }
@@ -1454,6 +1455,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                   relativeToView:relativeToView];
   UIView *failuresPanel = [PEUIUtils failuresPanelWithFailures:failures
                                                          width:contentView.frame.size.width];
+  // extending the height here will give a nice bit of bottom-padding
+  [PEUIUtils setFrameHeight:failuresPanel.frame.size.height + 6.5 ofView:failuresPanel];
   return [PEUIUtils panelWithColumnOfViews:@[contentView, failuresPanel]
                verticalPaddingBetweenViews:0.0
                             viewsAlignment:PEUIHorizontalAlignmentTypeLeft];
