@@ -27,6 +27,7 @@
 #import "UIImage+PEAdditions.h"
 #import "PEObjcCommonsConstantsInternal.h"
 #import <BlocksKit/UIControl+BlocksKit.h>
+#import "UIView+PERoundify.h"
 
 typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
@@ -79,50 +80,54 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
 + (CGPoint)pointToTheRightOf:(UIView *)view
                withAlignment:(PEUIVerticalAlignmentType)alignment
+     alignmentRelativeToView:(UIView *)alignmentRelativeToView
                     hpadding:(CGFloat)hpadding
                 forBoxOfSize:(CGSize)size {
   CGRect viewRect = [view frame];
   return CGPointMake(viewRect.origin.x + viewRect.size.width + hpadding,
                      [PEUIUtils YForHeight:size.height
                              withAlignment:alignment
-                            relativeToView:view
+                            relativeToView:alignmentRelativeToView
                                   vpadding:0]);
 }
 
 + (CGPoint)pointToTheLeftOf:(UIView *)view
               withAlignment:(PEUIVerticalAlignmentType)alignment
+    alignmentRelativeToView:(UIView *)alignmentRelativeToView
                    hpadding:(CGFloat)hpadding
                forBoxOfSize:(CGSize)size {
   CGRect viewRect = [view frame];
   return CGPointMake(viewRect.origin.x - (size.width + hpadding),
                      [PEUIUtils YForHeight:size.height
                              withAlignment:alignment
-                            relativeToView:view
+                            relativeToView:alignmentRelativeToView
                                   vpadding:0]);
 }
 
 + (CGPoint)pointAbove:(UIView *)view
         withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
              vpadding:(CGFloat)vpadding
              hpadding:(CGFloat)hpadding
          forBoxOfSize:(CGSize)size {
   CGRect viewRect = [view frame];
   return CGPointMake([PEUIUtils XForWidth:size.width
                             withAlignment:alignment
-                           relativeToView:view
+                           relativeToView:alignmentRelativeToView
                                  hpadding:hpadding],
                      viewRect.origin.y - (size.height + vpadding));
 }
 
 + (CGPoint)pointBelow:(UIView *)view
         withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
              vpadding:(CGFloat)vpadding
              hpadding:(CGFloat)hpadding
          forBoxOfSize:(CGSize)size {
   CGRect viewRect = [view frame];
   return CGPointMake([PEUIUtils XForWidth:size.width
                             withAlignment:alignment
-                           relativeToView:view
+                           relativeToView:alignmentRelativeToView
                                  hpadding:hpadding],
                      viewRect.origin.y + (viewRect.size.height + vpadding));
 }
@@ -245,9 +250,26 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+                 below:relativeTo
+                  onto:ontoView
+         withAlignment:alignment
+alignmentRelativeToView:relativeTo
+              vpadding:vpadding
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+            below:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         vpadding:(CGFloat)vpadding
+         hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:relativeTo
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:alignmentRelativeToView
                                     withAlignment:alignment
+                          alignmentRelativeToView:alignmentRelativeToView
                                          vpadding:vpadding
                                          hpadding:hpadding
                                      forBoxOfSize:[view frame].size]
@@ -260,9 +282,26 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+                 above:relativeTo
+                  onto:ontoView
+         withAlignment:alignment
+alignmentRelativeToView:relativeTo
+              vpadding:vpadding
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+            above:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         vpadding:(CGFloat)vpadding
+         hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:relativeTo
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:alignmentRelativeToView
                                     withAlignment:alignment
+                          alignmentRelativeToView:alignmentRelativeToView
                                          vpadding:vpadding
                                          hpadding:hpadding
                                      forBoxOfSize:[view frame].size]
@@ -274,9 +313,24 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
              onto:(UIView *)ontoView
     withAlignment:(PEUIVerticalAlignmentType)alignment
          hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+           toTheLeftOf:relativeTo
+                  onto:ontoView
+         withAlignment:alignment
+alignmentRelativeToView:relativeTo
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+      toTheLeftOf:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
   [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheLeftOf:relativeTo
                                           withAlignment:alignment
+                                alignmentRelativeToView:alignmentRelativeToView
                                                hpadding:hpadding
                                            forBoxOfSize:[view frame].size]
                      ofView:view];
@@ -287,9 +341,24 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
              onto:(UIView *)ontoView
     withAlignment:(PEUIVerticalAlignmentType)alignment
          hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+          toTheRightOf:relativeTo
+                  onto:ontoView
+         withAlignment:alignment
+alignmentRelativeToView:relativeTo
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+     toTheRightOf:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
   [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheRightOf:relativeTo
                                            withAlignment:alignment
+                                 alignmentRelativeToView:alignmentRelativeToView
                                                 hpadding:hpadding
                                             forBoxOfSize:[view frame].size]
                      ofView:view];
@@ -690,6 +759,57 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
   [PEUIUtils setFrameWidth:textSize.width ofView:label];
 }
 
++ (UIView *)badgeForNum:(NSInteger)num
+                  color:(UIColor *)color
+         badgeTextColor:(UIColor *)badgeTextColor {
+  CGFloat widthPadding = 30.0;
+  CGFloat heightFactor = 1.45;
+  CGFloat fontSize = [UIFont systemFontSize];
+  NSString *labelText = [NSString stringWithFormat:@"%ld", (long)num];
+  UILabel *label = [PEUIUtils labelWithKey:labelText
+                                      font:[UIFont boldSystemFontOfSize:fontSize]
+                           backgroundColor:[UIColor clearColor]
+                                 textColor:badgeTextColor
+                       verticalTextPadding:0.0];
+  UIView *badge = [PEUIUtils panelWithFixedWidth:label.frame.size.width + widthPadding
+                                     fixedHeight:label.frame.size.height * heightFactor];
+  [badge addRoundedCorners:UIRectCornerAllCorners
+                 withRadii:CGSizeMake(20.0, 20.0)];
+  badge.alpha = 0.8;
+  badge.backgroundColor = color;
+  [PEUIUtils placeView:label
+            inMiddleOf:badge
+         withAlignment:PEUIHorizontalAlignmentTypeCenter
+              hpadding:0.0];
+  return badge;
+}
+
++ (UILabel *)labelForRecordCount:(NSInteger)recordCount {
+  return [PEUIUtils labelWithKey:[PEUtils labelTextForRecordCount:recordCount]
+                            font:[UIFont systemFontOfSize:10]
+                 backgroundColor:[UIColor clearColor]
+                       textColor:[UIColor darkGrayColor]
+             verticalTextPadding:0.0];
+}
+
++ (void)placeRecordCountLabel:(UILabel *)recordCountLabel
+                   ontoButton:(UIButton *)button {
+  [PEUIUtils placeView:recordCountLabel
+            atBottomOf:button
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              vpadding:5.0
+              hpadding:6.0];
+}
+
++ (void)refreshRecordCountLabelOnButton:(UIButton *)button
+                    recordCountLabelTag:(NSInteger)recordCountLabelTag
+                            recordCount:(NSInteger)recordCount {
+  UILabel *recordCountLabel = (UILabel *)[button viewWithTag:recordCountLabelTag];
+  if (recordCountLabel) {
+    [PEUIUtils setTextAndResize:[PEUtils labelTextForRecordCount:recordCount] forLabel:recordCountLabel];
+  }
+}
+
 #pragma mark - Text Fields
 
 + (UITextField *)textfieldWithPlaceholderTextKey:(NSString *)key
@@ -886,7 +1006,69 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [button setBackgroundImage:bgColorAsImgNormState forState:UIControlStateNormal];
 }
 
++ (UIButton *)buttonWithLabel:(NSString *)labelText
+                 tagForButton:(NSNumber *)tagForButton
+                  recordCount:(NSInteger)recordCount
+       tagForRecordCountLabel:(NSNumber *)tagForRecordCountLabel
+            addDisclosureIcon:(BOOL)addDisclosureIcon
+                      handler:(void(^)(void))handler
+                    uitoolkit:(PEUIToolkit *)uitoolkit
+               relativeToView:(UIView *)relativeToView {
+  UIButton *button = [uitoolkit systemButtonMaker](labelText, nil, nil);
+  if (tagForButton) {
+    [button setTag:[tagForButton integerValue]];
+  }
+  [[button layer] setCornerRadius:0.0];
+  [PEUIUtils setFrameWidthOfView:button ofWidth:1.0 relativeTo:relativeToView];
+  if (addDisclosureIcon) {
+    [PEUIUtils addDisclosureIndicatorToButton:button];
+  }
+  [button bk_addEventHandler:^(id sender) {
+    handler();
+  } forControlEvents:UIControlEventTouchUpInside];
+  UILabel *recordCountLabel = [PEUIUtils labelForRecordCount:recordCount];
+  if (tagForRecordCountLabel) {
+    [recordCountLabel setTag:[tagForRecordCountLabel integerValue]];
+  }
+  [PEUIUtils placeRecordCountLabel:recordCountLabel ontoButton:button];
+  return button;
+}
+
++ (UIButton *)buttonWithLabel:(NSString *)labelText
+                     badgeNum:(NSInteger)badgeNum
+                   badgeColor:(UIColor *)badgeColor
+               badgeTextColor:(UIColor *)badgeTextColor
+            addDisclosureIcon:(BOOL)addDisclosureIcon
+                      handler:(void(^)(void))handler
+                    uitoolkit:(PEUIToolkit *)uitoolkit
+               relativeToView:(UIView *)relativeToView {
+  UIButton *button = [uitoolkit systemButtonMaker](labelText, nil, nil);
+  [[button layer] setCornerRadius:0.0];
+  [PEUIUtils setFrameWidthOfView:button ofWidth:1.0 relativeTo:relativeToView];
+  if (addDisclosureIcon) {
+    [PEUIUtils addDisclosureIndicatorToButton:button];
+  }
+  [button bk_addEventHandler:^(id sender) {
+    handler();
+  } forControlEvents:UIControlEventTouchUpInside];
+  UIView *badge = [PEUIUtils badgeForNum:badgeNum color:badgeColor badgeTextColor:badgeTextColor];
+  [PEUIUtils placeView:badge
+            inMiddleOf:button
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:15.0];
+  return button;
+}
+
 #pragma mark - Panels
+
++ (UIView *)dividerWithWidthOf:(CGFloat)widthOf
+                         color:(UIColor *)color
+                relativeToView:(UIView *)relativeToView {
+  CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
+  UIView *divider = [PEUIUtils panelWithWidthOf:widthOf relativeToView:relativeToView fixedHeight:dividerHeight];
+  [divider setBackgroundColor:color];
+  return divider;
+}
 
 + (UIView *)panelWithFixedWidth:(CGFloat)width
                     fixedHeight:(CGFloat)height {
@@ -1189,6 +1371,47 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   return panel;
 }
+
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                        uitoolkit:(PEUIToolkit *)uitoolkit
+                       parentView:(UIView *)parentView {
+  return [PEUIUtils tablePanelWithRowData:rowData
+                     footerAttributedText:nil
+           footerFontForHeightCalculation:nil
+                    footerVerticalPadding:0.0
+                                uitoolkit:uitoolkit
+                               parentView:parentView];
+}
+
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
+                        uitoolkit:(PEUIToolkit *)uitoolkit
+                       parentView:(UIView *)parentView {
+  return [PEUIUtils tablePanelWithRowData:rowData
+                           withCellHeight:36.5
+                        labelLeftHPadding:10.0
+                       valueRightHPadding:12.5
+                                labelFont:[UIFont systemFontOfSize:16]
+                                valueFont:[UIFont systemFontOfSize:16]
+                           labelTextColor:[UIColor blackColor]
+                           valueTextColor:[UIColor grayColor]
+           minPaddingBetweenLabelAndValue:10.0
+                        includeTopDivider:NO
+                     includeBottomDivider:NO
+                     includeInnerDividers:NO
+                  innerDividerWidthFactor:0.95
+                           dividerPadding:3.5
+                  rowPanelBackgroundColor:[UIColor whiteColor]
+                     panelBackgroundColor:[uitoolkit colorForWindows]
+                             dividerColor:nil
+                     footerAttributedText:footerAttributedText
+           footerFontForHeightCalculation:footerFontForHeightCalculation
+                    footerVerticalPadding:footerVerticalPadding
+                           relativeToView:parentView];
+}
+
 
 + (UIView *)panelWithViews:(NSArray *)views
                    ofWidth:(CGFloat)percentage

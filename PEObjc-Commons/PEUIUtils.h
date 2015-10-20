@@ -104,11 +104,13 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  return.
  @param view The view serving as the neighbor for the calculated point.
  @param alignment The vertical alignment type.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
  @param hpadding Horizontal padding to apply.
  @return The point representing a beside-to spot to the right of the view.
  */
 + (CGPoint)pointToTheRightOf:(UIView *)view
                withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
                     hpadding:(CGFloat)hpadding
                 forBoxOfSize:(CGSize)size;
 
@@ -119,11 +121,13 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  return.
  @param view The view serving as the neighbor for the calculated point.
  @param alignment The vertical alignment type.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
  @param padding Horizontal padding to apply.
  @return The point representing a beside-to spot to the left of the view.
 */
 + (CGPoint)pointToTheLeftOf:(UIView *)view
               withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
                    hpadding:(CGFloat)hpadding
                forBoxOfSize:(CGSize)size;
 
@@ -133,12 +137,14 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  @param size This box is used to find the proper x and y-coordinates to return.
  @param view The view serving as the South-neighbor for the calculated point.
  @param alignment The horizontal alignment type.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
  @param vpadding Vertical padding to apply.
  @param hpadding Horizontal padding to apply.
  @return The point representing an above-to spot of the view.
 */
 + (CGPoint)pointAbove:(UIView *)view
         withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
              vpadding:(CGFloat)vpadding
              hpadding:(CGFloat)hpadding
          forBoxOfSize:(CGSize)size;
@@ -149,12 +155,14 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  @param size This box is used to find the proper x and y-coordinates to return.
  @param view The view serving as the North-neighbor for the calculated point.
  @param alignment The horizontal alignment type.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
  @param vpadding Vertical padding to apply.
  @param hpadding Horizontal padding to apply.
  @return The point representing a below-to spot of the view.
 */
 + (CGPoint)pointBelow:(UIView *)view
         withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
              vpadding:(CGFloat)vpadding
              hpadding:(CGFloat)hpadding
          forBoxOfSize:(CGSize)size;
@@ -301,6 +309,29 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
          hpadding:(CGFloat)hpadding;
 
 /**
+ Places the given view below relativeTo view on to ontoView, using the given
+ horizontal alignment type.
+ @param view The view to be added.
+ @param relativeTo The view the given view should be added below (aka, the
+ North-view).
+ @param ontoView The view in which the given view is added.
+ @param alignment The horizontal alignment type used when setting the
+ x-coordinate of view's frame.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
+ @param vpadding Vertical padding to apply between the given view and
+ relativeTo.
+ @param hpadding Horizontal padding to apply between the given view and
+ relativeTo.
+ */
++ (void)placeView:(UIView *)view
+            below:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         vpadding:(CGFloat)vpadding
+         hpadding:(CGFloat)hpadding;
+
+/**
  Places the given view above relativeTo view on to ontoView, using the given
  horizontal alignment type.
  @param view The view to be added.
@@ -318,6 +349,29 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
             above:(UIView *)relativeTo
              onto:(UIView *)ontoView
     withAlignment:(PEUIHorizontalAlignmentType)alignment
+         vpadding:(CGFloat)vpadding
+         hpadding:(CGFloat)hpadding;
+
+/**
+ Places the given view above relativeTo view on to ontoView, using the given
+ horizontal alignment type.
+ @param view The view to be added.
+ @param relativeTo The view the given view should be added above (aka, the
+ South-view).
+ @param ontoView The view in which the given view is added.
+ @param alignment The horizontal alignment type used when setting the
+ x-coordinate of view's frame.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
+ @param vpadding Vertical padding to apply between the given view and
+ relativeTo.
+ @param hpadding Horizontal padding to apply between the given view and
+ relativeTo.
+ */
++ (void)placeView:(UIView *)view
+            above:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding;
 
@@ -340,6 +394,26 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
          hpadding:(CGFloat)hpadding;
 
 /**
+ Places the given view to the left of relativeTo view on to ontoView, using the
+ given vertical alignment type.
+ @param view The view to be added.
+ @param relativeTo The view the given view should be added next to (aka, the
+ East-view).
+ @param ontoView The view in which the given view is added.
+ @param alignment The vertical alignment type used when setting the
+ y-coordinate of view's frame.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
+ @param hpadding Horizontal padding to apply between the given view and
+ relativeTo.
+ */
++ (void)placeView:(UIView *)view
+      toTheLeftOf:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+         hpadding:(CGFloat)hpadding;
+
+/**
  Places the given view to the right of relativeTo view on to ontoView, using the
  given vertical alignment type.
  @param view The view to be added.
@@ -355,6 +429,26 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
      toTheRightOf:(UIView *)relativeTo
              onto:(UIView *)ontoView
     withAlignment:(PEUIVerticalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding;
+
+/**
+ Places the given view to the right of relativeTo view on to ontoView, using the
+ given vertical alignment type.
+ @param view The view to be added.
+ @param relativeTo The view the given view should be added next to (aka, the
+ West-view).
+ @param ontoView The view in which the given view is added.
+ @param alignment The vertical alignment type used when setting the
+ y-coordinate of view's frame.
+ @param alignmentRelativeToView The view that the 'alignment' is relative to.
+ @param padding Horizontal padding to apply between the given view and
+ relativeTo.
+ */
++ (void)placeView:(UIView *)view
+     toTheRightOf:(UIView *)relativeTo
+             onto:(UIView *)ontoView
+    withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
          hpadding:(CGFloat)hpadding;
 
 #pragma mark - Animations
@@ -654,6 +748,14 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
  */
 + (void)setTextAndResize:(NSString *)text forLabel:(UILabel *)label;
 
++ (UIView *)badgeForNum:(NSInteger)num
+                  color:(UIColor *)color
+         badgeTextColor:(UIColor *)badgeTextColor;
+
++ (void)refreshRecordCountLabelOnButton:(UIButton *)button
+                    recordCountLabelTag:(NSInteger)recordCountLabelTag
+                            recordCount:(NSInteger)recordCount;
+
 #pragma mark - Text Fields
 
 /**
@@ -871,11 +973,33 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (void)setBackgroundColorOfButton:(UIButton *)button
                              color:(UIColor *)color;
 
++ (UIButton *)buttonWithLabel:(NSString *)labelText
+                 tagForButton:(NSNumber *)tagForButton
+                  recordCount:(NSInteger)recordCount
+       tagForRecordCountLabel:(NSNumber *)tagForRecordCountLabel
+            addDisclosureIcon:(BOOL)addDisclosureIcon
+                      handler:(void(^)(void))handler
+                    uitoolkit:(PEUIToolkit *)uitoolkit
+               relativeToView:(UIView *)relativeToView;
+
++ (UIButton *)buttonWithLabel:(NSString *)labelText
+                     badgeNum:(NSInteger)badgeNum
+                   badgeColor:(UIColor *)badgeColor
+               badgeTextColor:(UIColor *)badgeTextColor
+            addDisclosureIcon:(BOOL)addDisclosureIcon
+                      handler:(void(^)(void))handler
+                    uitoolkit:(PEUIToolkit *)uitoolkit
+               relativeToView:(UIView *)relativeToView;
+
 #pragma mark - Bundle Image Fetch
 
 + (UIImage *)bundleImageWithName:(NSString *)imageName;
 
 #pragma mark - Panels
+
++ (UIView *)dividerWithWidthOf:(CGFloat)widthOf
+                         color:(UIColor *)color
+                relativeToView:(UIView *)relativeToView;
 
 /**
  Constructs and returns a UIView with the given width and height to use for the
@@ -1010,6 +1134,19 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
                    relativeToView:(UIView *)relativeToView;
+
+// table panel with reasonable defaults
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                        uitoolkit:(PEUIToolkit *)uitoolkit
+                       parentView:(UIView *)parentView;
+
+// table panel with reasonable defaults
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
+                        uitoolkit:(PEUIToolkit *)uitoolkit
+                       parentView:(UIView *)parentView;
 
 /**
  Creates a panel (UIView) that will contain a string of views flowing from left

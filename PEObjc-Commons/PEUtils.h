@@ -35,12 +35,6 @@ typedef id (^PEOrNil)(id);
  */
 @interface PEUtils : NSObject
 
-#pragma mark - Computation
-
-+ (NSInteger)daysFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
-
-+ (NSArray *)daysBetweenDates:(NSArray *)dates;
-
 #pragma mark - System
 
 /** @return Helper that returns the device make / model name. */
@@ -68,6 +62,22 @@ typedef id (^PEOrNil)(id);
 
 + (void)setBoolValueForTarget:(id)object selector:(SEL)selector value:(BOOL)value;
 
+#pragma mark - Formatting
+
++ (NSNumberFormatter *)currencyFormatter;
+
+#pragma mark - Common Validations
+
++ (BOOL)validateEmailWithString:(NSString*)email;
+
+#pragma mark - Calendar
+
++ (NSInteger)daysFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
+
++ (NSArray *)daysBetweenDates:(NSArray *)dates;
+
++ (NSInteger)currentYear;
+
 #pragma mark - String
 
 /**
@@ -85,6 +95,14 @@ typedef id (^PEOrNil)(id);
 + (NSString *)emptyIfNil:(NSString *)value;
 
 + (NSString *)descriptionOrEmptyIfNil:(id)object;
+
++ (NSString *)textForDecimal:(NSDecimalNumber *)decimalValue
+                   formatter:(NSNumberFormatter *)formatter
+                   textIfNil:(NSString *)textIfNil;
+
++ (NSString *)labelTextForRecordCount:(NSInteger)recordCount;
+
+
 
 #pragma mark - Notifications
 
