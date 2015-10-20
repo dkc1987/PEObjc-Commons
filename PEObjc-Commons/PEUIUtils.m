@@ -267,7 +267,7 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:alignmentRelativeToView
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:relativeTo
                                     withAlignment:alignment
                           alignmentRelativeToView:alignmentRelativeToView
                                          vpadding:vpadding
@@ -299,7 +299,7 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:alignmentRelativeToView
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:relativeTo
                                     withAlignment:alignment
                           alignmentRelativeToView:alignmentRelativeToView
                                          vpadding:vpadding
