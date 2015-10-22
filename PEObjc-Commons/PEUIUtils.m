@@ -26,7 +26,7 @@
 #import "NSString+PEAdditions.h"
 #import "UIImage+PEAdditions.h"
 #import "PEObjcCommonsConstantsInternal.h"
-#import <BlocksKit/UIControl+BlocksKit.h>
+#import "UIControl+BlocksKit.h"
 #import "UIView+PERoundify.h"
 
 typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
@@ -1156,7 +1156,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 }
 
 + (UIView *)labelValuePanelWithCellHeight:(CGFloat)cellHeight
-                              labelString:(NSString *)labelStr
+                              labelString:(id)labelStr
                                 labelFont:(UIFont *)labelFont
                            labelTextColor:(UIColor *)labelTextColor
                         labelLeftHPadding:(CGFloat)labelLeftHPadding
@@ -1168,11 +1168,20 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
            minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
                            relativeToView:(UIView *)relativeToView {
   UIView *rowPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:cellHeight];
-  UILabel *label = [PEUIUtils labelWithKey:labelStr
+  UILabel *label;
+  if ([labelStr isKindOfClass:[NSAttributedString class]]) {
+    label = [PEUIUtils labelWithAttributeText:labelStr
                                       font:labelFont
                            backgroundColor:[UIColor clearColor]
                                  textColor:labelTextColor
                        verticalTextPadding:0.0];
+  } else {
+    label = [PEUIUtils labelWithKey:labelStr
+                               font:labelFont
+                    backgroundColor:[UIColor clearColor]
+                          textColor:labelTextColor
+                verticalTextPadding:0.0];
+  }
   CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
   CGFloat availableWidth = rowPanel.frame.size.width -
   label.frame.size.width -
@@ -1284,7 +1293,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   UIView *aboveRowPanel = topDivider;
   for (int i = 0; i < numRows; i++) {
     NSArray *cellData = rowData[i];
-    NSString *labelStr = cellData[0];
+    id labelStr = cellData[0];
     NSString *valueStr = cellData[1];
     UIView *rowPanel = [PEUIUtils labelValuePanelWithCellHeight:cellHeight
                                                     labelString:labelStr

@@ -1076,7 +1076,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
  horizontalPaddingBetweenColumns:(CGFloat)hpadding;
 
 + (UIView *)labelValuePanelWithCellHeight:(CGFloat)cellHeight
-                              labelString:(NSString *)labelStr
+                              labelString:(id)labelStr
                                 labelFont:(UIFont *)labelFont
                            labelTextColor:(UIColor *)labelTextColor
                         labelLeftHPadding:(CGFloat)labelLeftHPadding
