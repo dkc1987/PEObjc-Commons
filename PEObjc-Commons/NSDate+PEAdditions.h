@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDate(PEAdditions)
+@interface NSDate (PEAdditions)
 
 - (NSInteger)daysFromDate:(NSDate *)date;
 

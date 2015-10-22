@@ -28,7 +28,6 @@
 		CA2AC91B1B7A90A200192E76 /* PEHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */; };
 		CA2AC91F1B7A946F00192E76 /* PEDataTableScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */; };
 		CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228801B8BB89600896679 /* libBlocksKit.a */; };
-		CA6228831B8BB89A00896679 /* libJGActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228821B8BB89A00896679 /* libJGActionSheet.a */; };
 		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
 		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
 		CA97EE491B594881000EC1B3 /* NSMutableArray+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA97EE481B594881000EC1B3 /* NSMutableArray+PEAdditions.m */; };
@@ -36,6 +35,7 @@
 		CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
 		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
+		CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,9 +153,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA6228831B8BB89A00896679 /* libJGActionSheet.a in Frameworks */,
-				CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */,
 				1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */,
+				CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +660,7 @@
 				186348F01A7AB8E50090E88D /* PEDatePickerController.m in Sources */,
 				186348D71A7AB8810090E88D /* PEUtils.m in Sources */,
 				186348E01A7AB89D0090E88D /* NSMutableDictionary+PEAdditions.m in Sources */,
+				CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */,
 				CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */,
 				CA27A55D1BCCA60100CBD4B9 /* NSDate+PEAdditions.m in Sources */,
 				186348E31A7AB8A40090E88D /* NSString+PEAdditions.m in Sources */,
@@ -743,7 +743,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -777,7 +777,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -809,17 +809,14 @@
 			baseConfigurationReference = 373F2C92E48483A64179521D /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "PEObjc-CommonsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "name.paulevans.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -830,13 +827,10 @@
 			baseConfigurationReference = 9544E149096AC415210CC2D4 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "PEObjc-CommonsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "name.paulevans.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
