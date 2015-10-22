@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "PEObjc-Commons"
-  s.version      = "1.0.73"
+  s.version      = "1.0.74"
   s.license      = "MIT"
   s.summary      = "A collection of common Objective-C utilities that are not particular to any domain."
   s.author       = { "Paul Evans" => "evansp2@gmail.com" }
@@ -11,6 +11,7 @@ Pod::Spec.new do |s|
   s.public_header_files = '**/*.h'
   s.exclude_files = "**/*Tests/*.*", "**/DemoApp/*"
   s.requires_arc = true
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lObjC' }
   s.resources = "#{s.name}/Resources/#{s.name}.bundle"
   s.dependency 'BlocksKit', '~> 2.2.5'
 
