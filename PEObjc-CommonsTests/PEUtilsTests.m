@@ -79,6 +79,32 @@ void (^mergeTest)(PELangDummyCar *, PELangDummyCar *, PELangDummyCar *, PELangDu
   [[local should] equal:expectedMergedResult];
 };
 
+context(@"Calendar helpers", ^{
+  __block NSCalendar *calendar;
+  __block NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+  NSDate *(^d)(NSString *) = ^(NSString *dateStr) {
+    return [dateFormatter dateFromString:dateStr];
+  };
+  beforeEach(^{
+    calendar = [NSCalendar currentCalendar];
+  });
+  it(@"dateFromCalendar:day:month:fromYearOfDate: works", ^{
+    NSDate *d1 = [PEUtils dateFromCalendar:calendar day:1 month:1 fromYearOfDate:d(@"06/13/2013")];
+    [[d1 should] equal:d(@"01/01/2013")];
+    d1 = [PEUtils dateFromCalendar:calendar day:13 month:4 fromYearOfDate:d(@"12/31/2001")];
+    [[d1 should] equal:d(@"04/13/2001")];
+  });
+  it(@"firstDayOfYearOfDate:calendar:", ^{
+    [[[PEUtils firstDayOfYearOfDate:d(@"03/16/1978") calendar:calendar] should] equal:d(@"01/01/1978")];
+    [[[PEUtils firstDayOfYearOfDate:d(@"12/31/1979") calendar:calendar] should] equal:d(@"01/01/1979")];
+    [[[PEUtils firstDayOfYearOfDate:d(@"01/01/1980") calendar:calendar] should] equal:d(@"01/01/1980")];
+  });
+  it(@"firstDayOfYear:month:calendar:", ^{
+    
+  });
+});
+
 context(@"Merging", ^{
   it(@"works when remote hasn't changed, but local has changed", ^{
     PELangDummyCar *localMaster = newCar(@"blue", @"300.50", @"01-23-1978", YES);

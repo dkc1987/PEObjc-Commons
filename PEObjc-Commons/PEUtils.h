@@ -78,6 +78,23 @@ typedef id (^PEOrNil)(id);
 
 + (NSInteger)currentYear;
 
++ (NSDate *)dateFromCalendar:(NSCalendar *)calendar
+                         day:(NSInteger)day
+                       month:(NSInteger)month
+              fromYearOfDate:(NSDate *)date;
+
++ (NSDate *)firstDayOfYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar;
+
++ (NSDate *)firstDayOfYear:(NSInteger)year month:(NSInteger)month calendar:(NSCalendar *)calendar;
+
++ (NSDate *)firstDayOfMonth:(NSInteger)month ofYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar;
+
++ (NSDate *)lastDayOfMonthForDate:(NSDate *)date month:(NSInteger)month calendar:(NSCalendar *)calendar;
+
++ (NSInteger)numMonthsInYear:(NSInteger)year calendar:(NSCalendar *)calendar;
+
++ (NSArray *)lastYearRangeFromDate:(NSDate *)date calendar:(NSCalendar *)calendar;
+
 #pragma mark - String
 
 /**

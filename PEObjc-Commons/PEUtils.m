@@ -158,6 +158,56 @@
   return [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:[NSDate date]];
 }
 
++ (NSDate *)dateFromCalendar:(NSCalendar *)calendar
+                         day:(NSInteger)day
+                       month:(NSInteger)month
+              fromYearOfDate:(NSDate *)date {
+  NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay)
+                                             fromDate:date];
+  [components setDay:day];
+  [components setMonth:month];
+  return [calendar dateFromComponents:components];
+}
+
++ (NSDate *)firstDayOfYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar {
+  return [self dateFromCalendar:calendar day:1 month:1 fromYearOfDate:date];
+}
+
++ (NSDate *)firstDayOfYear:(NSInteger)year month:(NSInteger)month calendar:(NSCalendar *)calendar {
+  NSDateComponents *components = [[NSDateComponents alloc] init];
+  [components setDay:1];
+  [components setMonth:month];
+  [components setYear:year];
+  return [calendar dateFromComponents:components];
+}
+
++ (NSDate *)firstDayOfMonth:(NSInteger)month ofYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar {
+  return [self dateFromCalendar:calendar day:1 month:month fromYearOfDate:date];
+}
+
++ (NSDate *)lastDayOfMonthForDate:(NSDate *)date month:(NSInteger)month calendar:(NSCalendar *)calendar {
+  NSRange rng = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
+  return [self dateFromCalendar:calendar day:rng.length month:month fromYearOfDate:date];
+}
+
++ (NSInteger)numMonthsInYear:(NSInteger)year calendar:(NSCalendar *)calendar {
+  NSDate *firstDayOfYear = [self firstDayOfYear:year month:1 calendar:calendar];
+  NSRange rng = [calendar rangeOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:firstDayOfYear];
+  return rng.length;
+}
+
++ (NSArray *)lastYearRangeFromDate:(NSDate *)date calendar:(NSCalendar *)calendar {
+  NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay)
+                                             fromDate:date];
+  [components setMonth:1];
+  [components setDay:1];
+  [components setYear:components.year - 1];
+  NSDate *startOfLastYear = [calendar dateFromComponents:components];
+  [components setMonth:12];
+  [components setDay:31];
+  return @[startOfLastYear, [calendar dateFromComponents:components]];
+}
+
 #pragma mark - String
 
 + (NSString *)concat:(NSArray *)msgs {
