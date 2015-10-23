@@ -101,7 +101,22 @@ context(@"Calendar helpers", ^{
     [[[PEUtils firstDayOfYearOfDate:d(@"01/01/1980") calendar:calendar] should] equal:d(@"01/01/1980")];
   });
   it(@"firstDayOfYear:month:calendar:", ^{
-    
+    [[[PEUtils firstDayOfYear:2011 month:4 calendar:calendar] should] equal:d(@"04/01/2011")];
+    [[[PEUtils firstDayOfYear:2016 month:12 calendar:calendar] should] equal:d(@"12/01/2016")];
+    [[[PEUtils firstDayOfYear:2000 month:1 calendar:calendar] should] equal:d(@"01/01/2000")];
+  });
+  it(@"firstDayOfMonth:ofYearOfDate:calendar:", ^{
+    [[[PEUtils firstDayOfMonth:11 ofYearOfDate:d(@"04/03/2014") calendar:calendar] should] equal:d(@"11/01/2014")];
+    [[[PEUtils firstDayOfMonth:1 ofYearOfDate:d(@"12/31/2012") calendar:calendar] should] equal:d(@"01/01/2012")];
+  });
+  it(@"lastDayOfMonthForDate:month:calendar:", ^{
+    [[[PEUtils lastDayOfMonthForDate:d(@"07/18/2013") calendar:calendar] should] equal:d(@"07/31/2013")];
+    [[[PEUtils lastDayOfMonthForDate:d(@"06/18/2015") calendar:calendar] should] equal:d(@"06/30/2015")];
+  });
+  it(@"lastYearRangeFromDate:calendar:", ^{
+    NSArray *range = [PEUtils lastYearRangeFromDate:d(@"06/13/2013") calendar:calendar];
+    [[range[0] should] equal:d(@"01/01/2012")];
+    [[range[1] should] equal:d(@"01/01/2013")];
   });
 });
 

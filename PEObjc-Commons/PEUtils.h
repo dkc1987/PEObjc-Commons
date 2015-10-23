@@ -89,9 +89,7 @@ typedef id (^PEOrNil)(id);
 
 + (NSDate *)firstDayOfMonth:(NSInteger)month ofYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar;
 
-+ (NSDate *)lastDayOfMonthForDate:(NSDate *)date month:(NSInteger)month calendar:(NSCalendar *)calendar;
-
-+ (NSInteger)numMonthsInYear:(NSInteger)year calendar:(NSCalendar *)calendar;
++ (NSDate *)lastDayOfMonthForDate:(NSDate *)date calendar:(NSCalendar *)calendar;
 
 + (NSArray *)lastYearRangeFromDate:(NSDate *)date calendar:(NSCalendar *)calendar;
 

@@ -185,15 +185,10 @@
   return [self dateFromCalendar:calendar day:1 month:month fromYearOfDate:date];
 }
 
-+ (NSDate *)lastDayOfMonthForDate:(NSDate *)date month:(NSInteger)month calendar:(NSCalendar *)calendar {
++ (NSDate *)lastDayOfMonthForDate:(NSDate *)date calendar:(NSCalendar *)calendar {
+  NSInteger month = [calendar component:NSCalendarUnitMonth fromDate:date];
   NSRange rng = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
   return [self dateFromCalendar:calendar day:rng.length month:month fromYearOfDate:date];
-}
-
-+ (NSInteger)numMonthsInYear:(NSInteger)year calendar:(NSCalendar *)calendar {
-  NSDate *firstDayOfYear = [self firstDayOfYear:year month:1 calendar:calendar];
-  NSRange rng = [calendar rangeOfUnit:NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:firstDayOfYear];
-  return rng.length;
 }
 
 + (NSArray *)lastYearRangeFromDate:(NSDate *)date calendar:(NSCalendar *)calendar {
@@ -203,8 +198,7 @@
   [components setDay:1];
   [components setYear:components.year - 1];
   NSDate *startOfLastYear = [calendar dateFromComponents:components];
-  [components setMonth:12];
-  [components setDay:31];
+  [components setYear:components.year + 1];
   return @[startOfLastYear, [calendar dateFromComponents:components]];
 }
 
