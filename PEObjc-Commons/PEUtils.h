@@ -81,6 +81,11 @@ typedef id (^PEOrNil)(id);
 + (NSDate *)dateFromCalendar:(NSCalendar *)calendar
                          day:(NSInteger)day
                        month:(NSInteger)month
+                        year:(NSInteger)year;
+
++ (NSDate *)dateFromCalendar:(NSCalendar *)calendar
+                         day:(NSInteger)day
+                       month:(NSInteger)month
               fromYearOfDate:(NSDate *)date;
 
 + (NSDate *)firstDayOfYearOfDate:(NSDate *)date calendar:(NSCalendar *)calendar;

@@ -161,6 +161,17 @@
 + (NSDate *)dateFromCalendar:(NSCalendar *)calendar
                          day:(NSInteger)day
                        month:(NSInteger)month
+                        year:(NSInteger)year {
+  NSDateComponents *components = [[NSDateComponents alloc] init];
+  [components setYear:year];
+  [components setMonth:month];
+  [components setDay:day];
+  return [calendar dateFromComponents:components];
+}
+
++ (NSDate *)dateFromCalendar:(NSCalendar *)calendar
+                         day:(NSInteger)day
+                       month:(NSInteger)month
               fromYearOfDate:(NSDate *)date {
   NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay)
                                              fromDate:date];
