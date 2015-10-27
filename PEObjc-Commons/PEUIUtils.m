@@ -1171,10 +1171,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   UILabel *label;
   if ([labelStr isKindOfClass:[NSAttributedString class]]) {
     label = [PEUIUtils labelWithAttributeText:labelStr
-                                      font:labelFont
-                           backgroundColor:[UIColor clearColor]
-                                 textColor:labelTextColor
-                       verticalTextPadding:0.0];
+                                         font:labelFont
+                     fontForHeightCalculation:[UIFont boldSystemFontOfSize:labelFont.pointSize]
+                              backgroundColor:[UIColor clearColor]
+                                    textColor:labelTextColor
+                          verticalTextPadding:0.0];
   } else {
     label = [PEUIUtils labelWithKey:labelStr
                                font:labelFont
