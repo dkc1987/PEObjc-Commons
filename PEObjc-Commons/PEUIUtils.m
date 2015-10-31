@@ -1166,8 +1166,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        valueRightHPadding:(CGFloat)valueRightHPadding
                             valueLabelTag:(NSNumber *)valueLabelTag
            minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                              widthFactor:(CGFloat)widthFactor
                            relativeToView:(UIView *)relativeToView {
-  UIView *rowPanel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:cellHeight];
+  UIView *rowPanel = [PEUIUtils panelWithWidthOf:widthFactor relativeToView:relativeToView fixedHeight:cellHeight];
   UILabel *label;
   if ([labelStr isKindOfClass:[NSAttributedString class]]) {
     label = [PEUIUtils labelWithAttributeText:labelStr
@@ -1225,6 +1226,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
           rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
+                   rowWidthFactor:(CGFloat)rowWidthFactor
                    relativeToView:(UIView *)relativeToView {
   return [PEUIUtils tablePanelWithRowData:rowData
                            withCellHeight:cellHeight
@@ -1246,6 +1248,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      footerAttributedText:nil
            footerFontForHeightCalculation:nil
                     footerVerticalPadding:0.0
+                           rowWidthFactor:rowWidthFactor
                            relativeToView:relativeToView];
 }
 
@@ -1269,6 +1272,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
+                   rowWidthFactor:(CGFloat)rowWidthFactor
                    relativeToView:(UIView *)relativeToView {
   CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
   NSInteger numRows = [rowData count];
@@ -1307,6 +1311,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                              valueRightHPadding:valueRightHPadding
                                                   valueLabelTag:nil
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
+                                                    widthFactor:rowWidthFactor
                                                  relativeToView:relativeToView];
     [rowPanel setBackgroundColor:rowPanelPackgroundColor];
     if (i == 0) {
@@ -1419,6 +1424,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      footerAttributedText:footerAttributedText
            footerFontForHeightCalculation:footerFontForHeightCalculation
                     footerVerticalPadding:footerVerticalPadding
+                           rowWidthFactor:1.0
                            relativeToView:parentView];
 }
 

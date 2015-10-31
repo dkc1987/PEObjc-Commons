@@ -1086,6 +1086,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        valueRightHPadding:(CGFloat)valueRightHPadding
                             valueLabelTag:(NSNumber *)valueLabelTag
            minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                              widthFactor:(CGFloat)widthFactor
                            relativeToView:(UIView *)relativeToView;
 
 /**
@@ -1111,6 +1112,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
           rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
+                   rowWidthFactor:(CGFloat)rowWidthFactor
                    relativeToView:(UIView *)relativeToView;
 
 + (UIView *)tablePanelWithRowData:(NSArray *)rowData
@@ -1133,6 +1135,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
+                   rowWidthFactor:(CGFloat)rowWidthFactor
                    relativeToView:(UIView *)relativeToView;
 
 // table panel with reasonable defaults
