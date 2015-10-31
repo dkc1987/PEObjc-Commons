@@ -57,7 +57,7 @@
                                        footerAttributedText:footerText
                              footerFontForHeightCalculation:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]
                                       footerVerticalPadding:5.0
-                                             rowWidthFactor:1.0
+                                                   rowWidth:(1.0 * self.view.frame.size.width)
                                              relativeToView:self.view];
   [PEUIUtils placeView:dataTablePanel
                atTopOf:self.view

@@ -1166,9 +1166,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                        valueRightHPadding:(CGFloat)valueRightHPadding
                             valueLabelTag:(NSNumber *)valueLabelTag
            minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
-                              widthFactor:(CGFloat)widthFactor
+                                 rowWidth:(CGFloat)rowWidth
                            relativeToView:(UIView *)relativeToView {
-  UIView *rowPanel = [PEUIUtils panelWithWidthOf:widthFactor relativeToView:relativeToView fixedHeight:cellHeight];
+  UIView *rowPanel = [PEUIUtils panelWithFixedWidth:rowWidth fixedHeight:cellHeight];
   UILabel *label;
   if ([labelStr isKindOfClass:[NSAttributedString class]]) {
     label = [PEUIUtils labelWithAttributeText:labelStr
@@ -1226,7 +1226,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
           rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
              panelBackgroundColor:(UIColor *)panelBackgroundColor
                      dividerColor:(UIColor *)dividerColor
-                   rowWidthFactor:(CGFloat)rowWidthFactor
+                         rowWidth:(CGFloat)rowWidth
                    relativeToView:(UIView *)relativeToView {
   return [PEUIUtils tablePanelWithRowData:rowData
                            withCellHeight:cellHeight
@@ -1248,7 +1248,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      footerAttributedText:nil
            footerFontForHeightCalculation:nil
                     footerVerticalPadding:0.0
-                           rowWidthFactor:rowWidthFactor
+                                 rowWidth:rowWidth
                            relativeToView:relativeToView];
 }
 
@@ -1272,7 +1272,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
-                   rowWidthFactor:(CGFloat)rowWidthFactor
+                         rowWidth:(CGFloat)rowWidth
                    relativeToView:(UIView *)relativeToView {
   CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
   NSInteger numRows = [rowData count];
@@ -1282,7 +1282,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     (numRows * cellHeight) + // cumulative cell height
     (includeInnerDividers ? ((numRows - 1) * dividerHeight) : 0) + // cumulative height of inner dividers
     ((numRows -1) * (innerDividerPaddingFactor * dividerPadding)); // cumulative height of inner divider paddings
-  UIView *panel = [PEUIUtils panelWithWidthOf:1.0 relativeToView:relativeToView fixedHeight:panelHeight];
+  UIView *panel = [PEUIUtils panelWithFixedWidth:rowWidth fixedHeight:panelHeight];
   [panel setBackgroundColor:panelBackgroundColor];
   UIView *divider = nil;
   UIView *(^makeDivider)(CGFloat) = ^ UIView * (CGFloat widthOf) {
@@ -1311,7 +1311,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                              valueRightHPadding:valueRightHPadding
                                                   valueLabelTag:nil
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
-                                                    widthFactor:rowWidthFactor
+                                                       rowWidth:rowWidth
                                                  relativeToView:relativeToView];
     [rowPanel setBackgroundColor:rowPanelPackgroundColor];
     if (i == 0) {
@@ -1424,7 +1424,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      footerAttributedText:footerAttributedText
            footerFontForHeightCalculation:footerFontForHeightCalculation
                     footerVerticalPadding:footerVerticalPadding
-                           rowWidthFactor:1.0
+                                 rowWidth:(1.0 * parentView.frame.size.width)
                            relativeToView:parentView];
 }
 
