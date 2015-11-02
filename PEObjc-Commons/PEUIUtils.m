@@ -1186,15 +1186,17 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
   CGFloat availableWidth = rowPanel.frame.size.width -
-  label.frame.size.width -
-  minPaddingBetweenLabelAndValue -
-  labelLeftHPadding -
-  valueRightHPadding;
+    label.frame.size.width -
+    minPaddingBetweenLabelAndValue -
+    labelLeftHPadding -
+    valueRightHPadding;
   CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
   if (wouldBeWidthOfValueLabel > availableWidth) {
     CGFloat avgWidthPerLetter = wouldBeWidthOfValueLabel / [valueStr length];
     NSInteger allowedNumLetters = (availableWidth - widthOfElipses) / avgWidthPerLetter;
-    valueStr = [[valueStr substringToIndex:allowedNumLetters] stringByAppendingString:@"..."];
+    if (allowedNumLetters <= valueStr.length) { // safety check
+      valueStr = [[valueStr substringToIndex:(allowedNumLetters - 1)] stringByAppendingString:@"..."];
+    }
   }
   UILabel *value = [PEUIUtils labelWithKey:valueStr
                                       font:valueFont
@@ -1249,6 +1251,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
            footerFontForHeightCalculation:nil
                     footerVerticalPadding:0.0
                                  rowWidth:rowWidth
+                                 maxWidth:relativeToView.frame.size.width
                            relativeToView:relativeToView];
 }
 
@@ -1272,7 +1275,74 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
+                         maxWidth:(CGFloat)maxWidth
+                   relativeToView:(UIView *)relativeToView {
+  CGFloat maxWidthOfLabelLbl = 0.0;
+  CGFloat maxWidthOfValueLbl = 0.0;
+  for (NSArray *row in rowData) {
+    NSString *labelStr = row[0];
+    NSString *valueStr = row[1];
+    CGFloat wouldBeWidthOfValueLbl = [PEUIUtils sizeOfText:valueStr withFont:[UIFont boldSystemFontOfSize:valueFont.pointSize]].width;
+    if (wouldBeWidthOfValueLbl > maxWidthOfValueLbl) {
+      maxWidthOfValueLbl = wouldBeWidthOfValueLbl;
+    }
+    CGFloat wouldBeWidthOfLabelLbl = [PEUIUtils sizeOfText:labelStr withFont:[UIFont boldSystemFontOfSize:labelFont.pointSize]].width;
+    if (wouldBeWidthOfLabelLbl > maxWidthOfLabelLbl) {
+      maxWidthOfLabelLbl = wouldBeWidthOfLabelLbl;
+    }
+  }
+  CGFloat totalWidthNeeded = labelLeftHPadding + maxWidthOfLabelLbl + minPaddingBetweenLabelAndValue + maxWidthOfValueLbl + valueRightHPadding;
+  if (totalWidthNeeded > relativeToView.frame.size.width) {
+    totalWidthNeeded = relativeToView.frame.size.width;
+  }
+  NSLog(@"totalWidthNeeded: %f", totalWidthNeeded);
+  return [self tablePanelWithRowData:rowData
+                      withCellHeight:cellHeight
+                   labelLeftHPadding:labelLeftHPadding
+                  valueRightHPadding:valueRightHPadding
+                           labelFont:labelFont
+                           valueFont:valueFont
+                      labelTextColor:labelTextColor
+                      valueTextColor:valueTextColor
+      minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
+                   includeTopDivider:includeTopDivider
+                includeBottomDivider:includeBottomDivider
+                includeInnerDividers:includeInnerDividers
+             innerDividerWidthFactor:innerDividerWidthFactor
+                      dividerPadding:dividerPadding
+             rowPanelBackgroundColor:rowPanelPackgroundColor
+                panelBackgroundColor:panelBackgroundColor
+                        dividerColor:dividerColor
+                footerAttributedText:footerAttributedText
+      footerFontForHeightCalculation:footerFontForHeightCalculation
+               footerVerticalPadding:footerVerticalPadding
+                            rowWidth:totalWidthNeeded
+                            maxWidth:maxWidth
+                      relativeToView:relativeToView];
+}
+
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
                          rowWidth:(CGFloat)rowWidth
+                         maxWidth:(CGFloat)maxWidth
                    relativeToView:(UIView *)relativeToView {
   CGFloat dividerHeight = (1.0 / [UIScreen mainScreen].scale);
   NSInteger numRows = [rowData count];
@@ -1282,7 +1352,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     (numRows * cellHeight) + // cumulative cell height
     (includeInnerDividers ? ((numRows - 1) * dividerHeight) : 0) + // cumulative height of inner dividers
     ((numRows -1) * (innerDividerPaddingFactor * dividerPadding)); // cumulative height of inner divider paddings
-  UIView *panel = [PEUIUtils panelWithFixedWidth:rowWidth fixedHeight:panelHeight];
+  CGFloat panelWidth = rowWidth;
+  if (rowWidth > maxWidth) {
+    panelWidth = maxWidth;
+  }
+  UIView *panel = [PEUIUtils panelWithFixedWidth:panelWidth fixedHeight:panelHeight];
   [panel setBackgroundColor:panelBackgroundColor];
   UIView *divider = nil;
   UIView *(^makeDivider)(CGFloat) = ^ UIView * (CGFloat widthOf) {
@@ -1311,7 +1385,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                              valueRightHPadding:valueRightHPadding
                                                   valueLabelTag:nil
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
-                                                       rowWidth:rowWidth
+                                                       rowWidth:panelWidth
                                                  relativeToView:relativeToView];
     [rowPanel setBackgroundColor:rowPanelPackgroundColor];
     if (i == 0) {
@@ -1424,7 +1498,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      footerAttributedText:footerAttributedText
            footerFontForHeightCalculation:footerFontForHeightCalculation
                     footerVerticalPadding:footerVerticalPadding
-                                 rowWidth:(1.0 * parentView.frame.size.width)
+                                 rowWidth:parentView.frame.size.width
+                                 maxWidth:parentView.frame.size.width
                            relativeToView:parentView];
 }
 

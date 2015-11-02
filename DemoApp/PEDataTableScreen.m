@@ -37,7 +37,7 @@
   NSAttributedString *footerText = [PEUIUtils attributedTextWithTemplate:@"Hello.  I'm the footer text, and, for testing, I'm going to make this %@ message."
                                                             textToAccent:@"a really long"
                                                           accentTextFont:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]];
-  UIView *dataTablePanel = [PEUIUtils tablePanelWithRowData:rowData
+  /*UIView *dataTablePanel = [PEUIUtils tablePanelWithRowData:rowData
                                              withCellHeight:36.75
                                           labelLeftHPadding:15.0
                                          valueRightHPadding:15.0
@@ -58,6 +58,35 @@
                              footerFontForHeightCalculation:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]
                                       footerVerticalPadding:5.0
                                                    rowWidth:(1.0 * self.view.frame.size.width)
+                                             relativeToView:self.view];*/
+  
+  rowData = @[@[@"Label 1", @"$3.24"],
+                       @[@"Label 2", @"$0.00"],
+                       @[@"Label 3", @"$8,910.00"],
+                       @[@"Label 4", @"$9,201,100.01"]];
+  NSLog(@"rowWidth: %f", (1.0 * self.view.frame.size.width));
+  UIView *dataTablePanel = [PEUIUtils tablePanelWithRowData:rowData
+                                             withCellHeight:36.75
+                                          labelLeftHPadding:15.0
+                                         valueRightHPadding:15.0
+                                                  labelFont:[UIFont systemFontOfSize:18]
+                                                  valueFont:[UIFont systemFontOfSize:18]
+                                             labelTextColor:[UIColor blackColor]
+                                             valueTextColor:[UIColor grayColor]
+                             minPaddingBetweenLabelAndValue:0.0
+                                          includeTopDivider:YES
+                                       includeBottomDivider:YES
+                                       includeInnerDividers:YES
+                                    innerDividerWidthFactor:0.95
+                                             dividerPadding:3.0
+                                    rowPanelBackgroundColor:[UIColor whiteColor]
+                                       panelBackgroundColor:[UIColor whiteColor]
+                                               dividerColor:[UIColor lightGrayColor]
+                                       footerAttributedText:footerText
+                             footerFontForHeightCalculation:[UIFont boldSystemFontOfSize:[UIFont systemFontSize]]
+                                      footerVerticalPadding:5.0
+                                                   //rowWidth:(1.0 * self.view.frame.size.width)
+                                                   maxWidth:230
                                              relativeToView:self.view];
   [PEUIUtils placeView:dataTablePanel
                atTopOf:self.view

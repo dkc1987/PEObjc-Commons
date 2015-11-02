@@ -1135,7 +1135,31 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              footerAttributedText:(NSAttributedString *)footerAttributedText
    footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
             footerVerticalPadding:(CGFloat)footerVerticalPadding
+                         maxWidth:(CGFloat)maxWidth
+                   relativeToView:(UIView *)relativeToView;
+
++ (UIView *)tablePanelWithRowData:(NSArray *)rowData
+                   withCellHeight:(CGFloat)cellHeight
+                labelLeftHPadding:(CGFloat)labelLeftHPadding
+               valueRightHPadding:(CGFloat)valueRightHPadding
+                        labelFont:(UIFont *)labelFont
+                        valueFont:(UIFont *)valueFont
+                   labelTextColor:(UIColor *)labelTextColor
+                   valueTextColor:(UIColor *)valueTextColor
+   minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
+                includeTopDivider:(BOOL)includeTopDivider
+             includeBottomDivider:(BOOL)includeBottomDivider
+             includeInnerDividers:(BOOL)includeInnerDividers
+          innerDividerWidthFactor:(CGFloat)innerDividerWidthFactor
+                   dividerPadding:(CGFloat)dividerPadding
+          rowPanelBackgroundColor:(UIColor *)rowPanelPackgroundColor
+             panelBackgroundColor:(UIColor *)panelBackgroundColor
+                     dividerColor:(UIColor *)dividerColor
+             footerAttributedText:(NSAttributedString *)footerAttributedText
+   footerFontForHeightCalculation:(UIFont *)footerFontForHeightCalculation
+            footerVerticalPadding:(CGFloat)footerVerticalPadding
                          rowWidth:(CGFloat)rowWidth
+                         maxWidth:(CGFloat)maxWidth
                    relativeToView:(UIView *)relativeToView;
 
 // table panel with reasonable defaults
