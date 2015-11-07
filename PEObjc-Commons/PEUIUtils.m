@@ -1295,7 +1295,6 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   if (totalWidthNeeded > relativeToView.frame.size.width) {
     totalWidthNeeded = relativeToView.frame.size.width;
   }
-  NSLog(@"totalWidthNeeded: %f", totalWidthNeeded);
   return [self tablePanelWithRowData:rowData
                       withCellHeight:cellHeight
                    labelLeftHPadding:labelLeftHPadding
@@ -1383,7 +1382,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                       valueFont:valueFont
                                                  valueTextColor:valueTextColor
                                              valueRightHPadding:valueRightHPadding
-                                                  valueLabelTag:nil
+                                                  valueLabelTag:@(i)
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
                                                        rowWidth:panelWidth
                                                  relativeToView:relativeToView];
