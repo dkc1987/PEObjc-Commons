@@ -1382,7 +1382,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                       valueFont:valueFont
                                                  valueTextColor:valueTextColor
                                              valueRightHPadding:valueRightHPadding
-                                                  valueLabelTag:@(i)
+                                                  valueLabelTag:@(i + 1)
                                  minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
                                                        rowWidth:panelWidth
                                                  relativeToView:relativeToView];

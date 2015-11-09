@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 #import "NSMutableDictionary+PEAdditions.h"
+#import "NSString+PEAdditions.h"
 #import "PEUtils.h"
 
 @implementation NSMutableDictionary (PEAdditions)
@@ -29,6 +30,12 @@
 - (void)setObjectIfNotNull:(id)object forKey:(id<NSCopying>)key {
   if (object) {
     [self setObject:object forKey:key];
+  }
+}
+
+- (void)setStringIfNotBlank:(NSString *)strValue forKey:(id<NSCopying>)key {
+  if (![strValue isBlank]) {
+    [self setObject:strValue forKey:key];
   }
 }
 

@@ -34,6 +34,14 @@
 - (void)setObjectIfNotNull:(id)object forKey:(id<NSCopying>)key;
 
 /**
+ *  Adds strValue into the dictionary keyed under key, only if strValue is
+ *  non a blank string (whitespace only).  If strValue is blank, nothing is done.
+ *  @param strValue The string object to add to the dictionary.
+ *  @param key The key for the object.
+ */
+- (void)setStringIfNotBlank:(NSString *)strValue forKey:(id<NSCopying>)key;
+
+/**
  *  Adds object into the dictionary keyed under key.  If object is nil, then
  *  [NSNull null] will be set as the object.
  *  @param object The object to add to the dictionary.
