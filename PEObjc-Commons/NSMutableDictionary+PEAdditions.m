@@ -34,7 +34,7 @@
 }
 
 - (void)setStringIfNotBlank:(NSString *)strValue forKey:(id<NSCopying>)key {
-  if (![strValue isBlank]) {
+  if (strValue && ![strValue isBlank]) {
     [self setObject:strValue forKey:key];
   }
 }
