@@ -34,7 +34,7 @@
 		CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
 		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
-		CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */; settings = {ASSET_TAGS = (); }; };
+		CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -729,7 +729,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -763,7 +763,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
