@@ -20,4 +20,12 @@
   return date;
 }
 
+- (BOOL)boolForKey:(NSString *)key {
+  id object = [self objectForKey:key];
+  if (![PEUtils isNil:object]) {
+    return [object boolValue];
+  }
+  return NO;
+}
+
 @end

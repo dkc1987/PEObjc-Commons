@@ -11,10 +11,15 @@
 @interface NSDictionary (PEAdditions)
 
 /**
- *  @param dictionary The dictionary containing the date value (as the number of milliseconds since 1970).
  *  @key key The key into the dictionary containing the value.
  *  @return NSDate representation of the date value.
  */
 - (NSDate *)dateSince1970ForKey:(NSString *)key;
+
+/**
+ * @return The BOOL value found in the dictionary for the given key; or NO
+ * if no entry exists for the key.
+ */
+- (BOOL)boolForKey:(NSString *)key;
 
 @end
