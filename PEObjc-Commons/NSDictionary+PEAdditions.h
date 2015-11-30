@@ -22,4 +22,10 @@
  */
 - (BOOL)boolForKey:(NSString *)key;
 
+/**
+ * @return The BOOL value found in the dictionary for the given key; or defaultBool
+ * if no entry exists for the key.
+ */
+- (BOOL)boolForKey:(NSString *)key defaultBool:(BOOL)defaultBool;
+
 @end

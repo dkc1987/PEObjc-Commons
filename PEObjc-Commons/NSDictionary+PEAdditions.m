@@ -21,11 +21,15 @@
 }
 
 - (BOOL)boolForKey:(NSString *)key {
+  return [self boolForKey:key defaultBool:NO];
+}
+
+- (BOOL)boolForKey:(NSString *)key defaultBool:(BOOL)defaultBool {
   id object = [self objectForKey:key];
   if (![PEUtils isNil:object]) {
     return [object boolValue];
   }
-  return NO;
+  return defaultBool;
 }
 
 @end
