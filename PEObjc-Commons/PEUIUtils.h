@@ -578,21 +578,6 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
                                             tabBarItemImage:(UIImage *)tabBarItemImage
                                     tabBarItemSelectedImage:(UIImage *)tabBarItemSelectedImage;
 
-/**
- *  Animates a temporary view downward from the top of viewController's view
- *  displaying the given messageOrKey.  The view will be styled based on the given
- *  uitoolkit instance.
- *  @param messageOrKey   The message (or key to localized string) to display in
- the animated view.
- *  @param viewController The view controller whose view the animated view will be
- placed upon.
- *  @param uitoolkit      The uitoolkit instance to inform styling and other 
- parameters (e.g., duration, fade-out duraction, etc).
- */
-+ (void)displayTempNotification:(NSString *)messageOrKey
-                  forController:(UIViewController *)viewController
-                      uitoolkit:(PEUIToolkit *)uitoolkit;
-
 #pragma mark - Color Utils
 
 /**

@@ -486,46 +486,6 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
   return navCtrl;
 }
 
-+ (void)displayTempNotification:(NSString *)messageOrKey
-                  forController:(UIViewController *)viewController
-                      uitoolkit:(PEUIToolkit *)uitoolkit {
-  if (messageOrKey) {
-    NSUInteger notificationPanelTag = 717;
-    LabelMaker labelMaker = [uitoolkit header2Maker];
-    UIView *notificationMsgLbl = labelMaker(messageOrKey);
-    PanelMaker notificationPanelMaker =
-    [uitoolkit notificationPanelMakerRelativeTo:notificationMsgLbl];
-    UIView *notificationPanel = notificationPanelMaker(1.10);
-    [PEUIUtils setFrameHeightOfView:notificationPanel
-                           ofHeight:1.20
-                         relativeTo:notificationMsgLbl];
-    [PEUIUtils placeView:notificationMsgLbl
-              inMiddleOf:notificationPanel
-           withAlignment:PEUIHorizontalAlignmentTypeCenter
-                hpadding:0];
-    CGFloat extraYForDest = 0.0;
-    CGFloat addlFadeOutDuration = 0.0;
-    UIView *existingNotificationPanel = [[viewController view] viewWithTag:notificationPanelTag];
-    while (existingNotificationPanel) {
-      notificationPanelTag++;
-      extraYForDest += (existingNotificationPanel.frame.size.height + 3); // ('3' for padding)
-      addlFadeOutDuration += [uitoolkit durationForFadeOutAnimation];
-      existingNotificationPanel = [[viewController view] viewWithTag:notificationPanelTag];
-    }
-    [notificationPanel setTag:notificationPanelTag];
-    UINavigationController *navCtrl = [viewController navigationController];
-    if (navCtrl) {
-      if (![[navCtrl navigationBar] isHidden]) {
-        extraYForDest += 40;
-      }
-    }
-    [uitoolkit fromTopWithFadeOutAnimatorMaker](notificationPanel,
-                                                [viewController view],
-                                                extraYForDest,
-                                                addlFadeOutDuration);
-  }
-}
-
 #pragma mark - Color Utils
 
 + (UIImage *)imageWithColor:(UIColor *)color {

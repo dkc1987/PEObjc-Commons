@@ -29,7 +29,6 @@ typedef UILabel * (^LabelMaker)(NSString *);
 typedef UITextField * (^TextfieldMaker)(NSString *);
 typedef UITextField * (^TaggedTextfieldMaker)(NSString *, NSInteger);
 typedef UIView * (^PanelMaker)(CGFloat);
-typedef void (^FromTopAnimatorWithFadeOut)(UIView *, UIView *, CGFloat, CGFloat);
 
 /**
  A simple container-like abstraction for encapsulating styling information that
@@ -45,62 +44,29 @@ typedef void (^FromTopAnimatorWithFadeOut)(UIView *, UIView *, CGFloat, CGFloat)
 ///------------------------------------------------
 #pragma mark - Initialization
 
--(id)initWithColorForContentPanels:(UIColor *)colorForContentPanels
-        colorForNotificationPanels:(UIColor *)colorForNotificationPanels
-                   colorForWindows:(UIColor *)colorForWindows
-  topBottomPaddingForContentPanels:(CGFloat)topBottomPaddingForContentPanels
-                       accentColor:(UIColor *)accentColor
-                    fontForButtons:(UIFont *)fontForButtons
-            cornerRadiusForButtons:(CGFloat)cornerRadiusForButtons
-         verticalPaddingForButtons:(CGFloat)verticalPaddingForButtons
-       horizontalPaddingForButtons:(CGFloat)horizontalPaddingForButtons
-          bgColorForWarningButtons:(UIColor *)bgColorForWarningButtons
-        textColorForWarningButtons:(UIColor *)textColorForWarningButtons
-          bgColorForPrimaryButtons:(UIColor *)bgColorForPrimaryButtons
-        textColorForPrimaryButtons:(UIColor *)textColorForPrimaryButtons
-           bgColorForDangerButtons:(UIColor *)bgColorForDangerButtons
-         textColorForDangerButtons:(UIColor *)textColorForDangerButtons
-              fontForHeader1Labels:(UIFont *)fontForHeader1Labels
-             colorForHeader1Labels:(UIColor *)colorForHeader1Labels
-             fontForHeaders2Labels:(UIFont *)fontForHeader2Labels
-             colorForHeader2Labels:(UIColor *)colorForHeader2Labels
-                 fontForTextfields:(UIFont *)fontForTextfields
-                colorForTextfields:(UIColor *)colorForTextfields
-         heightFactorForTextfields:(CGFloat)heightFactorForTextfields
-      leftViewPaddingForTextfields:(CGFloat)leftViewPaddingForTextfields
-            fontForTableCellTitles:(UIFont *)fontForTableCellTitles
-           colorForTableCellTitles:(UIColor *)colorForTableCellTitles
-         fontForTableCellSubtitles:(UIFont *)fontForTableCellSubtitles
-        colorForTableCellSubtitles:(UIColor *)colorForTableCellSubtitles
-         durationForFrameAnimation:(NSTimeInterval)durationForFrameAnimation
-       durationForFadeOutAnimation:(NSTimeInterval)durationForFadeOutAnimation
-        downToYForFromTopAnimation:(CGFloat)downToYForFromTopAnimation;
+- (id)initWithColorForContentPanels:(UIColor *)colorForContentPanels
+                    colorForWindows:(UIColor *)colorForWindows
+   topBottomPaddingForContentPanels:(CGFloat)topBottomPaddingForContentPanels
+                        accentColor:(UIColor *)accentColor
+                  fontForButtonsBlk:(UIFont *(^)(void))fontForButtonsBlk
+          verticalPaddingForButtons:(CGFloat)verticalPaddingForButtons
+        horizontalPaddingForButtons:(CGFloat)horizontalPaddingForButtons
+               fontForTextfieldsBlk:(UIFont *(^)(void))fontForTextfieldsBlk
+                 colorForTextfields:(UIColor *)colorForTextfields
+          heightFactorForTextfields:(CGFloat)heightFactorForTextfields
+       leftViewPaddingForTextfields:(CGFloat)leftViewPaddingForTextfields
+          fontForTableCellTitlesBlk:(UIFont *(^)(void))fontForTableCellTitlesBlk
+            colorForTableCellTitles:(UIColor *)colorForTableCellTitles
+       fontForTableCellSubtitlesBlk:(UIFont *(^)(void))fontForTableCellSubtitlesBlk
+         colorForTableCellSubtitles:(UIColor *)colorForTableCellSubtitles;
 
 #pragma mark - Color Properties
 
 @property (nonatomic, readonly) UIColor *colorForContentPanels;
 
-@property (nonatomic, readonly) UIColor *colorForNotificationPanels;
-
 @property (nonatomic, readonly) UIColor *colorForWindows;
 
 @property (nonatomic, readonly) UIColor *accentColor;
-
-@property (nonatomic, readonly) UIColor *bgColorForWarningButtons;
-
-@property (nonatomic, readonly) UIColor *textColorForWarningButtons;
-
-@property (nonatomic, readonly) UIColor *bgColorForPrimaryButtons;
-
-@property (nonatomic, readonly) UIColor *textColorForPrimaryButtons;
-
-@property (nonatomic, readonly) UIColor *bgColorForDangerButtons;
-
-@property (nonatomic, readonly) UIColor *textColorForDangerButtons;
-
-@property (nonatomic, readonly) UIColor *colorForHeader1Labels;
-
-@property (nonatomic, readonly) UIColor *colorForHeader2Labels;
 
 @property (nonatomic, readonly) UIColor *colorForTextfields;
 
@@ -116,20 +82,6 @@ typedef void (^FromTopAnimatorWithFadeOut)(UIView *, UIView *, CGFloat, CGFloat)
 
 @property (nonatomic, readonly) CGFloat horizontalPaddingForButtons;
 
-#pragma mark - Font Properties
-
-@property (nonatomic, readonly) UIFont *fontForButtons;
-
-@property (nonatomic, readonly) UIFont *fontForHeader1Labels;
-
-@property (nonatomic, readonly) UIFont *fontForHeader2Labels;
-
-@property (nonatomic, readonly) UIFont *fontForTextfields;
-
-@property (nonatomic, readonly) UIFont *fontForTableCellTitles;
-
-@property (nonatomic, readonly) UIFont *fontForTableCellSubtitles;
-
 #pragma mark - Padding Properties
 
 @property (nonatomic, readonly) CGFloat topBottomPaddingForContentPanels;
@@ -138,23 +90,9 @@ typedef void (^FromTopAnimatorWithFadeOut)(UIView *, UIView *, CGFloat, CGFloat)
 
 @property (nonatomic, readonly) CGFloat heightFactorForTextfields;
 
-#pragma mark - Animation Properties
-
-@property (nonatomic, readonly) NSTimeInterval durationForFrameAnimation;
-
-@property (nonatomic, readonly) NSTimeInterval durationForFadeOutAnimation;
-
-@property (nonatomic, readonly) CGFloat downToYForFromTopAnimation;
-
-#pragma mark - Animator makers
-
-- (FromTopAnimatorWithFadeOut)fromTopWithFadeOutAnimatorMaker;
-
 #pragma mark - Panel makers
 
 - (PanelMaker)contentPanelMakerRelativeTo:(UIView *)relativeToView;
-
-- (PanelMaker)notificationPanelMakerRelativeTo:(UIView *)relativeToView;
 
 - (PanelMaker)accentPanelMakerRelativeTo:(UIView *)relativeToView;
 
@@ -162,17 +100,7 @@ typedef void (^FromTopAnimatorWithFadeOut)(UIView *, UIView *, CGFloat, CGFloat)
 
 - (ButtonMaker)systemButtonMaker;
 
-- (ButtonMaker)primaryButtonMaker;
-
-- (ButtonMaker)warningButtonMaker;
-
-- (ButtonMaker)dangerButtonMaker;
-
 #pragma mark - Label makers
-
-- (LabelMaker)header1Maker;
-
-- (LabelMaker)header2Maker;
 
 - (LabelMaker)tableCellTitleMaker;
 

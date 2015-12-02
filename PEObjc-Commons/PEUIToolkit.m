@@ -24,88 +24,49 @@
 #import "PEUIUtils.h"
 #import "PEUIToolkit.h"
 
-@implementation PEUIToolkit
+@implementation PEUIToolkit {
+  UIFont *(^_fontForButtonsBlk)(void);
+  UIFont *(^_fontForTextfieldsBlk)(void);
+  UIFont *(^_fontForTableCellTitlesBlk)(void);
+  UIFont *(^_fontForTableCellSubtitlesBlk)(void);
+}
 
 #pragma mark - Initializers
 
--(id)initWithColorForContentPanels:(UIColor *)colorForContentPanels
-        colorForNotificationPanels:(UIColor *)colorForNotificationPanels
-                   colorForWindows:(UIColor *)colorForWindows
-  topBottomPaddingForContentPanels:(CGFloat)topBottomPaddingForContentPanels
-                       accentColor:(UIColor *)accentColor
-                    fontForButtons:(UIFont *)fontForButtons
-            cornerRadiusForButtons:(CGFloat)cornerRadiusForButtons
-         verticalPaddingForButtons:(CGFloat)verticalPaddingForButtons
-       horizontalPaddingForButtons:(CGFloat)horizontalPaddingForButtons
-          bgColorForWarningButtons:(UIColor *)bgColorForWarningButtons
-        textColorForWarningButtons:(UIColor *)textColorForWarningButtons
-          bgColorForPrimaryButtons:(UIColor *)bgColorForPrimaryButtons
-        textColorForPrimaryButtons:(UIColor *)textColorForPrimaryButtons
-           bgColorForDangerButtons:(UIColor *)bgColorForDangerButtons
-         textColorForDangerButtons:(UIColor *)textColorForDangerButtons
-              fontForHeader1Labels:(UIFont *)fontForHeader1Labels
-             colorForHeader1Labels:(UIColor *)colorForHeader1Labels
-             fontForHeaders2Labels:(UIFont *)fontForHeader2Labels
-             colorForHeader2Labels:(UIColor *)colorForHeader2Labels
-                 fontForTextfields:(UIFont *)fontForTextfields
-                colorForTextfields:(UIColor *)colorForTextfields
-         heightFactorForTextfields:(CGFloat)heightFactorForTextfields
-      leftViewPaddingForTextfields:(CGFloat)leftViewPaddingForTextfields
-            fontForTableCellTitles:(UIFont *)fontForTableCellTitles
-           colorForTableCellTitles:(UIColor *)colorForTableCellTitles
-         fontForTableCellSubtitles:(UIFont *)fontForTableCellSubtitles
-        colorForTableCellSubtitles:(UIColor *)colorForTableCellSubtitles
-         durationForFrameAnimation:(NSTimeInterval)durationForFrameAnimation
-       durationForFadeOutAnimation:(NSTimeInterval)durationForFadeOutAnimation
-        downToYForFromTopAnimation:(CGFloat)downToYForFromTopAnimation {
+- (id)initWithColorForContentPanels:(UIColor *)colorForContentPanels
+                    colorForWindows:(UIColor *)colorForWindows
+   topBottomPaddingForContentPanels:(CGFloat)topBottomPaddingForContentPanels
+                        accentColor:(UIColor *)accentColor
+                  fontForButtonsBlk:(UIFont *(^)(void))fontForButtonsBlk
+          verticalPaddingForButtons:(CGFloat)verticalPaddingForButtons
+        horizontalPaddingForButtons:(CGFloat)horizontalPaddingForButtons
+               fontForTextfieldsBlk:(UIFont *(^)(void))fontForTextfieldsBlk
+                 colorForTextfields:(UIColor *)colorForTextfields
+          heightFactorForTextfields:(CGFloat)heightFactorForTextfields
+       leftViewPaddingForTextfields:(CGFloat)leftViewPaddingForTextfields
+          fontForTableCellTitlesBlk:(UIFont *(^)(void))fontForTableCellTitlesBlk
+            colorForTableCellTitles:(UIColor *)colorForTableCellTitles
+       fontForTableCellSubtitlesBlk:(UIFont *(^)(void))fontForTableCellSubtitlesBlk
+         colorForTableCellSubtitles:(UIColor *)colorForTableCellSubtitles {
   self = [super init];
   if (self) {
     _colorForContentPanels = colorForContentPanels;
-    _colorForNotificationPanels = colorForNotificationPanels;
     _colorForWindows = colorForWindows;
     _topBottomPaddingForContentPanels = topBottomPaddingForContentPanels;
     _accentColor = accentColor;
-    _fontForButtons = fontForButtons;
-    _cornerRadiusForButtons = cornerRadiusForButtons;
+    _fontForButtonsBlk = fontForButtonsBlk;
     _verticalPaddingForButtons = verticalPaddingForButtons;
     _horizontalPaddingForButtons = horizontalPaddingForButtons;
-    _bgColorForWarningButtons = bgColorForWarningButtons;
-    _textColorForWarningButtons = textColorForWarningButtons;
-    _bgColorForPrimaryButtons = bgColorForPrimaryButtons;
-    _textColorForPrimaryButtons = textColorForPrimaryButtons;
-    _bgColorForDangerButtons = bgColorForDangerButtons;
-    _textColorForDangerButtons = textColorForDangerButtons;
-    _fontForHeader1Labels = fontForHeader1Labels;
-    _colorForHeader1Labels = colorForHeader1Labels;
-    _fontForHeader2Labels = fontForHeader2Labels;
-    _colorForHeader2Labels = colorForHeader2Labels;
-    _fontForTextfields = fontForTextfields;
+    _fontForTextfieldsBlk = fontForTextfieldsBlk;
     _colorForTextfields = colorForTextfields;
     _leftViewPaddingForTextfields = leftViewPaddingForTextfields;
     _heightFactorForTextfields = heightFactorForTextfields;
-    _fontForTableCellTitles = fontForTableCellTitles;
+    _fontForTableCellTitlesBlk = fontForTableCellTitlesBlk;
     _colorForTableCellTitles = colorForTableCellTitles;
-    _fontForTableCellSubtitles = fontForTableCellSubtitles;
+    _fontForTableCellSubtitlesBlk = fontForTableCellSubtitlesBlk;
     _colorForTableCellSubtitles = colorForTableCellSubtitles;
-    _durationForFrameAnimation = durationForFrameAnimation;
-    _durationForFadeOutAnimation = durationForFadeOutAnimation;
-    _downToYForFromTopAnimation = downToYForFromTopAnimation;
   }
   return self;
-}
-
-#pragma mark - Animator makers
-
-- (FromTopAnimatorWithFadeOut)fromTopWithFadeOutAnimatorMaker {
-  return ^(UIView *view, UIView *relativeToView, CGFloat extraDownToY, CGFloat addlFadeOutDuration) {
-    [PEUIUtils placeAndAnimateView:view
-                     fromTopOfView:relativeToView
-                           downToY:([self downToYForFromTopAnimation] + extraDownToY)
-                     withAlignment:PEUIHorizontalAlignmentTypeCenter
-                          hpadding:0
-                          duration:[self durationForFrameAnimation]
-                   fadeOutDuration:([self durationForFadeOutAnimation] + addlFadeOutDuration)];
-  };
 }
 
 #pragma mark - Panel makers
@@ -116,16 +77,6 @@
                                  relativeToView:relativeToView
                                     fixedHeight:0];
     [panel setBackgroundColor:[self colorForContentPanels]];
-    return panel;
-  };
-}
-
-- (PanelMaker)notificationPanelMakerRelativeTo:(UIView *)relativeToView {
-  return ^(CGFloat ofWidth) {
-    UIView *panel = [PEUIUtils panelWithWidthOf:ofWidth
-                                 relativeToView:relativeToView
-                                    fixedHeight:0];
-    [panel setBackgroundColor:[self colorForNotificationPanels]];
     return panel;
   };
 }
@@ -145,7 +96,7 @@
 - (ButtonMaker)systemButtonMaker {
   return ^(NSString *key, id target, SEL action) {
     return [PEUIUtils buttonWithKey:key
-                               font:[self fontForButtons]
+                               font:_fontForButtonsBlk()
                     backgroundColor:[UIColor whiteColor]
                           textColor:[UIColor darkTextColor]
        disabledStateBackgroundColor:[UIColor whiteColor]
@@ -158,80 +109,12 @@
   };
 }
 
-- (ButtonMaker)warningButtonMaker {
-  return ^(NSString *key, id target, SEL action) {
-    return [PEUIUtils buttonWithKey:key
-                               font:[self fontForButtons]
-                    backgroundColor:[self bgColorForWarningButtons]
-                          textColor:[self textColorForWarningButtons]
-       disabledStateBackgroundColor:[UIColor grayColor]
-             disabledStateTextColor:[UIColor grayColor]
-                    verticalPadding:[self verticalPaddingForButtons]
-                  horizontalPadding:[self horizontalPaddingForButtons]
-                       cornerRadius:[self cornerRadiusForButtons]
-                             target:target
-                             action:action];
-  };
-}
-
-- (ButtonMaker)dangerButtonMaker {
-  return ^(NSString *key, id target, SEL action) {
-    return [PEUIUtils buttonWithKey:key
-                               font:[self fontForButtons]
-                    backgroundColor:[self bgColorForDangerButtons]
-                          textColor:[self textColorForDangerButtons]
-                      disabledStateBackgroundColor:[UIColor grayColor]
-             disabledStateTextColor:[UIColor grayColor]
-                    verticalPadding:[self verticalPaddingForButtons]
-                  horizontalPadding:[self horizontalPaddingForButtons]
-                       cornerRadius:[self cornerRadiusForButtons]
-                             target:target
-                             action:action];
-  };
-}
-
-- (ButtonMaker)primaryButtonMaker {
-  return ^(NSString *key, id target, SEL action) {
-    return [PEUIUtils buttonWithKey:key
-                               font:[self fontForButtons]
-                    backgroundColor:[self bgColorForPrimaryButtons]
-                          textColor:[self textColorForPrimaryButtons]
-       disabledStateBackgroundColor:[UIColor grayColor]
-             disabledStateTextColor:[UIColor grayColor]
-                    verticalPadding:[self verticalPaddingForButtons]
-                  horizontalPadding:[self horizontalPaddingForButtons]
-                       cornerRadius:[self cornerRadiusForButtons]
-                             target:target
-                             action:action];
-  };
-}
-
 #pragma mark - Label makers
-
-- (LabelMaker)header1Maker {
-  return ^(NSString *key) {
-    return [PEUIUtils labelWithKey:key
-                              font:[self fontForHeader1Labels]
-                   backgroundColor:[UIColor clearColor]
-                         textColor:[self colorForHeader1Labels]
-               verticalTextPadding:0];
-  };
-}
-
-- (LabelMaker)header2Maker {
-  return ^(NSString *key) {
-    return [PEUIUtils labelWithKey:key
-                              font:[self fontForHeader2Labels]
-                   backgroundColor:[UIColor clearColor]
-                         textColor:[self colorForHeader2Labels]
-               verticalTextPadding:0];
-  };
-}
 
 - (LabelMaker)tableCellTitleMaker {
   return ^(NSString *key) {
     return [PEUIUtils labelWithKey:key
-                              font:[self fontForTableCellTitles]
+                              font:_fontForTableCellTitlesBlk()
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellTitles]
                verticalTextPadding:0];
@@ -241,7 +124,7 @@
 - (LabelMaker)tableCellSubtitleMaker {
   return ^(NSString *key) {
     return [PEUIUtils labelWithKey:key
-                              font:[self fontForTableCellSubtitles]
+                              font:_fontForTableCellSubtitlesBlk()
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellSubtitles]
                verticalTextPadding:5];
@@ -252,13 +135,12 @@
 
 - (TextfieldMaker)textfieldMakerForFixedWidth:(CGFloat)width {
   return ^(NSString *key) {
-    return [PEUIUtils
-             textfieldWithPlaceholderTextKey:key
-                                        font:[self fontForTextfields]
-                             backgroundColor:[self colorForTextfields]
-                             leftViewPadding:[self leftViewPaddingForTextfields]
-                                  fixedWidth:width
-                                heightFactor:[self heightFactorForTextfields]];
+    return [PEUIUtils textfieldWithPlaceholderTextKey:key
+                                                 font:_fontForTextfieldsBlk()
+                                      backgroundColor:[self colorForTextfields]
+                                      leftViewPadding:[self leftViewPaddingForTextfields]
+                                           fixedWidth:width
+                                         heightFactor:[self heightFactorForTextfields]];
   };
 }
 
@@ -271,12 +153,12 @@
 - (TaggedTextfieldMaker)taggedTextfieldMakerForFixedWidth:(CGFloat)width {
   return ^UITextField *(NSString *key, NSInteger tag) {
     UITextField *tf =
-      [PEUIUtils textfieldWithPlaceholderTextKey:key
-                                            font:[self fontForTextfields]
-                                 backgroundColor:[self colorForTextfields]
-                                 leftViewPadding:[self leftViewPaddingForTextfields]
-                                      fixedWidth:width
-                                    heightFactor:[self heightFactorForTextfields]];
+    [PEUIUtils textfieldWithPlaceholderTextKey:key
+                                          font:_fontForTextfieldsBlk()
+                               backgroundColor:[self colorForTextfields]
+                               leftViewPadding:[self leftViewPaddingForTextfields]
+                                    fixedWidth:width
+                                  heightFactor:[self heightFactorForTextfields]];
     [tf setTag:tag];
     return tf;
   };
@@ -292,8 +174,8 @@
 
 - (void)adjustHeightToFitSubviewsForContentPanel:(UIView *)panel {
   [PEUIUtils
-    adjustHeightToFitSubviewsForView:panel
-                       bottomPadding:[self topBottomPaddingForContentPanels]];
+   adjustHeightToFitSubviewsForView:panel
+   bottomPadding:[self topBottomPaddingForContentPanels]];
 }
 
 @end
