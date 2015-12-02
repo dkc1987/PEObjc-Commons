@@ -1160,10 +1160,21 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     valueRightHPadding;
   CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
   if (wouldBeWidthOfValueLabel > availableWidth) {
-    CGFloat avgWidthPerLetter = wouldBeWidthOfValueLabel / [valueStr length];
-    NSInteger allowedNumLetters = (availableWidth - widthOfElipses) / avgWidthPerLetter;
-    if (allowedNumLetters <= valueStr.length) { // safety check
-      valueStr = [[valueStr substringToIndex:(allowedNumLetters - 1)] stringByAppendingString:@"..."];
+    NSDecimalNumber *avgWidthPerLetter = [[[NSDecimalNumber alloc] initWithFloat:wouldBeWidthOfValueLabel] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithInteger:[valueStr length]]];
+    NSInteger availableWidthMinusElipses = availableWidth - widthOfElipses;
+    NSDecimalNumber *allowedNumLetters = [[[NSDecimalNumber alloc] initWithInteger:(availableWidth - widthOfElipses)] decimalNumberByDividingBy:avgWidthPerLetter];
+    allowedNumLetters = [allowedNumLetters decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                                                                             scale:0
+                                                                                                                                  raiseOnExactness:NO
+                                                                                                                                   raiseOnOverflow:NO
+                                                                                                                                  raiseOnUnderflow:NO
+                                                                                                                               raiseOnDivideByZero:NO]];
+    if (availableWidthMinusElipses > 0) {
+      if (allowedNumLetters.integerValue <= valueStr.length) { // safety check
+        valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+      }
+    } else {
+      valueStr = @"...";
     }
   }
   UILabel *value = [PEUIUtils labelWithKey:valueStr
@@ -1448,7 +1459,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                         uitoolkit:(PEUIToolkit *)uitoolkit
                        parentView:(UIView *)parentView {
   return [PEUIUtils tablePanelWithRowData:rowData
-                           withCellHeight:36.5
+                           withCellHeight:([PEUIUtils sizeOfText:@"" withFont:[self boldFontForTextStyle:UIFontTextStyleBody]].height + uitoolkit.verticalPaddingForButtons)
                         labelLeftHPadding:10.0
                        valueRightHPadding:12.5
                            labelTextStyle:UIFontTextStyleBody
@@ -1533,8 +1544,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
            instructionText:(NSString *)instructionText
             relativeToView:(UIView *)relativeToView {
   UIFont* boldSubheadlineFont = [self boldFontForTextStyle:UIFontTextStyleSubheadline];
-  NSString *descTextWithInstructionalText =
-    [NSString stringWithFormat:@"%@%@", descriptionText, instructionText];
+  NSString *descTextWithInstructionalText = [NSString stringWithFormat:@"%@%@", descriptionText, instructionText];
   NSDictionary *attrs = @{ NSFontAttributeName : boldSubheadlineFont };
   NSMutableAttributedString *attrDescTextWithInstructionalText =
     [[NSMutableAttributedString alloc] initWithString:descTextWithInstructionalText];
