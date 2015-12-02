@@ -594,6 +594,12 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 
 #pragma mark - Labels
 
++ (UIFont *)boldFontForTextStyle:(NSString *)textStyle {
+  UIFontDescriptor* fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+  UIFontDescriptor* boldFontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+  return [UIFont fontWithDescriptor:boldFontDescriptor size:0.0];
+}
+
 + (UILabel *)labelWithKey:(NSString *)key
                      font:(UIFont *)font
           backgroundColor:(UIColor *)backgroundColor
@@ -724,10 +730,10 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          badgeTextColor:(UIColor *)badgeTextColor {
   CGFloat widthPadding = 30.0;
   CGFloat heightFactor = 1.45;
-  CGFloat fontSize = [UIFont systemFontSize];
+  UIFont* boldSubheadlineFont = [self boldFontForTextStyle:UIFontTextStyleSubheadline];
   NSString *labelText = [NSString stringWithFormat:@"%ld", (long)num];
   UILabel *label = [PEUIUtils labelWithKey:labelText
-                                      font:[UIFont boldSystemFontOfSize:fontSize]
+                                      font:boldSubheadlineFont
                            backgroundColor:[UIColor clearColor]
                                  textColor:badgeTextColor
                        verticalTextPadding:0.0];
@@ -746,7 +752,7 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 
 + (UILabel *)labelForRecordCount:(NSInteger)recordCount {
   return [PEUIUtils labelWithKey:[PEUtils labelTextForRecordCount:recordCount]
-                            font:[UIFont systemFontOfSize:10]
+                            font:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2]
                  backgroundColor:[UIColor clearColor]
                        textColor:[UIColor darkGrayColor]
              verticalTextPadding:0.0];
@@ -1117,11 +1123,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (UIView *)labelValuePanelWithCellHeight:(CGFloat)cellHeight
                               labelString:(id)labelStr
-                                labelFont:(UIFont *)labelFont
+                           labelTextStyle:(NSString *)labelTextStyle
                            labelTextColor:(UIColor *)labelTextColor
                         labelLeftHPadding:(CGFloat)labelLeftHPadding
                               valueString:(NSString *)valueStr
-                                valueFont:(UIFont *)valueFont
+                           valueTextStyle:(NSString *)valueTextStyle
                            valueTextColor:(UIColor *)valueTextColor
                        valueRightHPadding:(CGFloat)valueRightHPadding
                             valueLabelTag:(NSNumber *)valueLabelTag
@@ -1130,10 +1136,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            relativeToView:(UIView *)relativeToView {
   UIView *rowPanel = [PEUIUtils panelWithFixedWidth:rowWidth fixedHeight:cellHeight];
   UILabel *label;
+  UIFont *labelFont = [UIFont preferredFontForTextStyle:labelTextStyle];
   if ([labelStr isKindOfClass:[NSAttributedString class]]) {
     label = [PEUIUtils labelWithAttributeText:labelStr
                                          font:labelFont
-                     fontForHeightCalculation:[UIFont boldSystemFontOfSize:labelFont.pointSize]
+                     fontForHeightCalculation:[self boldFontForTextStyle:labelTextStyle]
                               backgroundColor:[UIColor clearColor]
                                     textColor:labelTextColor
                           verticalTextPadding:0.0];
@@ -1144,6 +1151,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                           textColor:labelTextColor
                 verticalTextPadding:0.0];
   }
+  UIFont *valueFont = [UIFont preferredFontForTextStyle:valueTextStyle];
   CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
   CGFloat availableWidth = rowPanel.frame.size.width -
     label.frame.size.width -
@@ -1175,8 +1183,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
@@ -1194,8 +1202,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            withCellHeight:cellHeight
                         labelLeftHPadding:labelLeftHPadding
                        valueRightHPadding:valueRightHPadding
-                                labelFont:labelFont
-                                valueFont:valueFont
+                           labelTextStyle:labelTextStyle
+                           valueTextStyle:valueTextStyle
                            labelTextColor:labelTextColor
                            valueTextColor:valueTextColor
            minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
@@ -1219,8 +1227,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
@@ -1242,11 +1250,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   for (NSArray *row in rowData) {
     NSString *labelStr = row[0];
     NSString *valueStr = row[1];
-    CGFloat wouldBeWidthOfValueLbl = [PEUIUtils sizeOfText:valueStr withFont:[UIFont boldSystemFontOfSize:valueFont.pointSize]].width;
+    CGFloat wouldBeWidthOfValueLbl = [PEUIUtils sizeOfText:valueStr
+                                                  withFont:[self boldFontForTextStyle:valueTextStyle]].width;
     if (wouldBeWidthOfValueLbl > maxWidthOfValueLbl) {
       maxWidthOfValueLbl = wouldBeWidthOfValueLbl;
     }
-    CGFloat wouldBeWidthOfLabelLbl = [PEUIUtils sizeOfText:labelStr withFont:[UIFont boldSystemFontOfSize:labelFont.pointSize]].width;
+    CGFloat wouldBeWidthOfLabelLbl = [PEUIUtils sizeOfText:labelStr
+                                                  withFont:[self boldFontForTextStyle:labelTextStyle]].width;
     if (wouldBeWidthOfLabelLbl > maxWidthOfLabelLbl) {
       maxWidthOfLabelLbl = wouldBeWidthOfLabelLbl;
     }
@@ -1259,8 +1269,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                       withCellHeight:cellHeight
                    labelLeftHPadding:labelLeftHPadding
                   valueRightHPadding:valueRightHPadding
-                           labelFont:labelFont
-                           valueFont:valueFont
+                      labelTextStyle:(NSString *)labelTextStyle
+                      valueTextStyle:(NSString *)valueTextStyle
                       labelTextColor:labelTextColor
                       valueTextColor:valueTextColor
       minPaddingBetweenLabelAndValue:minPaddingBetweenLabelAndValue
@@ -1284,8 +1294,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
@@ -1335,11 +1345,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     NSString *valueStr = cellData[1];
     UIView *rowPanel = [PEUIUtils labelValuePanelWithCellHeight:cellHeight
                                                     labelString:labelStr
-                                                      labelFont:labelFont
+                                                 labelTextStyle:labelTextStyle
                                                  labelTextColor:labelTextColor
                                               labelLeftHPadding:labelLeftHPadding
                                                     valueString:valueStr
-                                                      valueFont:valueFont
+                                                 valueTextStyle:valueTextStyle
                                                  valueTextColor:valueTextColor
                                              valueRightHPadding:valueRightHPadding
                                                   valueLabelTag:@(i + 1)
@@ -1403,7 +1413,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   }
   if (footerAttributedText) {
     UILabel *footerLabel = [PEUIUtils labelWithAttributeText:footerAttributedText
-                                                        font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                                        font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
                                     fontForHeightCalculation:footerFontForHeightCalculation
                                              backgroundColor:[UIColor clearColor]
                                                    textColor:[UIColor darkGrayColor]
@@ -1441,8 +1451,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                            withCellHeight:36.5
                         labelLeftHPadding:10.0
                        valueRightHPadding:12.5
-                                labelFont:[UIFont systemFontOfSize:16]
-                                valueFont:[UIFont systemFontOfSize:16]
+                           labelTextStyle:UIFontTextStyleBody
+                           valueTextStyle:UIFontTextStyleBody
                            labelTextColor:[UIColor blackColor]
                            valueTextColor:[UIColor grayColor]
            minPaddingBetweenLabelAndValue:10.0
@@ -1522,9 +1532,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
            descriptionText:(NSString *)descriptionText
            instructionText:(NSString *)instructionText
             relativeToView:(UIView *)relativeToView {
+  UIFont* boldSubheadlineFont = [self boldFontForTextStyle:UIFontTextStyleSubheadline];
   NSString *descTextWithInstructionalText =
     [NSString stringWithFormat:@"%@%@", descriptionText, instructionText];
-  NSDictionary *attrs = @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:[UIFont systemFontSize]] };
+  NSDictionary *attrs = @{ NSFontAttributeName : boldSubheadlineFont };
   NSMutableAttributedString *attrDescTextWithInstructionalText =
     [[NSMutableAttributedString alloc] initWithString:descTextWithInstructionalText];
   NSRange instructionTextRange  = [descTextWithInstructionalText rangeOfString:instructionText];
@@ -1545,7 +1556,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                             title:title
                        titleImage:titleImage
                       description:description
-                  descriptionFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                  descriptionFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
                       messageIcon:messageIcon
                    relativeToView:relativeToView];
 }
@@ -1578,10 +1589,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   UIView *contentView = [PEUIUtils panelWithWidthOf:0.905 relativeToView:relativeToView fixedHeight:0];
   UIView *topPanel;
   CGFloat topViewHeight;
+  UIFont* boldBodyFont = [self boldFontForTextStyle:UIFontTextStyleBody];
   if (title) {
     UILabel *(^makeTitleLabel)(CGFloat) = ^ UILabel * (CGFloat widthToFit) {
       return [PEUIUtils labelWithKey:title
-                                font:[UIFont boldSystemFontOfSize:16]
+                                font:boldBodyFont
                      backgroundColor:[UIColor clearColor]
                            textColor:[UIColor blackColor]
                  verticalTextPadding:0.0
@@ -1617,9 +1629,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     topViewHeight = 0.0;
     topPanel = [PEUIUtils panelWithFixedWidth:0.0 fixedHeight:topViewHeight];
   }
+  UIFont* boldSubheadlineFont = [self boldFontForTextStyle:UIFontTextStyleSubheadline];
   UILabel *descriptionLbl = [PEUIUtils labelWithAttributeText:description
                                                          font:descriptionFont
-                                     fontForHeightCalculation:[UIFont boldSystemFontOfSize:descriptionFont.pointSize]
+                                     fontForHeightCalculation:boldSubheadlineFont
                                               backgroundColor:[UIColor clearColor]
                                                     textColor:[UIColor blackColor]
                                           verticalTextPadding:0.0
@@ -1749,7 +1762,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                        relativeToView:relativeToView];
   UIView *failuresContent = [PEUIUtils failuresPanelWithFailures:failures
                                                      description:failuresDescription
-                                                 descriptionFont:[UIFont boldSystemFontOfSize:16.0]
+                                                 descriptionFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody]
                                                   relativeToView:relativeToView];
   return [PEUIUtils panelWithColumnOfViews:@[successesContent, failuresContent]
                verticalPaddingBetweenViews:0.0
@@ -1838,12 +1851,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     valueRightHPadding;
     valueStr = truncateValueString(availableWidth, valueStr);
     UILabel *value = makeLabel(valueStr, valueFont, valueTextColor);
-    UILabel *ind = makeLabel(indicatorStr, [UIFont systemFontOfSize:11.0], selectedColor);
+    UILabel *ind = makeLabel(indicatorStr, [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2], selectedColor);
     // http://stackoverflow.com/questions/13670181/how-can-i-remove-uilabels-gray-border-on-the-right-side
     [ind setBackgroundColor:[UIColor clearColor]];
     [[ind layer] setBackgroundColor:[UIColor whiteColor].CGColor];
     UIButton *useBtn = [PEUIUtils buttonWithKey:@"Use"
-                                           font:[UIFont systemFontOfSize:14]
+                                           font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
                                 backgroundColor:selectedColor
                                       textColor:[UIColor whiteColor]
                    disabledStateBackgroundColor:nil
@@ -1980,7 +1993,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   CGFloat leftPaddingForTitleImg = 2.0;
   CGFloat paddingBetweenTitleImgAndLabel = 8.0;
   UILabel *titleLbl = [PEUIUtils labelWithKey:title
-                                         font:[UIFont boldSystemFontOfSize:16]
+                                         font:[UIFont preferredFontForTextStyle:UIFontTextStyleBody]
                               backgroundColor:[UIColor clearColor]
                                     textColor:[UIColor blackColor]
                           verticalTextPadding:0.0
@@ -2051,11 +2064,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIView *)messagePanelWithTitle:(NSString *)title
                       leftImgIcon:(UIImage *)leftImgIcon
                             width:(CGFloat)width {
-  UIView *errorPanel = [PEUIUtils panelWithFixedWidth:width fixedHeight:0.0]; //25.0];
+  UIView *errorPanel = [PEUIUtils panelWithFixedWidth:width fixedHeight:0.0];
   UIImageView *errImgView = [[UIImageView alloc] initWithImage:leftImgIcon];
   CGFloat paddingBetweenImgAndLabel = 5.0;
   UILabel *errorMsgLbl = [PEUIUtils labelWithKey:title
-                                            font:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                            font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
                                  backgroundColor:[UIColor clearColor]
                                        textColor:[UIColor blackColor]
                              verticalTextPadding:0.0
@@ -2249,7 +2262,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                     contentView:[PEUIUtils failuresPanelWithFailures:failures
                                                                                title:title
                                                                          description:alertDescription
-                                                                     descriptionFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]
+                                                                     descriptionFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
                                                                       relativeToView:relativeToView]];
 }
 

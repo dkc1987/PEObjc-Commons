@@ -69,8 +69,8 @@
                                              withCellHeight:36.75
                                           labelLeftHPadding:15.0
                                          valueRightHPadding:15.0
-                                                  labelFont:[UIFont systemFontOfSize:18]
-                                                  valueFont:[UIFont systemFontOfSize:18]
+                                             labelTextStyle:UIFontTextStyleBody
+                                             valueTextStyle:UIFontTextStyleBody
                                              labelTextColor:[UIColor blackColor]
                                              valueTextColor:[UIColor grayColor]
                              minPaddingBetweenLabelAndValue:0.0

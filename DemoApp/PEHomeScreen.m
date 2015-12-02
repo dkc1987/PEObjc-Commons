@@ -332,6 +332,7 @@ are as follows:"]
 }
 
 - (void)firstButtonAction {
+  NSLog(@"font size: %f", [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline].pointSize);
   [PEUIUtils showSuccessAlertWithMsgs:@[@"Message 1"]
                                 title:@"This is a success dialog."
                      alertDescription:[[NSAttributedString alloc] initWithString:@"Hi!  I am the alert description.  There are \

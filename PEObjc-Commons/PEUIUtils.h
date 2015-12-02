@@ -617,6 +617,8 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 
 #pragma mark - Labels
 
++ (UIFont *)boldFontForTextStyle:(NSString *)textStyle;
+
 /**
  Constructs and returns a UILabel with the given attributes.
  @param key Key to a localized string to use for the text of the label; if no
@@ -1062,11 +1064,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 + (UIView *)labelValuePanelWithCellHeight:(CGFloat)cellHeight
                               labelString:(id)labelStr
-                                labelFont:(UIFont *)labelFont
+                           labelTextStyle:(NSString *)labelTextStyle
                            labelTextColor:(UIColor *)labelTextColor
                         labelLeftHPadding:(CGFloat)labelLeftHPadding
                               valueString:(NSString *)valueStr
-                                valueFont:(UIFont *)valueFont
+                           valueTextStyle:(NSString *)valueTextStyle
                            valueTextColor:(UIColor *)valueTextColor
                        valueRightHPadding:(CGFloat)valueRightHPadding
                             valueLabelTag:(NSNumber *)valueLabelTag
@@ -1084,8 +1086,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
@@ -1104,8 +1106,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
@@ -1127,8 +1129,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                    withCellHeight:(CGFloat)cellHeight
                 labelLeftHPadding:(CGFloat)labelLeftHPadding
                valueRightHPadding:(CGFloat)valueRightHPadding
-                        labelFont:(UIFont *)labelFont
-                        valueFont:(UIFont *)valueFont
+                   labelTextStyle:(NSString *)labelTextStyle
+                   valueTextStyle:(NSString *)valueTextStyle
                    labelTextColor:(UIColor *)labelTextColor
                    valueTextColor:(UIColor *)valueTextColor
    minPaddingBetweenLabelAndValue:(CGFloat)minPaddingBetweenLabelAndValue
