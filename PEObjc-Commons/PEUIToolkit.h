@@ -29,6 +29,7 @@ typedef UILabel * (^LabelMaker)(NSString *);
 typedef UITextField * (^TextfieldMaker)(NSString *);
 typedef UITextField * (^TaggedTextfieldMaker)(NSString *, NSInteger);
 typedef UIView * (^PanelMaker)(CGFloat);
+typedef UIFont * (^FontMaker)(void);
 
 /**
  A simple container-like abstraction for encapsulating styling information that
@@ -48,16 +49,16 @@ typedef UIView * (^PanelMaker)(CGFloat);
                     colorForWindows:(UIColor *)colorForWindows
    topBottomPaddingForContentPanels:(CGFloat)topBottomPaddingForContentPanels
                         accentColor:(UIColor *)accentColor
-                  fontForButtonsBlk:(UIFont *(^)(void))fontForButtonsBlk
+                  fontForButtonsBlk:(FontMaker)fontForButtonsBlk
           verticalPaddingForButtons:(CGFloat)verticalPaddingForButtons
         horizontalPaddingForButtons:(CGFloat)horizontalPaddingForButtons
-               fontForTextfieldsBlk:(UIFont *(^)(void))fontForTextfieldsBlk
+               fontForTextfieldsBlk:(FontMaker)fontForTextfieldsBlk
                  colorForTextfields:(UIColor *)colorForTextfields
           heightFactorForTextfields:(CGFloat)heightFactorForTextfields
        leftViewPaddingForTextfields:(CGFloat)leftViewPaddingForTextfields
-          fontForTableCellTitlesBlk:(UIFont *(^)(void))fontForTableCellTitlesBlk
+          fontForTableCellTitlesBlk:(FontMaker)fontForTableCellTitlesBlk
             colorForTableCellTitles:(UIColor *)colorForTableCellTitles
-       fontForTableCellSubtitlesBlk:(UIFont *(^)(void))fontForTableCellSubtitlesBlk
+       fontForTableCellSubtitlesBlk:(FontMaker)fontForTableCellSubtitlesBlk
          colorForTableCellSubtitles:(UIColor *)colorForTableCellSubtitles;
 
 #pragma mark - Color Properties
@@ -89,6 +90,16 @@ typedef UIView * (^PanelMaker)(CGFloat);
 @property (nonatomic, readonly) CGFloat leftViewPaddingForTextfields;
 
 @property (nonatomic, readonly) CGFloat heightFactorForTextfields;
+
+#pragma mark - Font Makers
+
+- (FontMaker)fontForButtonsBlk;
+
+- (FontMaker)fontForTextfieldsBlk;
+
+- (FontMaker)fontForTableCellTitlesBlk;
+
+- (FontMaker)fontForTableCellSubtitlesBlk;
 
 #pragma mark - Panel makers
 

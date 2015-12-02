@@ -25,10 +25,10 @@
 #import "PEUIToolkit.h"
 
 @implementation PEUIToolkit {
-  UIFont *(^_fontForButtonsBlk)(void);
-  UIFont *(^_fontForTextfieldsBlk)(void);
-  UIFont *(^_fontForTableCellTitlesBlk)(void);
-  UIFont *(^_fontForTableCellSubtitlesBlk)(void);
+  FontMaker _fontForButtonsBlk;
+  FontMaker _fontForTextfieldsBlk;
+  FontMaker _fontForTableCellTitlesBlk;
+  FontMaker _fontForTableCellSubtitlesBlk;
 }
 
 #pragma mark - Initializers
@@ -67,6 +67,24 @@
     _colorForTableCellSubtitles = colorForTableCellSubtitles;
   }
   return self;
+}
+
+#pragma mark - Font Makers
+
+- (FontMaker)fontForButtonsBlk {
+  return _fontForButtonsBlk;
+}
+
+- (FontMaker)fontForTextfieldsBlk {
+  return _fontForTextfieldsBlk;
+}
+
+- (FontMaker)fontForTableCellTitlesBlk {
+  return _fontForTableCellTitlesBlk;
+}
+
+- (FontMaker)fontForTableCellSubtitlesBlk {
+  return _fontForTableCellSubtitlesBlk;
 }
 
 #pragma mark - Panel makers
