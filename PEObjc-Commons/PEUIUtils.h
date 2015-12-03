@@ -1346,6 +1346,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                       dividerColor:(UIColor *)dividerColor
                                     relativeToView:(UIView *)relativeToView;
 
+#pragma mark - Showing Alert Helpers
+
++ (CGFloat)topInsetForAlertsWithController:(UIViewController *)controller;
+
 #pragma mark - Showing Alerts
 
 + (void)showAlertWithTitle:(NSString *)title

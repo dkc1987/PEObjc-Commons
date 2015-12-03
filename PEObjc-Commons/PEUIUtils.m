@@ -2388,6 +2388,13 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
              additionalContentSection:nil];
 }
 
++ (CGFloat)topInsetForAlertsWithController:(UIViewController *)controller {
+  if (controller.navigationController.navigationBarHidden) {
+    return 0.0;
+  }
+  return 70.0;
+}
+
 #pragma mark - Showing Alerts
 
 + (void)showAlertWithTitle:(NSString *)title
