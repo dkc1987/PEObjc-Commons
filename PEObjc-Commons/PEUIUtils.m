@@ -250,15 +250,56 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
               and:(UIView *)bottomView
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+                  onto:ontoView
+ inMiddleBetweenYCoord:(topView.frame.origin.y + topView.frame.size.height)
+             andYCoord:bottomView.frame.origin.y
+         withAlignment:alignment
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+  inMiddleBetween:(UIView *)topView
+        andYCoord:(CGFloat)bottomYCoord
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+                  onto:ontoView
+ inMiddleBetweenYCoord:(topView.frame.origin.y + topView.frame.size.height)
+             andYCoord:bottomYCoord
+         withAlignment:alignment
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+          andView:(UIView *)bottomView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding {
+  [PEUIUtils placeView:view
+                  onto:ontoView
+ inMiddleBetweenYCoord:topYCoordinate
+             andYCoord:bottomView.frame.origin.y
+         withAlignment:alignment
+              hpadding:hpadding];
+}
+
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+        andYCoord:(CGFloat)bottomYCoordinate
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  CGFloat topViewLowerY = topView.frame.origin.y + topView.frame.size.height;
   [PEUIUtils setFrameOrigin:
    CGPointMake([PEUIUtils XForWidth:[view frame].size.width
                       withAlignment:alignment
                      relativeToView:ontoView
                            hpadding:hpadding],
-               topViewLowerY -
-               (([view frame].size.height - (bottomView.frame.origin.y - topViewLowerY)) / 2))
+               topYCoordinate -
+               (([view frame].size.height - (bottomYCoordinate - topYCoordinate)) / 2))
                      ofView:view];
 }
 

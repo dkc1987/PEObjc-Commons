@@ -294,6 +294,27 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          hpadding:(CGFloat)hpadding;
 
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+  inMiddleBetween:(UIView *)topView
+        andYCoord:(CGFloat)bottomYCoordinate
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding;
+
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+          andView:(UIView *)bottomView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding;
+
++ (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+        andYCoord:(CGFloat)bottomYCoordinate
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding;
+
 /**
  Places the given view below relativeTo view on to ontoView, using the given
  horizontal alignment type.

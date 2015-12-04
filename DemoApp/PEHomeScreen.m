@@ -413,6 +413,26 @@ location services but you declined.  In order to enable location services, do th
          withAlignment:PEUIHorizontalAlignmentTypeLeft
               vpadding:8
               hpadding:15];
+  UIView *square = [PEUIUtils panelWithFixedWidth:20.0 fixedHeight:20.0];
+  [square setBackgroundColor:[UIColor redColor]];
+  /*[PEUIUtils placeView:square
+                  onto:p1
+       inMiddleBetween:tf1
+                   and:editConflictBtn
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:75.0];*/
+  /*[PEUIUtils placeView:square
+                  onto:p1
+       inMiddleBetween:tf1
+             andYCoord:p1.frame.size.height
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:75.0];*/
+  [PEUIUtils placeView:square
+                  onto:p1
+ inMiddleBetweenYCoord:(tf1.frame.origin.y + tf1.frame.size.height)
+             andYCoord:p1.frame.size.height
+         withAlignment:PEUIHorizontalAlignmentTypeLeft
+              hpadding:75.0];
   return p1;
 }
 
