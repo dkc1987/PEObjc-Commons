@@ -245,6 +245,24 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 }
 
 + (void)placeView:(UIView *)view
+             onto:(UIView *)ontoView
+  inMiddleBetween:(UIView *)topView
+              and:(UIView *)bottomView
+    withAlignment:(PEUIHorizontalAlignmentType)alignment
+         hpadding:(CGFloat)hpadding {
+  [ontoView addSubview:view];
+  CGFloat topViewLowerY = topView.frame.origin.y + topView.frame.size.height;
+  [PEUIUtils setFrameOrigin:
+   CGPointMake([PEUIUtils XForWidth:[view frame].size.width
+                      withAlignment:alignment
+                     relativeToView:ontoView
+                           hpadding:hpadding],
+               topViewLowerY -
+               (([view frame].size.height - (bottomView.frame.origin.y - topViewLowerY)) / 2))
+                     ofView:view];
+}
+
++ (void)placeView:(UIView *)view
             below:(UIView *)relativeTo
              onto:(UIView *)ontoView
     withAlignment:(PEUIHorizontalAlignmentType)alignment
@@ -2389,10 +2407,11 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 }
 
 + (CGFloat)topInsetForAlertsWithController:(UIViewController *)controller {
-  if (controller.navigationController.navigationBarHidden) {
+  /*if (controller.navigationController.navigationBarHidden) {
     return 0.0;
   }
-  return 70.0;
+  return 70.0;*/
+  return 0.0; // I can't remember why I'd ever want the '70.0' top inset
 }
 
 #pragma mark - Showing Alerts
