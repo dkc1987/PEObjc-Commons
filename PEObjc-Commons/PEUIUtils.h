@@ -1012,6 +1012,14 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 #pragma mark - Panels
 
++ (UIView *)displayPanelFromContentPanel:(UIView *)contentPanel
+                               scrolling:(BOOL)scrolling
+                     scrollContentOffset:(CGPoint)scrollContentOffset
+                          scrollDelegate:(id<UIScrollViewDelegate>)scrollDelegate
+                        notScrollViewBlk:(void(^)(void))notScrollViewBlk
+                                centered:(BOOL)centered
+                              controller:(UIViewController *)controller;
+
 + (UIView *)dividerWithWidthOf:(CGFloat)widthOf
                          color:(UIColor *)color
                 relativeToView:(UIView *)relativeToView;

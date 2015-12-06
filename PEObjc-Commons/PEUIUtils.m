@@ -1086,6 +1086,54 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 
 #pragma mark - Panels
 
++ (UIView *)displayPanelFromContentPanel:(UIView *)contentPanel
+                               scrolling:(BOOL)scrolling
+                     scrollContentOffset:(CGPoint)scrollContentOffset
+                          scrollDelegate:(id<UIScrollViewDelegate>)scrollDelegate
+                        notScrollViewBlk:(void(^)(void))notScrollViewBlk
+                                centered:(BOOL)centered
+                              controller:(UIViewController *)controller {
+  CGFloat contentPanelHeight = contentPanel.frame.size.height;
+  CGFloat visibleControllerViewHeight = controller.view.frame.size.height;
+  /*
+   So, normally the status bar is translucent, and you're accordingly supposed
+   to ignore the fact that it sits on top of the controller's view.  However,
+   when there is a navigation bar present, it sits below the status bar, and as
+   such, you have to take into account the status bar's height when calculating
+   the total visible height of the controller's view.
+   */
+  if (controller.navigationController && !controller.navigationController.navigationBar.hidden) {
+    visibleControllerViewHeight -= ([UIApplication sharedApplication].statusBarFrame.size.height +
+                                      controller.navigationController.navigationBar.frame.size.height);
+  }
+  if (controller.tabBarController) {
+    visibleControllerViewHeight -= controller.tabBarController.tabBar.frame.size.height;
+  }
+  UIScrollView *(^makeScrollView)(void) = ^UIScrollView * {
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:controller.view.frame];
+    [scrollView setDelegate:scrollDelegate];
+    [scrollView setDelaysContentTouches:NO];
+    [scrollView setBounces:YES];
+    [scrollView setContentSize:CGSizeMake(controller.view.frame.size.width, (contentPanelHeight + (controller.view.frame.size.height / 1.5)))];
+    [scrollView addSubview:contentPanel];
+    [scrollView setContentOffset:scrollContentOffset animated:NO];
+    return scrollView;
+  };
+  if (contentPanelHeight > visibleControllerViewHeight) {
+    return makeScrollView();
+  } else if ((contentPanelHeight * 2.0) <= visibleControllerViewHeight) {
+    if (notScrollViewBlk) { notScrollViewBlk(); }
+    return contentPanel;
+  } else {
+    if (scrolling) {
+      return makeScrollView();
+    } else {
+      if (notScrollViewBlk) { notScrollViewBlk(); }
+      return contentPanel;
+    }
+  }
+}
+
 + (UIView *)dividerWithWidthOf:(CGFloat)widthOf
                          color:(UIColor *)color
                 relativeToView:(UIView *)relativeToView {
