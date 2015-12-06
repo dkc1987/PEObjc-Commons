@@ -654,8 +654,17 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 #pragma mark - Labels
 
 + (UIFont *)boldFontForTextStyle:(NSString *)textStyle {
+  return [PEUIUtils fontForTextStyle:textStyle trait:UIFontDescriptorTraitBold];
+}
+
++ (UIFont *)italicFontForTextStyle:(NSString *)textStyle {
+  return [PEUIUtils fontForTextStyle:textStyle trait:UIFontDescriptorTraitItalic];
+}
+
++ (UIFont *)fontForTextStyle:(NSString *)textStyle
+                       trait:(UIFontDescriptorSymbolicTraits)trait {
   UIFontDescriptor* fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
-  UIFontDescriptor* boldFontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+  UIFontDescriptor* boldFontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:trait];
   return [UIFont fontWithDescriptor:boldFontDescriptor size:0.0];
 }
 

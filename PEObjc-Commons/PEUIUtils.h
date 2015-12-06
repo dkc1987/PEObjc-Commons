@@ -647,6 +647,11 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 
 + (UIFont *)boldFontForTextStyle:(NSString *)textStyle;
 
++ (UIFont *)italicFontForTextStyle:(NSString *)textStyle;
+
++ (UIFont *)fontForTextStyle:(NSString *)textStyle
+                       trait:(UIFontDescriptorSymbolicTraits)trait;
+
 /**
  Constructs and returns a UILabel with the given attributes.
  @param key Key to a localized string to use for the text of the label; if no
