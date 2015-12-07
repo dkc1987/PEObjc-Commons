@@ -25,7 +25,7 @@
 #import <UIKit/UIKit.h>
 
 typedef UIButton * (^ButtonMaker)(NSString *, id, SEL);
-typedef UILabel * (^LabelMaker)(NSString *);
+typedef UILabel * (^LabelMaker)(NSString *, CGFloat);
 typedef UITextField * (^TextfieldMaker)(NSString *);
 typedef UITextField * (^TaggedTextfieldMaker)(NSString *, NSInteger);
 typedef UIView * (^PanelMaker)(CGFloat);

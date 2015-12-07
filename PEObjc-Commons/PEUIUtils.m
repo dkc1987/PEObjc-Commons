@@ -1276,21 +1276,23 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
     valueRightHPadding;
   CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
   if (wouldBeWidthOfValueLabel > availableWidth) {
-    NSDecimalNumber *avgWidthPerLetter = [[[NSDecimalNumber alloc] initWithFloat:wouldBeWidthOfValueLabel] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithInteger:[valueStr length]]];
-    NSInteger availableWidthMinusElipses = availableWidth - widthOfElipses;
-    NSDecimalNumber *allowedNumLetters = [[[NSDecimalNumber alloc] initWithInteger:(availableWidth - widthOfElipses)] decimalNumberByDividingBy:avgWidthPerLetter];
-    allowedNumLetters = [allowedNumLetters decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                                                                             scale:0
-                                                                                                                                  raiseOnExactness:NO
-                                                                                                                                   raiseOnOverflow:NO
-                                                                                                                                  raiseOnUnderflow:NO
-                                                                                                                               raiseOnDivideByZero:NO]];
-    if (availableWidthMinusElipses > 0) {
-      if (allowedNumLetters.integerValue <= valueStr.length) { // safety check
-        valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+    if ([valueStr length] > 0) {
+      NSDecimalNumber *avgWidthPerLetter = [[[NSDecimalNumber alloc] initWithFloat:wouldBeWidthOfValueLabel] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithInteger:[valueStr length]]];
+      NSInteger availableWidthMinusElipses = availableWidth - widthOfElipses;
+      NSDecimalNumber *allowedNumLetters = [[[NSDecimalNumber alloc] initWithInteger:(availableWidth - widthOfElipses)] decimalNumberByDividingBy:avgWidthPerLetter];
+      allowedNumLetters = [allowedNumLetters decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                                                                               scale:0
+                                                                                                                                    raiseOnExactness:NO
+                                                                                                                                     raiseOnOverflow:NO
+                                                                                                                                    raiseOnUnderflow:NO
+                                                                                                                                 raiseOnDivideByZero:NO]];
+      if (availableWidthMinusElipses > 0) {
+        if (allowedNumLetters.integerValue <= valueStr.length) { // safety check
+          valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+        }
+      } else {
+        valueStr = @"...";
       }
-    } else {
-      valueStr = @"...";
     }
   }
   UILabel *value = [PEUIUtils labelWithKey:valueStr

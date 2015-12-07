@@ -130,22 +130,24 @@
 #pragma mark - Label makers
 
 - (LabelMaker)tableCellTitleMaker {
-  return ^(NSString *key) {
+  return ^(NSString *key, CGFloat fitToWidth) {
     return [PEUIUtils labelWithKey:key
                               font:_fontForTableCellTitlesBlk()
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellTitles]
-               verticalTextPadding:0];
+               verticalTextPadding:0
+                        fitToWidth:fitToWidth];
   };
 }
 
 - (LabelMaker)tableCellSubtitleMaker {
-  return ^(NSString *key) {
+  return ^(NSString *key, CGFloat fitToWidth) {
     return [PEUIUtils labelWithKey:key
                               font:_fontForTableCellSubtitlesBlk()
                    backgroundColor:[UIColor clearColor]
                          textColor:[self colorForTableCellSubtitles]
-               verticalTextPadding:5];
+               verticalTextPadding:5
+                        fitToWidth:fitToWidth];
   };
 }
 
