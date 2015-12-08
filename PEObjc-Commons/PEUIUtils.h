@@ -998,6 +998,9 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   recordCount:(NSInteger)recordCount
        tagForRecordCountLabel:(NSNumber *)tagForRecordCountLabel
             addDisclosureIcon:(BOOL)addDisclosureIcon
+    addlVerticalButtonPadding:(CGFloat)addlVerticalButtonPadding
+ recordCountFromBottomPadding:(CGFloat)recordCountFromBottomPadding
+       recordCountLeftPadding:(CGFloat)recordCountLeftPadding
                       handler:(void(^)(void))handler
                     uitoolkit:(PEUIToolkit *)uitoolkit
                relativeToView:(UIView *)relativeToView;

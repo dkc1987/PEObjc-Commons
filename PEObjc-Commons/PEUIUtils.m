@@ -827,12 +827,14 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 }
 
 + (void)placeRecordCountLabel:(UILabel *)recordCountLabel
-                   ontoButton:(UIButton *)button {
+                   ontoButton:(UIButton *)button
+                     hpadding:(CGFloat)hpadding
+                     vpadding:(CGFloat)vpadding {
   [PEUIUtils placeView:recordCountLabel
             atBottomOf:button
          withAlignment:PEUIHorizontalAlignmentTypeLeft
-              vpadding:5.0
-              hpadding:6.0];
+              vpadding:vpadding
+              hpadding:hpadding];
 }
 
 + (void)refreshRecordCountLabelOnButton:(UIButton *)button
@@ -1045,10 +1047,23 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                   recordCount:(NSInteger)recordCount
        tagForRecordCountLabel:(NSNumber *)tagForRecordCountLabel
             addDisclosureIcon:(BOOL)addDisclosureIcon
+    addlVerticalButtonPadding:(CGFloat)addlVerticalButtonPadding
+ recordCountFromBottomPadding:(CGFloat)recordCountFromBottomPadding
+       recordCountLeftPadding:(CGFloat)recordCountLeftPadding
                       handler:(void(^)(void))handler
                     uitoolkit:(PEUIToolkit *)uitoolkit
                relativeToView:(UIView *)relativeToView {
-  UIButton *button = [uitoolkit systemButtonMaker](labelText, nil, nil);
+  UIButton *button = [PEUIUtils buttonWithKey:labelText
+                                         font:[uitoolkit fontForButtonsBlk]()
+                              backgroundColor:[UIColor whiteColor]
+                                    textColor:[UIColor darkTextColor]
+                 disabledStateBackgroundColor:[UIColor whiteColor]
+                       disabledStateTextColor:[UIColor grayColor]
+                              verticalPadding:([uitoolkit verticalPaddingForButtons] + addlVerticalButtonPadding)
+                            horizontalPadding:[uitoolkit horizontalPaddingForButtons]
+                                 cornerRadius:0.0
+                                       target:nil
+                                       action:nil];
   if (tagForButton) {
     [button setTag:[tagForButton integerValue]];
   }
@@ -1064,7 +1079,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   if (tagForRecordCountLabel) {
     [recordCountLabel setTag:[tagForRecordCountLabel integerValue]];
   }
-  [PEUIUtils placeRecordCountLabel:recordCountLabel ontoButton:button];
+  [PEUIUtils placeRecordCountLabel:recordCountLabel
+                        ontoButton:button
+                          hpadding:recordCountLeftPadding
+                          vpadding:recordCountFromBottomPadding];
   return button;
 }
 
