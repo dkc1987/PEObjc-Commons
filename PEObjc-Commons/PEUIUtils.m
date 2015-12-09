@@ -1305,8 +1305,10 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                                                                                                                     raiseOnUnderflow:NO
                                                                                                                                  raiseOnDivideByZero:NO]];
       if (availableWidthMinusElipses > 0) {
-        if (allowedNumLetters.integerValue <= valueStr.length) { // safety check
-          valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+        if (allowedNumLetters.integerValue > 0) {
+          if (allowedNumLetters.integerValue <= valueStr.length) {
+            valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+          }
         }
       } else {
         valueStr = @"...";
