@@ -1117,6 +1117,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                scrolling:(BOOL)scrolling
                      scrollContentOffset:(CGPoint)scrollContentOffset
                           scrollDelegate:(id<UIScrollViewDelegate>)scrollDelegate
+                    delaysContentTouches:(BOOL)delaysContentTouches
+                                 bounces:(BOOL)bounces
                         notScrollViewBlk:(void(^)(void))notScrollViewBlk
                                 centered:(BOOL)centered
                               controller:(UIViewController *)controller {
@@ -1139,8 +1141,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   UIScrollView *(^makeScrollView)(void) = ^UIScrollView * {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:controller.view.frame];
     [scrollView setDelegate:scrollDelegate];
-    [scrollView setDelaysContentTouches:NO];
-    [scrollView setBounces:YES];
+    [scrollView setDelaysContentTouches:delaysContentTouches];
+    [scrollView setBounces:bounces];
     [scrollView setContentSize:CGSizeMake(controller.view.frame.size.width, (contentPanelHeight + (controller.view.frame.size.height / 1.5)))];
     [scrollView addSubview:contentPanel];
     [scrollView setContentOffset:scrollContentOffset animated:NO];

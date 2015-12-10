@@ -1024,6 +1024,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                                scrolling:(BOOL)scrolling
                      scrollContentOffset:(CGPoint)scrollContentOffset
                           scrollDelegate:(id<UIScrollViewDelegate>)scrollDelegate
+                    delaysContentTouches:(BOOL)delaysContentTouches
+                                 bounces:(BOOL)bounces
                         notScrollViewBlk:(void(^)(void))notScrollViewBlk
                                 centered:(BOOL)centered
                               controller:(UIViewController *)controller;
