@@ -643,6 +643,12 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
                                       textToAccent:(NSString *)textToAccent
                                     accentTextFont:(UIFont *)accentTextFont;
 
+#pragma mark - Text Truncation
+
++ (NSString *)truncatedTextForText:(NSString *)text
+                              font:(UIFont *)font
+                    availableWidth:(CGFloat)availableWidth;
+
 #pragma mark - Labels
 
 + (UIFont *)boldFontForTextStyle:(NSString *)textStyle;

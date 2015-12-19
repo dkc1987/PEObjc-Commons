@@ -599,6 +599,38 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
                                accentTextColor:nil];
 }
 
+#pragma mark - Text Truncation
+
++ (NSString *)truncatedTextForText:(NSString *)text
+                              font:(UIFont *)font
+                    availableWidth:(CGFloat)availableWidth {
+  CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:text withFont:font].width;
+  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:font].width;
+  if (wouldBeWidthOfValueLabel > availableWidth) {
+    if ([text length] > 0) {
+      NSDecimalNumber *avgWidthPerLetter = [[[NSDecimalNumber alloc] initWithFloat:wouldBeWidthOfValueLabel] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithInteger:[text length]]];
+      NSInteger availableWidthMinusElipses = availableWidth - widthOfElipses;
+      NSDecimalNumber *allowedNumLetters = [[[NSDecimalNumber alloc] initWithInteger:(availableWidth - widthOfElipses)] decimalNumberByDividingBy:avgWidthPerLetter];
+      allowedNumLetters = [allowedNumLetters decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                                                                               scale:0
+                                                                                                                                    raiseOnExactness:NO
+                                                                                                                                     raiseOnOverflow:NO
+                                                                                                                                    raiseOnUnderflow:NO
+                                                                                                                                 raiseOnDivideByZero:NO]];
+      if (availableWidthMinusElipses > 0) {
+        if (allowedNumLetters.integerValue > 0) {
+          if (allowedNumLetters.integerValue <= text.length) {
+            text = [[text substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
+          }
+        }
+      } else {
+        text = @"...";
+      }
+    }
+  }
+  return text;
+}
+
 #pragma mark - Label maker helper
 
 + (UILabel *)emptyLabelWithFont:(UIFont *)font
@@ -1288,35 +1320,12 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                 verticalTextPadding:0.0];
   }
   UIFont *valueFont = [UIFont preferredFontForTextStyle:valueTextStyle];
-  CGFloat wouldBeWidthOfValueLabel = [PEUIUtils sizeOfText:valueStr withFont:valueFont].width;
   CGFloat availableWidth = rowPanel.frame.size.width -
     label.frame.size.width -
     minPaddingBetweenLabelAndValue -
     labelLeftHPadding -
     valueRightHPadding;
-  CGFloat widthOfElipses = [PEUIUtils sizeOfText:@"..." withFont:valueFont].width;
-  if (wouldBeWidthOfValueLabel > availableWidth) {
-    if ([valueStr length] > 0) {
-      NSDecimalNumber *avgWidthPerLetter = [[[NSDecimalNumber alloc] initWithFloat:wouldBeWidthOfValueLabel] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithInteger:[valueStr length]]];
-      NSInteger availableWidthMinusElipses = availableWidth - widthOfElipses;
-      NSDecimalNumber *allowedNumLetters = [[[NSDecimalNumber alloc] initWithInteger:(availableWidth - widthOfElipses)] decimalNumberByDividingBy:avgWidthPerLetter];
-      allowedNumLetters = [allowedNumLetters decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                                                                               scale:0
-                                                                                                                                    raiseOnExactness:NO
-                                                                                                                                     raiseOnOverflow:NO
-                                                                                                                                    raiseOnUnderflow:NO
-                                                                                                                                 raiseOnDivideByZero:NO]];
-      if (availableWidthMinusElipses > 0) {
-        if (allowedNumLetters.integerValue > 0) {
-          if (allowedNumLetters.integerValue <= valueStr.length) {
-            valueStr = [[valueStr substringToIndex:(allowedNumLetters.integerValue - 1)] stringByAppendingString:@"..."];
-          }
-        }
-      } else {
-        valueStr = @"...";
-      }
-    }
-  }
+  valueStr = [PEUIUtils truncatedTextForText:valueStr font:valueFont availableWidth:availableWidth];
   UILabel *value = [PEUIUtils labelWithKey:valueStr
                                       font:valueFont
                            backgroundColor:[UIColor clearColor]
