@@ -26,6 +26,7 @@
 		540C3A129FA8D135A0F784AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4277907649C35CBE5D8D5 /* libPods.a */; };
 		CA2AC91B1B7A90A200192E76 /* PEHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */; };
 		CA2AC91F1B7A946F00192E76 /* PEDataTableScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */; };
+		CA48D1C71C2D620E00FFD650 /* UIView+PEBorders.m in Sources */ = {isa = PBXBuildFile; fileRef = CA48D1C61C2D620E00FFD650 /* UIView+PEBorders.m */; };
 		CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6228801B8BB89600896679 /* libBlocksKit.a */; };
 		CA7BA26B1B4CCF6E00CCB7FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA26A1B4CCF6E00CCB7FB /* Default-568h@2x.png */; };
 		CA7BA26C1B4CD0A000CCB7FB /* PEObjc-Commons.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CA7BA2671B4CB8A200CCB7FB /* PEObjc-Commons.bundle */; };
@@ -105,6 +106,8 @@
 		CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEHomeScreen.m; sourceTree = "<group>"; };
 		CA2AC91D1B7A946F00192E76 /* PEDataTableScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEDataTableScreen.h; sourceTree = "<group>"; };
 		CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEDataTableScreen.m; sourceTree = "<group>"; };
+		CA48D1C51C2D620E00FFD650 /* UIView+PEBorders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PEBorders.h"; sourceTree = "<group>"; };
+		CA48D1C61C2D620E00FFD650 /* UIView+PEBorders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PEBorders.m"; sourceTree = "<group>"; };
 		CA62287E1B8BB7E900896679 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		CA6228801B8BB89600896679 /* libBlocksKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBlocksKit.a; path = "Pods/../build/Debug-iphoneos/libBlocksKit.a"; sourceTree = "<group>"; };
 		CA6228821B8BB89A00896679 /* libJGActionSheet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJGActionSheet.a; path = "Pods/../build/Debug-iphoneos/libJGActionSheet.a"; sourceTree = "<group>"; };
@@ -409,6 +412,24 @@
 			name = "App delegate";
 			sourceTree = "<group>";
 		};
+		CA48D1C31C2D61E700FFD650 /* Roundify */ = {
+			isa = PBXGroup;
+			children = (
+				CA9C30B21B569A89009E8AF3 /* UIView+PERoundify.h */,
+				CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */,
+			);
+			name = Roundify;
+			sourceTree = "<group>";
+		};
+		CA48D1C41C2D61F200FFD650 /* Border */ = {
+			isa = PBXGroup;
+			children = (
+				CA48D1C51C2D620E00FFD650 /* UIView+PEBorders.h */,
+				CA48D1C61C2D620E00FFD650 /* UIView+PEBorders.m */,
+			);
+			name = Border;
+			sourceTree = "<group>";
+		};
 		CA7BA2661B4CB8A200CCB7FB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,8 +477,8 @@
 		CA9C30B11B569A72009E8AF3 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
-				CA9C30B21B569A89009E8AF3 /* UIView+PERoundify.h */,
-				CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */,
+				CA48D1C41C2D61F200FFD650 /* Border */,
+				CA48D1C31C2D61E700FFD650 /* Roundify */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -654,6 +675,7 @@
 				CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */,
 				CA97EE491B594881000EC1B3 /* NSMutableArray+PEAdditions.m in Sources */,
 				186348DD1A7AB8940090E88D /* PEHttpUtils.m in Sources */,
+				CA48D1C71C2D620E00FFD650 /* UIView+PEBorders.m in Sources */,
 				186348DA1A7AB88D0090E88D /* PEUIUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

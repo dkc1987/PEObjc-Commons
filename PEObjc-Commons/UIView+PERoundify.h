@@ -21,9 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
+@import Foundation;
+@import UIKit;
+@import QuartzCore;
 
 /* http://stackoverflow.com/questions/4847163/round-two-corners-in-uiview */
 @interface UIView (PERoundify)
@@ -31,7 +31,7 @@
 -(void)addRoundedCorners:(UIRectCorner)corners
                withRadii:(CGSize)radii;
 
--(CALayer*)maskForRoundedCorners:(UIRectCorner)corners
-                       withRadii:(CGSize)radii;
+-(CALayer *)maskForRoundedCorners:(UIRectCorner)corners
+                        withRadii:(CGSize)radii;
 
 @end
