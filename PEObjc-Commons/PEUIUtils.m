@@ -46,6 +46,33 @@ typedef JGActionSheetSection *(^PEAlertSectionMaker)(void);
 
 #pragma mark - Position Utils
 
++ (void)setFrameX:(CGFloat)xcoord andY:(CGFloat)ycoord ofView:(UIView *)view {
+  CGRect frame = [view frame];
+  CGRect newFrame =
+  CGRectMake(xcoord, ycoord, frame.size.width, frame.size.height);
+  [view setFrame:newFrame];
+}
+
++ (void)setFrameOrigin:(CGPoint)origin ofView:(UIView *)view {
+  [PEUIUtils setFrameX:origin.x andY:origin.y ofView:view];
+}
+
++ (void)setFrameX:(CGFloat)xcoord ofView:(UIView *)view {
+  [PEUIUtils setFrameX:xcoord andY:view.frame.origin.y ofView:view];
+}
+
++ (void)setFrameY:(CGFloat)ycoord ofView:(UIView *)view {
+  [PEUIUtils setFrameX:view.frame.origin.x andY:ycoord ofView:view];
+}
+
++ (void)adjustXOfView:(UIView *)view withValue:(CGFloat)adjust {
+  [PEUIUtils setFrameX:([view frame].origin.x + adjust) ofView:view];
+}
+
++ (void)adjustYOfView:(UIView *)view withValue:(CGFloat)adjust {
+  [PEUIUtils setFrameY:([view frame].origin.y + adjust) ofView:view];
+}
+
 + (CGFloat)XForWidth:(CGFloat)width
        withAlignment:(PEUIHorizontalAlignmentType)alignment
       relativeToView:(UIView *)relativeToView
@@ -163,34 +190,226 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
   return largestWidth;
 }
 
+#pragma mark - View Movement
+
++ (void)positionView:(UIView *)view
+             atTopOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:CGPointMake([PEUIUtils XForWidth:[view frame].size.width
+                                               withAlignment:alignment
+                                              relativeToView:ontoView
+                                                    hpadding:hpadding],
+                                        vpadding)
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+          atBottomOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:CGPointMake([PEUIUtils XForWidth:[view frame].size.width
+                                               withAlignment:alignment
+                                              relativeToView:ontoView
+                                                    hpadding:hpadding],
+                                        [PEUIUtils YForHeight:[view frame].size.height
+                                                withAlignment:PEUIVerticalAlignmentTypeBottom
+                                               relativeToView:ontoView
+                                                     vpadding:vpadding])
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+          inMiddleOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:CGPointMake([PEUIUtils XForWidth:[view frame].size.width
+                                               withAlignment:alignment
+                                              relativeToView:ontoView
+                                                    hpadding:hpadding],
+                                        [PEUIUtils YForHeight:[view frame].size.height
+                                                withAlignment:PEUIVerticalAlignmentTypeMiddle
+                                               relativeToView:ontoView
+                                                     vpadding:0])
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+     inMiddleBetween:(UIView *)topView
+                 and:(UIView *)bottomView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+                     onto:ontoView
+    inMiddleBetweenYCoord:(topView.frame.origin.y + topView.frame.size.height)
+                andYCoord:bottomView.frame.origin.y
+            withAlignment:alignment
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+     inMiddleBetween:(UIView *)topView
+           andYCoord:(CGFloat)bottomYCoord
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+                     onto:ontoView
+    inMiddleBetweenYCoord:(topView.frame.origin.y + topView.frame.size.height)
+                andYCoord:bottomYCoord
+            withAlignment:alignment
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+             andView:(UIView *)bottomView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+                     onto:ontoView
+    inMiddleBetweenYCoord:topYCoordinate
+                andYCoord:bottomView.frame.origin.y
+            withAlignment:alignment
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+           andYCoord:(CGFloat)bottomYCoordinate
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin: CGPointMake([PEUIUtils XForWidth:[view frame].size.width
+                                                withAlignment:alignment
+                                               relativeToView:ontoView
+                                                     hpadding:hpadding],
+                                         topYCoordinate -
+                                         (([view frame].size.height - (bottomYCoordinate - topYCoordinate)) / 2))
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+               below:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+                    below:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:relativeTo
+                 vpadding:vpadding
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+               below:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:relativeTo
+                                    withAlignment:alignment
+                          alignmentRelativeToView:alignmentRelativeToView
+                                         vpadding:vpadding
+                                         hpadding:hpadding
+                                     forBoxOfSize:[view frame].size]
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+               above:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+                    above:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:relativeTo
+                 vpadding:vpadding
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+               above:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:relativeTo
+                                    withAlignment:alignment
+                          alignmentRelativeToView:alignmentRelativeToView
+                                         vpadding:vpadding
+                                         hpadding:hpadding
+                                     forBoxOfSize:[view frame].size]
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+         toTheLeftOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+              toTheLeftOf:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:relativeTo
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+         toTheLeftOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheLeftOf:relativeTo
+                                          withAlignment:alignment
+                                alignmentRelativeToView:alignmentRelativeToView
+                                               hpadding:hpadding
+                                           forBoxOfSize:[view frame].size]
+                     ofView:view];
+}
+
++ (void)positionView:(UIView *)view
+        toTheRightOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils positionView:view
+             toTheRightOf:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:relativeTo
+                 hpadding:hpadding];
+}
+
++ (void)positionView:(UIView *)view
+        toTheRightOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            hpadding:(CGFloat)hpadding {
+  [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheRightOf:relativeTo
+                                           withAlignment:alignment
+                                 alignmentRelativeToView:alignmentRelativeToView
+                                                hpadding:hpadding
+                                            forBoxOfSize:[view frame].size]
+                     ofView:view];
+}
+
 #pragma mark - View Placement
-
-+ (void)setFrameX:(CGFloat)xcoord andY:(CGFloat)ycoord ofView:(UIView *)view {
-  CGRect frame = [view frame];
-  CGRect newFrame =
-    CGRectMake(xcoord, ycoord, frame.size.width, frame.size.height);
-  [view setFrame:newFrame];
-}
-
-+ (void)setFrameOrigin:(CGPoint)origin ofView:(UIView *)view {
-  [PEUIUtils setFrameX:origin.x andY:origin.y ofView:view];
-}
-
-+ (void)setFrameX:(CGFloat)xcoord ofView:(UIView *)view {
-  [PEUIUtils setFrameX:xcoord andY:view.frame.origin.y ofView:view];
-}
-
-+ (void)setFrameY:(CGFloat)ycoord ofView:(UIView *)view {
-  [PEUIUtils setFrameX:view.frame.origin.x andY:ycoord ofView:view];
-}
-
-+ (void)adjustXOfView:(UIView *)view withValue:(CGFloat)adjust {
-  [PEUIUtils setFrameX:([view frame].origin.x + adjust) ofView:view];
-}
-
-+ (void)adjustYOfView:(UIView *)view withValue:(CGFloat)adjust {
-  [PEUIUtils setFrameY:([view frame].origin.y + adjust) ofView:view];
-}
 
 + (void)placeView:(UIView *)view
           atTopOf:(UIView *)ontoView
@@ -198,13 +417,11 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils
-    setFrameOrigin:CGPointMake([PEUIUtils XForWidth:[view frame].size.width
-                                      withAlignment:alignment
-                                     relativeToView:ontoView
-                                           hpadding:hpadding],
-                               vpadding)
-            ofView:view];
+  [PEUIUtils positionView:view
+                  atTopOf:ontoView
+            withAlignment:alignment
+                 vpadding:vpadding
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -213,17 +430,11 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils
-    setFrameOrigin:
-      CGPointMake([PEUIUtils XForWidth:[view frame].size.width
-                         withAlignment:alignment
-                        relativeToView:ontoView
-                              hpadding:hpadding],
-                  [PEUIUtils YForHeight:[view frame].size.height
-                          withAlignment:PEUIVerticalAlignmentTypeBottom
-                         relativeToView:ontoView
-                               vpadding:vpadding])
-            ofView:view];
+  [PEUIUtils positionView:view
+               atBottomOf:ontoView
+            withAlignment:alignment
+                 vpadding:vpadding
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -231,17 +442,10 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils
-    setFrameOrigin:
-      CGPointMake([PEUIUtils XForWidth:[view frame].size.width
-                         withAlignment:alignment
-                        relativeToView:ontoView
-                              hpadding:hpadding],
-                  [PEUIUtils YForHeight:[view frame].size.height
-                          withAlignment:PEUIVerticalAlignmentTypeMiddle
-                         relativeToView:ontoView
-                               vpadding:0])
-            ofView:view];
+  [PEUIUtils positionView:view
+               inMiddleOf:ontoView
+            withAlignment:alignment
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -293,14 +497,12 @@ inMiddleBetweenYCoord:(CGFloat)topYCoordinate
     withAlignment:(PEUIHorizontalAlignmentType)alignment
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:
-   CGPointMake([PEUIUtils XForWidth:[view frame].size.width
-                      withAlignment:alignment
-                     relativeToView:ontoView
-                           hpadding:hpadding],
-               topYCoordinate -
-               (([view frame].size.height - (bottomYCoordinate - topYCoordinate)) / 2))
-                     ofView:view];
+  [PEUIUtils positionView:view
+                     onto:ontoView
+    inMiddleBetweenYCoord:topYCoordinate
+                andYCoord:bottomYCoordinate
+            withAlignment:alignment
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -326,13 +528,13 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointBelow:relativeTo
-                                    withAlignment:alignment
-                          alignmentRelativeToView:alignmentRelativeToView
-                                         vpadding:vpadding
-                                         hpadding:hpadding
-                                     forBoxOfSize:[view frame].size]
-                     ofView:view];
+  [PEUIUtils positionView:view
+                    below:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:alignmentRelativeToView
+                 vpadding:vpadding
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -358,13 +560,13 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
          vpadding:(CGFloat)vpadding
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointAbove:relativeTo
-                                    withAlignment:alignment
-                          alignmentRelativeToView:alignmentRelativeToView
-                                         vpadding:vpadding
-                                         hpadding:hpadding
-                                     forBoxOfSize:[view frame].size]
-                     ofView:view];
+  [PEUIUtils positionView:view
+                    above:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:alignmentRelativeToView
+                 vpadding:vpadding
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -387,12 +589,12 @@ alignmentRelativeToView:relativeTo
 alignmentRelativeToView:(UIView *)alignmentRelativeToView
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheLeftOf:relativeTo
-                                          withAlignment:alignment
-                                alignmentRelativeToView:alignmentRelativeToView
-                                               hpadding:hpadding
-                                           forBoxOfSize:[view frame].size]
-                     ofView:view];
+  [PEUIUtils positionView:view
+              toTheLeftOf:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:alignmentRelativeToView
+                 hpadding:hpadding];
 }
 
 + (void)placeView:(UIView *)view
@@ -415,12 +617,12 @@ alignmentRelativeToView:relativeTo
 alignmentRelativeToView:(UIView *)alignmentRelativeToView
          hpadding:(CGFloat)hpadding {
   [ontoView addSubview:view];
-  [PEUIUtils setFrameOrigin:[PEUIUtils pointToTheRightOf:relativeTo
-                                           withAlignment:alignment
-                                 alignmentRelativeToView:alignmentRelativeToView
-                                                hpadding:hpadding
-                                            forBoxOfSize:[view frame].size]
-                     ofView:view];
+  [PEUIUtils positionView:view
+             toTheRightOf:relativeTo
+                     onto:ontoView
+            withAlignment:alignment
+  alignmentRelativeToView:alignmentRelativeToView
+                 hpadding:hpadding];
 }
 
 #pragma mark - Animations

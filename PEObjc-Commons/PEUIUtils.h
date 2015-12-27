@@ -66,6 +66,51 @@ typedef void (^PEMessageCollector)(NSUInteger, NSString *);
 #pragma mark - Position Utils
 
 /**
+ Sets both the frame x and y-coordinates of the given view.
+ @param xcoord The new frame x-coordinate.
+ @param ycoord The new frame y-coordinate.
+ @param view The view.
+ */
++ (void)setFrameX:(CGFloat)xcoord andY:(CGFloat)ycoord ofView:(UIView *)view;
+
+/**
+ Sets both the frame x and y-coordinates of the given view using the
+ given point.
+ @param origin The point that should be used to set the origin (x and y
+ coordinates) of the given view.
+ @param view The view.
+ */
++ (void)setFrameOrigin:(CGPoint)origin ofView:(UIView *)view;
+
+/**
+ Sets the frame x-coordinate of the given view.
+ @param xcoord the new frame x-coordinate
+ @param view the view
+ */
++ (void)setFrameX:(CGFloat)xcoord ofView:(UIView *)view;
+
+/**
+ Sets the frame y-coordinate of the given view.
+ @param ycoord the new frame y-coordinate
+ @param view the view
+ */
++ (void)setFrameY:(CGFloat)ycoord ofView:(UIView *)view;
+
+/**
+ Adds adjust to the view frame's x-coordinate.
+ @param view the view whose frame should be adjusted (modified)
+ @param adjust value added to the view frame's x-coordinate
+ */
++ (void)adjustXOfView:(UIView *)view withValue:(CGFloat)adjust;
+
+/**
+ Adds adjust to the view frame's y-coordinate.
+ @param view the view whose frame should be adjusted (modified)
+ @param adjust value added to the view frame's y-coordinate
+ */
++ (void)adjustYOfView:(UIView *)view withValue:(CGFloat)adjust;
+
+/**
  Returns the x-coordinate necessary to place a theoretical view onto
  relativeToView based on the theoretical view's width for the given
  horizontal alignment.
@@ -194,52 +239,110 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 */
 + (CGFloat)widthWidestAmong:(NSArray *)views;
 
+#pragma mark - View Positioning
+
++ (void)positionView:(UIView *)view
+             atTopOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+          atBottomOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+          inMiddleOf:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+     inMiddleBetween:(UIView *)topView
+                 and:(UIView *)bottomView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+     inMiddleBetween:(UIView *)topView
+           andYCoord:(CGFloat)bottomYCoordinate
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+             andView:(UIView *)bottomView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+                onto:(UIView *)ontoView
+inMiddleBetweenYCoord:(CGFloat)topYCoordinate
+           andYCoord:(CGFloat)bottomYCoordinate
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+               below:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+               below:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+               above:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+               above:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIHorizontalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            vpadding:(CGFloat)vpadding
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+         toTheLeftOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+         toTheLeftOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+        toTheRightOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+            hpadding:(CGFloat)hpadding;
+
++ (void)positionView:(UIView *)view
+        toTheRightOf:(UIView *)relativeTo
+                onto:(UIView *)ontoView
+       withAlignment:(PEUIVerticalAlignmentType)alignment
+alignmentRelativeToView:(UIView *)alignmentRelativeToView
+            hpadding:(CGFloat)hpadding;
+
 #pragma mark - View Placement
-
-/**
- Sets both the frame x and y-coordinates of the given view.
- @param xcoord The new frame x-coordinate.
- @param ycoord The new frame y-coordinate.
- @param view The view.
-*/
-+ (void)setFrameX:(CGFloat)xcoord andY:(CGFloat)ycoord ofView:(UIView *)view;
-
-/**
- Sets both the frame x and y-coordinates of the given view using the
- given point.
- @param origin The point that should be used to set the origin (x and y
- coordinates) of the given view.
- @param view The view.
- */
-+ (void)setFrameOrigin:(CGPoint)origin ofView:(UIView *)view;
-
-/**
- Sets the frame x-coordinate of the given view.
- @param xcoord the new frame x-coordinate
- @param view the view
-*/
-+ (void)setFrameX:(CGFloat)xcoord ofView:(UIView *)view;
-
-/**
- Sets the frame y-coordinate of the given view.
- @param ycoord the new frame y-coordinate
- @param view the view
-*/
-+ (void)setFrameY:(CGFloat)ycoord ofView:(UIView *)view;
-
-/**
- Adds adjust to the view frame's x-coordinate.
- @param view the view whose frame should be adjusted (modified)
- @param adjust value added to the view frame's x-coordinate
-*/
-+ (void)adjustXOfView:(UIView *)view withValue:(CGFloat)adjust;
-
-/**
- Adds adjust to the view frame's y-coordinate.
- @param view the view whose frame should be adjusted (modified)
- @param adjust value added to the view frame's y-coordinate
- */
-+ (void)adjustYOfView:(UIView *)view withValue:(CGFloat)adjust;
 
 /**
  Places the given view at the top of ontoView, using the given horizontal
