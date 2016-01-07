@@ -775,21 +775,43 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 #pragma mark - Attributed Text
 
 + (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                 templateTextColor:(UIColor *)templateTextColor
+                                  templateTextFont:(UIFont *)templateTextFont
                                       textToAccent:(NSString *)textToAccent
                                     accentTextFont:(UIFont *)accentTextFont
                                    accentTextColor:(UIColor *)accentTextColor {
-  NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+  NSMutableDictionary *templateAttrs = [NSMutableDictionary dictionary];
+  if (templateTextFont) {
+    [templateAttrs setObject:templateTextFont forKey:NSFontAttributeName];
+  }
+  if (templateTextColor) {
+    [templateAttrs setObject:templateTextColor forKey:NSForegroundColorAttributeName];
+  }
+  NSMutableDictionary *accentAttrs = [NSMutableDictionary dictionary];
   if (accentTextFont) {
-    [attrs setObject:accentTextFont forKey:NSFontAttributeName];
+    [accentAttrs setObject:accentTextFont forKey:NSFontAttributeName];
   }
   if (accentTextColor) {
-    [attrs setObject:accentTextColor forKey:NSForegroundColorAttributeName];
+    [accentAttrs setObject:accentTextColor forKey:NSForegroundColorAttributeName];
   }
   NSString *text = [NSString stringWithFormat:templateText, textToAccent];
-  NSRange range = [text rangeOfString:textToAccent];
+  NSRange accentRange = [text rangeOfString:textToAccent];
   NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text];
-  [attributedText setAttributes:attrs range:range];
+  [attributedText setAttributes:templateAttrs range:NSMakeRange(0, text.length)];
+  [attributedText setAttributes:accentAttrs range:accentRange];
   return attributedText;
+}
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont
+                                   accentTextColor:(UIColor *)accentTextColor {
+  return [PEUIUtils attributedTextWithTemplate:templateText
+                             templateTextColor:nil
+                              templateTextFont:nil
+                                  textToAccent:textToAccent
+                                accentTextFont:accentTextFont
+                               accentTextColor:accentTextColor];
 }
 
 + (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText

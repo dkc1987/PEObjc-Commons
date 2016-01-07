@@ -738,6 +738,13 @@ alignmentRelativeToView:(UIView *)alignmentRelativeToView
 #pragma mark - Attributed Text
 
 + (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
+                                 templateTextColor:(UIColor *)templateTextColor
+                                  templateTextFont:(UIFont *)templateTextFont
+                                      textToAccent:(NSString *)textToAccent
+                                    accentTextFont:(UIFont *)accentTextFont
+                                   accentTextColor:(UIColor *)accentTextColor;
+
++ (NSAttributedString *)attributedTextWithTemplate:(NSString *)templateText
                                       textToAccent:(NSString *)textToAccent
                                     accentTextFont:(UIFont *)accentTextFont
                                    accentTextColor:(UIColor *)accentTextColor;
