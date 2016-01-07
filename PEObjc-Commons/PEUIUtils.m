@@ -1263,9 +1263,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   return [PEUIUtils buttonWithAttributedTitle:attrTitle
                      fontForHeightCalculation:font
                               backgroundColor:backgroundColor
-                                    textColor:textColor
                  disabledStateBackgroundColor:disabledStateBackgroundColor
-                       disabledStateTextColor:disabledStateTextColor
                               verticalPadding:verticalPadding
                             horizontalPadding:horizontalPadding
                                  cornerRadius:cornerRadius
@@ -1276,9 +1274,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIButton *)buttonWithAttributedTitle:(NSAttributedString *)attributedTitle
                fontForHeightCalculation:(UIFont *)fontForHeightCalculation
                         backgroundColor:(UIColor *)backgroundColor
-                              textColor:(UIColor *)textColor
            disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
-                 disabledStateTextColor:(UIColor *)disabledStateTextColor
                         verticalPadding:(CGFloat)verticalPadding
                       horizontalPadding:(CGFloat)horizontalPadding
                            cornerRadius:(CGFloat)cornerRadius
@@ -1292,9 +1288,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   UIImage *bgColorAsImgDisState =
   [PEUIUtils imageWithColor:disabledStateBackgroundColor];
   [btn setBackgroundImage:bgColorAsImgNormState forState:UIControlStateNormal];
-  //[btn setTitleColor:textColor forState:UIControlStateNormal];
   [btn setBackgroundImage:bgColorAsImgDisState forState:UIControlStateDisabled];
-  //[btn setTitleColor:disabledStateTextColor forState:UIControlStateDisabled];
   [[btn layer] setCornerRadius:cornerRadius];
   [btn setClipsToBounds:YES];
   [btn setAttributedTitle:attributedTitle forState:UIControlStateNormal];

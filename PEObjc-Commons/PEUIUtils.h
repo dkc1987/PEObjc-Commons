@@ -1103,9 +1103,7 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
 + (UIButton *)buttonWithAttributedTitle:(NSAttributedString *)attributedTitle
                fontForHeightCalculation:(UIFont *)fontForHeightCalculation
                         backgroundColor:(UIColor *)backgroundColor
-                              textColor:(UIColor *)textColor
            disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
-                 disabledStateTextColor:(UIColor *)disabledStateTextColor
                         verticalPadding:(CGFloat)verticalPadding
                       horizontalPadding:(CGFloat)horizontalPadding
                            cornerRadius:(CGFloat)cornerRadius
