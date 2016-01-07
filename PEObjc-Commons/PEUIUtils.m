@@ -1234,29 +1234,53 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                cornerRadius:(CGFloat)cornerRadius
                      target:(id)target
                      action:(SEL)action {
-  NSString *buttonLabel = LS(key);
-  CGSize textSize = [PEUIUtils sizeOfText:buttonLabel withFont:font];
+  NSAttributedString *attrTitle = [PEUIUtils attributedTextWithTemplate:@"%@"
+                                                           textToAccent:LS(key)
+                                                         accentTextFont:font
+                                                        accentTextColor:textColor];
+  return [PEUIUtils buttonWithAttributedTitle:attrTitle
+                     fontForHeightCalculation:font
+                              backgroundColor:backgroundColor
+                                    textColor:textColor
+                 disabledStateBackgroundColor:disabledStateBackgroundColor
+                       disabledStateTextColor:disabledStateTextColor
+                              verticalPadding:verticalPadding
+                            horizontalPadding:horizontalPadding
+                                 cornerRadius:cornerRadius
+                                       target:target
+                                       action:action];
+}
+
++ (UIButton *)buttonWithAttributedTitle:(NSAttributedString *)attributedTitle
+               fontForHeightCalculation:(UIFont *)fontForHeightCalculation
+                        backgroundColor:(UIColor *)backgroundColor
+                              textColor:(UIColor *)textColor
+           disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
+                 disabledStateTextColor:(UIColor *)disabledStateTextColor
+                        verticalPadding:(CGFloat)verticalPadding
+                      horizontalPadding:(CGFloat)horizontalPadding
+                           cornerRadius:(CGFloat)cornerRadius
+                                 target:(id)target
+                                 action:(SEL)action {
+  CGSize textSize = [PEUIUtils sizeOfText:attributedTitle.string withFont:fontForHeightCalculation];
   textSize = CGSizeMake(textSize.width + horizontalPadding,
                         textSize.height + verticalPadding);
   UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
   UIImage *bgColorAsImgNormState = [PEUIUtils imageWithColor:backgroundColor];
   UIImage *bgColorAsImgDisState =
-    [PEUIUtils imageWithColor:disabledStateBackgroundColor];
+  [PEUIUtils imageWithColor:disabledStateBackgroundColor];
   [btn setBackgroundImage:bgColorAsImgNormState forState:UIControlStateNormal];
-  [btn setTitleColor:textColor forState:UIControlStateNormal];
+  //[btn setTitleColor:textColor forState:UIControlStateNormal];
   [btn setBackgroundImage:bgColorAsImgDisState forState:UIControlStateDisabled];
-  [btn setTitleColor:disabledStateTextColor forState:UIControlStateDisabled];
+  //[btn setTitleColor:disabledStateTextColor forState:UIControlStateDisabled];
   [[btn layer] setCornerRadius:cornerRadius];
   [btn setClipsToBounds:YES];
-  [btn setTitle:buttonLabel forState:UIControlStateNormal];
-  [[btn titleLabel] setFont:font];
+  [btn setAttributedTitle:attributedTitle forState:UIControlStateNormal];
   [[btn titleLabel] setLineBreakMode:NSLineBreakByWordWrapping];
   [[btn titleLabel] setTextAlignment:NSTextAlignmentCenter];
   [btn setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
   if (target) {
-    [btn addTarget:target
-            action:action
-        forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
   }
   return btn;
 }

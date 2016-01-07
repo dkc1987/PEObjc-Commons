@@ -1093,6 +1093,18 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
                      target:(id)target
                      action:(SEL)action;
 
++ (UIButton *)buttonWithAttributedTitle:(NSAttributedString *)attributedTitle
+               fontForHeightCalculation:(UIFont *)fontForHeightCalculation
+                        backgroundColor:(UIColor *)backgroundColor
+                              textColor:(UIColor *)textColor
+           disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
+                 disabledStateTextColor:(UIColor *)disabledStateTextColor
+                        verticalPadding:(CGFloat)verticalPadding
+                      horizontalPadding:(CGFloat)horizontalPadding
+                           cornerRadius:(CGFloat)cornerRadius
+                                 target:(id)target
+                                 action:(SEL)action;
+
 /**
  *  Adds a disclosure indicator icon to button.
  *  @param button The button to add the disclosure indicator icon.
