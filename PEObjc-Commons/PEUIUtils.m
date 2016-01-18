@@ -1292,7 +1292,8 @@ disabledStateBackgroundColor:(UIColor *)disabledStateBackgroundColor
   [btn setBackgroundImage:bgColorAsImgNormState forState:UIControlStateNormal];
   [btn setBackgroundImage:bgColorAsImgDisState forState:UIControlStateDisabled];
   [[btn layer] setCornerRadius:cornerRadius];
-   [[btn titleLabel] setLineBreakMode:NSLineBreakByWordWrapping];
+  [btn setClipsToBounds:YES]; // needed for corner radius to work
+  [[btn titleLabel] setLineBreakMode:NSLineBreakByWordWrapping];
   [[btn titleLabel] setTextAlignment:NSTextAlignmentCenter];
   [btn setFrame:CGRectMake(0, 0, textSize.width, textSize.height)];
   if (target) {
