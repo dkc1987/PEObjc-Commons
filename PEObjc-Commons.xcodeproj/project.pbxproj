@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1821D4481C511A35001B5F3A /* PEBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821D4471C511A35001B5F3A /* PEBaseController.m */; };
 		186348D41A7AB8770090E88D /* PEUIToolkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 186348D31A7AB8770090E88D /* PEUIToolkit.m */; };
 		186348D71A7AB8810090E88D /* PEUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 186348D61A7AB8810090E88D /* PEUtils.m */; };
 		186348DA1A7AB88D0090E88D /* PEUIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 186348D91A7AB88D0090E88D /* PEUIUtils.m */; };
@@ -69,6 +70,8 @@
 
 /* Begin PBXFileReference section */
 		14A3617BC01BCB92B6EAF426 /* libPods-PEObjc-CommonsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PEObjc-CommonsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1821D4461C511A35001B5F3A /* PEBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEBaseController.h; sourceTree = "<group>"; };
+		1821D4471C511A35001B5F3A /* PEBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEBaseController.m; sourceTree = "<group>"; };
 		183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPEObjc-Commons.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		183D8A8E1A7AB47C0022AC28 /* PEObjc-CommonsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PEObjc-CommonsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		183D8A941A7AB47C0022AC28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -161,6 +164,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1821D4451C511A0A001B5F3A /* Base Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1821D4461C511A35001B5F3A /* PEBaseController.h */,
+				1821D4471C511A35001B5F3A /* PEBaseController.m */,
+			);
+			name = "Base Controller";
+			sourceTree = "<group>";
+		};
 		183D8A7A1A7AB47C0022AC28 = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +200,7 @@
 		183D8A851A7AB47C0022AC28 /* PEObjc-Commons */ = {
 			isa = PBXGroup;
 			children = (
+				1821D4451C511A0A001B5F3A /* Base Controller */,
 				CA7BA2681B4CC83400CCB7FB /* Constants */,
 				186348C71A7AB7620090E88D /* Date Picker Screen */,
 				186348C51A7AB7440090E88D /* Categories */,
@@ -667,6 +680,7 @@
 				CA9C30B01B5597F4009E8AF3 /* UIImage+PEAdditions.m in Sources */,
 				186348F01A7AB8E50090E88D /* PEDatePickerController.m in Sources */,
 				186348D71A7AB8810090E88D /* PEUtils.m in Sources */,
+				1821D4481C511A35001B5F3A /* PEBaseController.m in Sources */,
 				186348E01A7AB89D0090E88D /* NSMutableDictionary+PEAdditions.m in Sources */,
 				CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */,
 				CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */,
