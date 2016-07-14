@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "PEObjc-Commons"
-  s.header_dir   = "#{s.name}"
-  s.version      = "1.0.113"
+  s.module_name  = "PEObjcCommons"
+  s.version      = "1.0.114"
   s.license      = "MIT"
   s.summary      = "A collection of common Objective-C utilities that are not particular to any domain."
   s.author       = { "Paul Evans" => "evansp2@gmail.com" }
