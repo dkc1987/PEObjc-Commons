@@ -23,7 +23,7 @@
 		1869DCD21A7B36AA000FFA81 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869DCD11A7B36AA000FFA81 /* main.m */; };
 		1869DCDD1A7B36AA000FFA81 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1869DCDC1A7B36AA000FFA81 /* Images.xcassets */; };
 		1869DCF51A7B370E000FFA81 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869DCF41A7B370E000FFA81 /* AppDelegate.m */; };
-		1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
+		1869DCF81A7B376E000FFA81 /* libPEObjcCommons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjcCommons.a */; };
 		4A89389C488FF8DA770D7E29 /* libPods-PEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF513B0383396DCA66DD18B /* libPods-PEObjc-Commons.a */; };
 		CA2AC91B1B7A90A200192E76 /* PEHomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91A1B7A90A200192E76 /* PEHomeScreen.m */; };
 		CA2AC91F1B7A946F00192E76 /* PEDataTableScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2AC91E1B7A946F00192E76 /* PEDataTableScreen.m */; };
@@ -35,7 +35,7 @@
 		CA9C30B01B5597F4009E8AF3 /* UIImage+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30AF1B5597F4009E8AF3 /* UIImage+PEAdditions.m */; };
 		CA9C30B41B569A89009E8AF3 /* UIView+PERoundify.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9C30B31B569A89009E8AF3 /* UIView+PERoundify.m */; };
 		CAA3BDB61B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA3BDB51B1FE1F200DC0AF8 /* NSDictionary+PEAdditions.m */; };
-		CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */; };
+		CACAEC351B1FD74C00ACD034 /* libPEObjcCommons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 183D8A831A7AB47C0022AC28 /* libPEObjcCommons.a */; };
 		CAD3888F1BD967240035BCB2 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27A5631BCE063200CBD4B9 /* JGActionSheet.m */; };
 /* End PBXBuildFile section */
 
@@ -71,8 +71,8 @@
 /* Begin PBXFileReference section */
 		1821D4461C511A35001B5F3A /* PEBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEBaseController.h; sourceTree = "<group>"; };
 		1821D4471C511A35001B5F3A /* PEBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEBaseController.m; sourceTree = "<group>"; };
-		183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPEObjc-Commons.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		183D8A8E1A7AB47C0022AC28 /* PEObjc-CommonsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PEObjc-CommonsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		183D8A831A7AB47C0022AC28 /* libPEObjcCommons.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPEObjcCommons.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		183D8A8E1A7AB47C0022AC28 /* PEObjcCommonsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PEObjcCommonsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		183D8A941A7AB47C0022AC28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		186348D21A7AB8770090E88D /* PEUIToolkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEUIToolkit.h; sourceTree = "<group>"; };
 		186348D31A7AB8770090E88D /* PEUIToolkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEUIToolkit.m; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CACAEC351B1FD74C00ACD034 /* libPEObjc-Commons.a in Frameworks */,
+				CACAEC351B1FD74C00ACD034 /* libPEObjcCommons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1869DCF81A7B376E000FFA81 /* libPEObjc-Commons.a in Frameworks */,
+				1869DCF81A7B376E000FFA81 /* libPEObjcCommons.a in Frameworks */,
 				CA6228811B8BB89600896679 /* libBlocksKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,8 +189,8 @@
 		183D8A841A7AB47C0022AC28 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */,
-				183D8A8E1A7AB47C0022AC28 /* PEObjc-CommonsTests.xctest */,
+				183D8A831A7AB47C0022AC28 /* libPEObjcCommons.a */,
+				183D8A8E1A7AB47C0022AC28 /* PEObjcCommonsTests.xctest */,
 				1869DCCD1A7B36AA000FFA81 /* DemoApp.app */,
 			);
 			name = Products;
@@ -506,9 +506,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		183D8A821A7AB47C0022AC28 /* PEObjc-Commons */ = {
+		183D8A821A7AB47C0022AC28 /* PEObjcCommons */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 183D8A971A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjc-Commons" */;
+			buildConfigurationList = 183D8A971A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjcCommons" */;
 			buildPhases = (
 				B68D2443A25B3A27723793D2 /* [CP] Check Pods Manifest.lock */,
 				183D8A7F1A7AB47C0022AC28 /* Sources */,
@@ -520,14 +520,14 @@
 			);
 			dependencies = (
 			);
-			name = "PEObjc-Commons";
+			name = PEObjcCommons;
 			productName = "PEObjc-Commons";
-			productReference = 183D8A831A7AB47C0022AC28 /* libPEObjc-Commons.a */;
+			productReference = 183D8A831A7AB47C0022AC28 /* libPEObjcCommons.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		183D8A8D1A7AB47C0022AC28 /* PEObjc-CommonsTests */ = {
+		183D8A8D1A7AB47C0022AC28 /* PEObjcCommonsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 183D8A9A1A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjc-CommonsTests" */;
+			buildConfigurationList = 183D8A9A1A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjcCommonsTests" */;
 			buildPhases = (
 				183D8A8A1A7AB47C0022AC28 /* Sources */,
 				183D8A8B1A7AB47C0022AC28 /* Frameworks */,
@@ -538,9 +538,9 @@
 			dependencies = (
 				183D8A911A7AB47C0022AC28 /* PBXTargetDependency */,
 			);
-			name = "PEObjc-CommonsTests";
+			name = PEObjcCommonsTests;
 			productName = "PEObjc-CommonsTests";
-			productReference = 183D8A8E1A7AB47C0022AC28 /* PEObjc-CommonsTests.xctest */;
+			productReference = 183D8A8E1A7AB47C0022AC28 /* PEObjcCommonsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1869DCCC1A7B36AA000FFA81 /* DemoApp */ = {
@@ -594,8 +594,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				183D8A821A7AB47C0022AC28 /* PEObjc-Commons */,
-				183D8A8D1A7AB47C0022AC28 /* PEObjc-CommonsTests */,
+				183D8A821A7AB47C0022AC28 /* PEObjcCommons */,
+				183D8A8D1A7AB47C0022AC28 /* PEObjcCommonsTests */,
 				1869DCCC1A7B36AA000FFA81 /* DemoApp */,
 			);
 		};
@@ -702,12 +702,12 @@
 /* Begin PBXTargetDependency section */
 		183D8A911A7AB47C0022AC28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 183D8A821A7AB47C0022AC28 /* PEObjc-Commons */;
+			target = 183D8A821A7AB47C0022AC28 /* PEObjcCommons */;
 			targetProxy = 183D8A901A7AB47C0022AC28 /* PBXContainerItemProxy */;
 		};
 		1869DCF71A7B374F000FFA81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 183D8A821A7AB47C0022AC28 /* PEObjc-Commons */;
+			target = 183D8A821A7AB47C0022AC28 /* PEObjcCommons */;
 			targetProxy = 1869DCF61A7B374F000FFA81 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -888,7 +888,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		183D8A971A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjc-Commons" */ = {
+		183D8A971A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjcCommons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				183D8A981A7AB47C0022AC28 /* Debug */,
@@ -897,7 +897,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		183D8A9A1A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjc-CommonsTests" */ = {
+		183D8A9A1A7AB47C0022AC28 /* Build configuration list for PBXNativeTarget "PEObjcCommonsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				183D8A9B1A7AB47C0022AC28 /* Debug */,
