@@ -7,7 +7,6 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/evanspa/#{s.name}"
   s.source       = { :git => "https://github.com/evanspa/#{s.name}.git", :tag => "#{s.name}-v#{s.version}" }
   s.platform     = :ios, '8.0'
-  s.public_header_files = '**/*.h'
   s.exclude_files = "**/*Tests/*.*", "**/DemoApp/*"
   s.requires_arc = true
   s.resources = "#{s.name}/Resources/#{s.name}.bundle"
